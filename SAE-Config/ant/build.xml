@@ -1,0 +1,160 @@
+<project name="SAE-Config" default="deploy.desarrollo" basedir=".">
+
+
+	<property name="project" value="SAE"/>
+	<!--password: sae-->
+	<property name="deploy.user" value="sae"/>
+	<property name="deploy.host" value="deploy.imm.gub.uy"/>
+	
+	<import file="build-svn-version.xml"/>
+	
+	<import file="build-deploy.xml"/>
+	
+	<!-- Chequea que todos los proyectos se encuentren en el mismo numero de revision del svn -->
+	<target name="check-projects-revision">
+		<get-revision basedir="../../${project}-Config" property="config.revision"/>
+		<get-revision basedir="../../${project}-EAR" property="ear.revision"/>
+		<get-revision basedir="../../${project}-EJB" property="ejb.revision"/>
+		<get-revision basedir="../../${project}-EJBClient" property="ejb.client.revision"/>
+		<get-revision basedir="../../${project}-Internet-EAR" property="internet.ear.revision"/>
+		<get-revision basedir="../../${project}-Internet-WEB" property="internet.web.revision"/>
+		<get-revision basedir="../../${project}-Reporte-Utilities" property="reporte.utilities.revision"/>
+		<get-revision basedir="../../${project}-Validaciones-EAR" property="validaciones.ear.revision"/>
+		<get-revision basedir="../../${project}-Validaciones-EJB" property="validaciones.ejb.revision"/>
+		<get-revision basedir="../../${project}-Validaciones-EJBClient" property="validaciones.ejb.client.revision"/>
+		<get-revision basedir="../../${project}-WEB" property="web.revision"/>
+		
+		
+		<condition  property="allprojects.samerevision" value="true">
+			<and>
+				<equals arg1="${config.revision}" arg2="${ear.revision}"/>
+				<equals arg1="${ear.revision}" arg2="${ejb.revision}"/>
+				<equals arg1="${ejb.revision}" arg2="${ejb.client.revision}"/>
+				<equals arg1="${ejb.client.revision}" arg2="${internet.ear.revision}"/>
+				<equals arg1="${internet.ear.revision}" arg2="${internet.web.revision}"/>
+				<equals arg1="${internet.web.revision}" arg2="${reporte.utilities.revision}"/>
+				<equals arg1="${reporte.utilities.revision}" arg2="${validaciones.ear.revision}"/>
+				<equals arg1="${validaciones.ear.revision}" arg2="${validaciones.ejb.revision}"/>
+				<equals arg1="${validaciones.ejb.revision}" arg2="${validaciones.ejb.client.revision}"/>
+				<equals arg1="${validaciones.ejb.client.revision}" arg2="${web.revision}"/>
+			</and>
+		</condition>
+
+		<condition  property="someproject.withchange" value="true">
+			<or>
+				<equals arg1="${config.revision.modified}" arg2="true"/>
+				<equals arg1="${ear.revision.modified}" arg2="true"/>
+				<equals arg1="${ejb.revision.modified}" arg2="true"/>
+				<equals arg1="${ejb.client.revision.modified}" arg2="true"/>
+				<equals arg1="${internet.ear.revision.modified}" arg2="true"/>
+				<equals arg1="${internet.web.revision.modified}" arg2="true"/>
+				<equals arg1="${reporte.utilities.revision.modified}" arg2="true"/>
+				<equals arg1="${validaciones.ear.revision.modified}" arg2="true"/>
+				<equals arg1="${validaciones.ejb.revision.modified}" arg2="true"/>
+				<equals arg1="${validaciones.ejb.client.revision.modified}" arg2="true"/>
+				<equals arg1="${web.revision.modified}" arg2="true"/>
+			</or>
+		</condition>
+
+		<fail message="Uno o varios de los proyectos no tienen el mismo numero de revision" unless="allprojects.samerevision"/>
+		<fail message="Uno o varios de los proyectos tiene cambios sin commitear" if="someproject.withchange"/>
+	
+	</target>
+
+	
+	<target name="build" depends="check-projects-revision">
+
+		<mkdir dir="build" />
+		<delete quiet="true">
+			<fileset dir="build">
+				<include name="**/*" />
+			</fileset>
+		</delete>
+		<delete quiet="true" file="build/MANIFEST.MF"/>
+
+		<set-version basedir="../../${project}-EAR" property="deploy.ear.file" manifest="build/MANIFEST.MF"/>
+
+		<ant antfile="build-package.xml" target="clean-build" inheritall="false" />
+
+	</target>
+	
+
+	<target name="password">
+		<ask-password user="${deploy.user}" property="password"/>
+	</target>
+	
+	
+	
+	<!-- ########################## -->
+	<!-- DEPLOY DESARROLLO          -->
+	<!-- ########################## -->
+
+	<target name="clean.desarrollo" depends="password">
+		<deploy-clean dir="desarrollo/intranet" user="${deploy.user}" password="${password}" host="${deploy.host}"/>
+		<deploy-clean dir="desarrollo/internet" user="${deploy.user}" password="${password}" host="${deploy.host}"/>
+	</target>
+	
+	<target name="deploy.desarrollo" depends="build, clean.desarrollo, password">
+
+		<deploy-bin  dir="desarrollo/intranet" user="${deploy.user}" password="${password}" host="${deploy.host}" projectdir="${project}-Config/ant/build/Intranet"/>
+		<deploy-bin  dir="desarrollo/internet" user="${deploy.user}" password="${password}" host="${deploy.host}" projectdir="${project}-Config/ant/build/Internet"/>
+	</target>
+
+
+	<!-- ########################## -->
+	<!-- DEPLOY FORMACION           -->
+	<!-- ########################## -->
+
+	<target name="clean.formacion" depends="password">
+		<deploy-clean dir="formacion/intranet" user="${deploy.user}" password="${password}" host="${deploy.host}"/>
+		<deploy-clean dir="formacion/internet" user="${deploy.user}" password="${password}" host="${deploy.host}"/>
+	</target>
+	
+	<target name="deploy.formacion" depends="build, clean.formacion, password">
+
+		<deploy-bin  dir="formacion/intranet" user="${deploy.user}" password="${password}" host="${deploy.host}" projectdir="${project}-Config/ant/build/Intranet"/>
+		<deploy-bin  dir="formacion/internet" user="${deploy.user}" password="${password}" host="${deploy.host}" projectdir="${project}-Config/ant/build/Internet"/>
+
+	</target>
+
+
+	<!-- ############################# -->
+	<!-- DEPLOY DESARROLLO Y FORMACION -->
+	<!-- ############################# -->
+
+	<target name="deploy.desarrollo.y.formacion" depends="deploy.desarrollo, deploy.formacion">
+	</target>
+
+	
+	
+	
+	<!-- ########################## -->
+	<!-- DEPLOY PRODUCCION          -->
+	<!-- ########################## -->
+
+	<target name="clean.produccion" depends="password">
+
+		<deploy-clean dir="produccion/intranet" user="${deploy.user}" password="${password}" host="${deploy.host}"/>
+		<deploy-clean dir="produccion/internet" user="${deploy.user}" password="${password}" host="${deploy.host}"/>
+	</target>
+	
+	<target name="deploy.produccion" depends="build, clean.produccion, password">
+		
+		
+		<deploy-bin  dir="produccion/intranet" user="${deploy.user}" password="${password}" host="${deploy.host}" projectdir="${project}-Config/ant/build/Intranet"/>
+		<deploy-bin  dir="produccion/internet" user="${deploy.user}" password="${password}" host="${deploy.host}" projectdir="${project}-Config/ant/build/Internet"/>
+		
+	</target>
+
+	
+	
+	<!-- ############################## -->
+	<!-- DEPLOY LOCALHOST CONFIGURACION -->
+	<!-- ############################## -->
+	
+	<target name="deploy.localhost.configuracion">
+		<deploy-conf-localhost environment="localhost" net=""/>
+	</target>
+	
+</project>
+

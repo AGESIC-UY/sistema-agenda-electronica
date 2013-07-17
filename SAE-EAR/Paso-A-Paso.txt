@@ -1,0 +1,9 @@
+1- ¿Como incluir clases de un proyecto como libreria en un proyecto web:?
+Tenemos un projecto j2ee utilitario con su estructura src/paquetes/clases.
+Lo incluimos asi:
+En el proyecto web: click derecho --> properties --> J2EE Module Dependencies 
+  	                --> Web libraries y marcas el proyecto java que aparecera en la lista.
+Listo si haces un build se formara un .jar con el proyecto java que sera incluido en WEB-INF/lib
+en el war del proyecto web.
+
+

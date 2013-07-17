@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	beforePhase="#{autocompletadoMantenimientoMBean.beforePhase}"
+	beforePhaseListener="#{autocompletadoMantenimientoMBean.beforePhase}">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	</head>
+
+	<h:form>
+
+		<table style="border: none;" cellpadding="0" cellspacing="0"
+			align="left">
+			<tr>		
+				<td align="center">
+					
+					<h:panelGrid columns="1">
+				
+						<rich:dataTable
+						value="#{autocompletadoMantenimientoMBean.autocompletados}" var="row" columns="4"
+						binding="#{autocompletadoMantenimientoMBean.autocompletadosTable}"
+						id="tablaAutocompletados" rows="5" 
+						>
+	
+							<f:facet name="header">
+								<h:outputText value="Datos autocompletados" />
+							</f:facet>
+							
+							<rich:column style="text-align:left;">
+								<f:facet name="header">
+									<h:outputText value="Nombre"></h:outputText>
+								</f:facet>
+								<h:outputText value="#{row.nombre}"></h:outputText>
+								<rich:toolTip value="#{row.descripcion}"></rich:toolTip>
+							</rich:column>
+		
+							<rich:column style="text-align:left;">
+								<f:facet name="header">
+									<h:outputText value="Servicio"></h:outputText>
+								</f:facet>
+								<h:outputText value="#{row.servicio}"></h:outputText>
+							</rich:column>
+		
+							<rich:column style="text-align:left;">
+								<f:facet name="header">
+									<h:outputText value="Host"></h:outputText>
+								</f:facet>
+								<h:outputText value="#{row.host}"></h:outputText>
+							</rich:column>
+		
+							<rich:column style="text-align:center;" width="80px">								
+								<a4j:commandLink id="modificarLink" reRender="panelAutocompletado"
+									ajaxSingle="true"
+									actionListener="#{autocompletadoMantenimientoMBean.editar}"
+								>
+									<h:graphicImage value="#{saeProperties['ui.resource.base.url']}/recursos/images/edit.gif"
+										style="border:0" height="16" width="16" />
+									<rich:toolTip value="Editar el dato autocompletado" />
+								</a4j:commandLink>
+								
+								<rich:spacer width="5px"/>
+								
+								<a4j:commandLink reRender="tablaAutocompletados, panelAutocompletado"
+									ajaxSingle="true"
+									actionListener="#{autocompletadoMantenimientoMBean.eliminarAutocompletado}"
+								> 
+									<h:graphicImage value="#{saeProperties['ui.resource.base.url']}/recursos/images/delete2.gif"
+										style="border:0" height="16" width="16" />
+									<rich:toolTip value="Elimina el dato autocompletado #{row.nombre}" />
+								</a4j:commandLink>
+							</rich:column>
+							
+							<f:facet name="footer">
+								<h:panelGroup>
+									<table>
+										<tr>
+											<td width="600px"><rich:datascroller align="left"
+												maxPages="5" id="scrollerTablaAutocompletados" for="tablaAutocompletados"
+												page="#{autocompletadoMantenimientoSessionMBean.autocompletadosTablePageIndex}" /></td>
+											<td width="100px" align="right">
+												<a4j:commandLink reRender="panelAutocompletado"
+													ajaxSingle="true"
+													actionListener="#{autocompletadoMantenimientoMBean.crear}"
+												>
+													<h:graphicImage value="#{saeProperties['ui.resource.base.url']}/recursos/images/create_doc.gif"
+														style="border:0" height="16" width="16" />
+													<rich:toolTip value="Agrega un nuevo dato autocompletado" />
+												</a4j:commandLink>
+											</td>
+										</tr>
+									</table>
+								</h:panelGroup>
+							</f:facet>
+					</rich:dataTable>
+				
+
+					<rich:spacer height="5px"></rich:spacer>
+								
+					<h:panelGroup id="panelAutocompletado">
+						<rich:panel  
+							rendered="#{autocompletadoMantenimientoSessionMBean.modoEdicion || autocompletadoMantenimientoSessionMBean.modoCreacion}">
+							<f:facet name="header">
+								<h:panelGroup>
+									<h:outputText value="Creando datos autocompletados"  rendered="#{autocompletadoMantenimientoSessionMBean.modoCreacion}"/>
+									<h:outputText value="Editando datos autocompletados" rendered="#{autocompletadoMantenimientoSessionMBean.modoEdicion}"/>
+								</h:panelGroup>
+							</f:facet>
+		
+							<h:panelGrid columns="2" columnClasses="derecha, izquierda">
+								
+								<h:outputText value="Nombre:" />
+								<h:inputText value="#{autocompletadoMantenimientoSessionMBean.autocompletado.nombre}" size="75"/>
+								<h:outputText value="Descripción:" />
+								<h:inputTextarea value="#{autocompletadoMantenimientoSessionMBean.autocompletado.descripcion}"
+												 cols="71" rows="5">
+								</h:inputTextarea>
+								<h:outputText value="Servicio:" />
+								<h:inputText value="#{autocompletadoMantenimientoSessionMBean.autocompletado.servicio}" size="75"/>
+								<h:outputText value="Host:" />
+								<h:inputText value="#{autocompletadoMantenimientoSessionMBean.autocompletado.host}" size="75"/>
+								
+								<h:outputText value="Parámetros:" />
+		
+								<rich:dataTable
+								value="#{autocompletadoMantenimientoSessionMBean.autocompletado.parametrosAutocompletados}" var="row" columns="4"
+								binding="#{autocompletadoMantenimientoMBean.parametrosTable}"
+								id="tablaParametros" rows="4" width="404px"
+								style=" width : 476px;">
+			
+									<rich:column style="text-align:left;" width="234px">
+										<f:facet name="header">
+											<h:outputText value="Nombre"></h:outputText>
+										</f:facet>
+										<rich:inplaceInput value="#{row.nombre}" inputWidth="150px"></rich:inplaceInput>
+									</rich:column>
+				
+									<rich:column style="text-align:left;" width="120px">
+										<f:facet name="header">
+											<h:outputText value="Tipo"></h:outputText>
+										</f:facet>
+			
+										<h:selectOneMenu value="#{row.tipo}" style="width: 90px">
+											<f:selectItems value="#{autocompletadoMantenimientoMBean.tiposDeDato}"/>
+										</h:selectOneMenu>
+									</rich:column>
+				
+									 <rich:column style="text-align:left;" width="120px">
+										<f:facet name="header">
+											<h:outputText value="Modo"></h:outputText>
+										</f:facet>
+										
+										<h:selectOneMenu value="#{row.modo}" style="width: 90px">
+											<f:selectItems value="#{autocompletadoMantenimientoMBean.modo}"/>
+										</h:selectOneMenu>
+										
+									</rich:column>
+				
+									<rich:column style="text-align:center;" width="20px">
+										<a4j:commandLink reRender="tablaParametros"
+											actionListener="#{autocompletadoMantenimientoMBean.eliminarParametro}"
+										>
+											<h:graphicImage value="#{saeProperties['ui.resource.base.url']}/recursos/images/delete2.gif"
+												style="border:0" height="16" width="16" />
+											<rich:toolTip value="Elimina el parámetro" />
+										</a4j:commandLink>
+									</rich:column>
+									
+									<f:facet name="footer">
+										<h:panelGroup>
+											<table width="100%">
+												<tr>
+													<td width="80%"><rich:datascroller align="left"
+														maxPages="5" id="scrollerTablaParametros" for="tablaParametros"
+														page="#{autocompletadoMantenimientoSessionMBean.parametrosTablePageIndex}" 
+														binding="#{autocompletadoMantenimientoMBean.parametrosDataScroller}"
+														/></td>
+													<td width="20%" align="right">
+														<a4j:commandLink reRender="tablaParametros"
+															actionListener="#{autocompletadoMantenimientoMBean.crearParametro}"
+														>
+															<h:graphicImage value="#{saeProperties['ui.resource.base.url']}/recursos/images/create_doc.gif"
+																style="border:0" height="16" width="16" />
+															<rich:toolTip value="Agrega un nuevo parámetro" />
+														</a4j:commandLink>
+													</td>
+												</tr>
+												
+											</table>
+										</h:panelGroup>
+									</f:facet>
+								</rich:dataTable>
+								
+								<rich:spacer></rich:spacer>
+								
+								<h:panelGroup>
+									<a4j:commandButton 
+										value="Guardar" 
+										actionListener="#{autocompletadoMantenimientoMBean.guardarEdicion}"
+										reRender="tablaAutocompletados, panelAutocompletado"
+										rendered="#{autocompletadoMantenimientoSessionMBean.modoEdicion}">
+									</a4j:commandButton>
+									<a4j:commandButton 
+										value="Cancelar" 
+										actionListener="#{autocompletadoMantenimientoMBean.cancelarEdicion}"
+										immediate="true"
+										reRender="tablaAutocompletados, panelAutocompletado"
+										rendered="#{autocompletadoMantenimientoSessionMBean.modoEdicion}">
+									</a4j:commandButton>
+									
+									<a4j:commandButton 
+										value="Guardar" 
+										actionListener="#{autocompletadoMantenimientoMBean.guardarCreacion}"
+										reRender="pantalla,tablaAutocompletados"
+										rendered="#{autocompletadoMantenimientoSessionMBean.modoCreacion}">
+									</a4j:commandButton>
+									<a4j:commandButton 
+										value="Cancelar" 
+										actionListener="#{autocompletadoMantenimientoMBean.cancelarCreacion}"
+										immediate="true"
+										reRender="pantalla"
+										rendered="#{autocompletadoMantenimientoSessionMBean.modoCreacion}">
+									</a4j:commandButton>
+								</h:panelGroup>
+							</h:panelGrid>
+										
+						</rich:panel>
+					</h:panelGroup>
+				</h:panelGrid>
+				</td>
+			</tr>
+			<tr>
+				<td valign="bottom" style="padding-bottom: 10px; padding-right: 20px;"><a4j:commandLink
+					value="Volver" action="volver" reRender="pantalla"
+					ajaxSingle="true"></a4j:commandLink></td>
+			</tr>
+		</table>
+	</h:form>
+</f:view>

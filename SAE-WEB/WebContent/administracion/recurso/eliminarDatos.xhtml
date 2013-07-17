@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:form style="margin: 0px;">
+		<rich:panel id="contenedor" style="text-align: center;">
+				<f:facet name="header">
+					<h:outputText value="Eliminar datos del Recurso"></h:outputText>
+				</f:facet>
+
+			<rich:dataTable value="#{sessionMBean.datosDelRecurso}" var="row"
+				columns="4" id="datos">
+				<f:facet name="header">
+					<h:outputText value="Datos del Recurso"></h:outputText>
+				</f:facet>
+
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Seleccionar Dato"></h:outputText>
+					</f:facet>
+
+					<h:selectBooleanCheckbox value="#{row.selected}">
+						<a4j:support event="onclick" ajaxSingle="true"
+							actionListener="#{recursoMBean.seleccionarDato}"
+							reRender="datos">
+						</a4j:support>
+					</h:selectBooleanCheckbox>
+				</rich:column>
+
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Etiqueta"></h:outputText>
+					</f:facet>
+					<h:outputText value="#{row.data.etiqueta}"></h:outputText>
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Valor"></h:outputText>
+					</f:facet>
+					<h:outputText value="#{row.data.valor}"></h:outputText>
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Orden"></h:outputText>
+					</f:facet>
+					<h:outputText value="#{row.data.orden}"></h:outputText>
+				</rich:column>
+
+
+				<f:facet name="footer">
+				</f:facet>
+		<f:facet name="footer">
+			<rich:datascroller align="left" maxPages="5" 
+			id="scTablaDel" for="datos" 
+			page="#{recursoSessionMBean.pagDatoRDel}"/>
+		</f:facet>
+
+			</rich:dataTable>
+					<a4j:commandButton
+						actionListener="#{recursoMBean.eliminarDatoDelRecurso}"
+						value="Eliminar"
+						reRender="datos">
+					</a4j:commandButton>
+
+			<br />
+			<br />
+
+
+			<h:panelGroup id="gr_volver" rendered="true">
+				<a4j:commandLink id="consultarLink" ajaxSingle="true" 
+					action="#{recursoMBean.volverEliminar}" value="Volver"
+					reRender="pantalla">
+				</a4j:commandLink>
+			</h:panelGroup>
+
+		</rich:panel>
+
+	</h:form>
+</f:view>

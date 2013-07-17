@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:jsp="http://java.sun.com/JSP/Page">
+    
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+	<a4j:loadStyle src="#{saeProperties['ui.style.organizacion.url']}"/>
+	<a4j:loadStyle src="#{saeProperties['ui.style.organizacion.faces.url']}"/>
+	<a4j:loadStyle src="#{saeProperties['ui.style.sae.url']}"/>
+	
+	<title>Inicio de Sesión</title>
+	</head>
+	<body class='PaginaGral' style="margin: 0px 0px 0px 0px;">
+	<center>
+	<f:view	beforePhase="#{loginMBean.beforePhaseRenderResponseLogin}" beforePhaseListener="#{loginMBean.beforePhaseRenderResponseLogin}">
+
+		<div style="font-size: 7pt;">
+
+		<table border="0" cellpadding='0' cellspacing='0' align="center">
+			<tr>
+				<td>
+				<table class="Cabezal" border="0" cellpadding='0' cellspacing='0'>
+					<tr>
+						<td id="titulo" class="CabezalTitulo"><h:outputText
+							value="#{saeLabels['aplicacion_nombre']}" /></td>
+					</tr>
+				</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				<table class="Cuerpo" border="0" cellpadding='0' cellspacing='0'>
+					<tr>
+						<td class="CuerpoSuperiorIzquierda">&#160;</td>
+						<td class="CuerpoSuperiorCentral">&#160;</td>
+						<td class="CuerpoSuperiorDerecha">&#160;</td>
+					</tr>
+					<tr>
+						<td id="cuerpo" class="CuerpoMedioCentral" colspan="3">
+						<div style="text-align: center;"><!-- CUERPO -->
+
+						<div style="text-align: center; vertical-align: middle">
+						<form method="post" action="j_security_check"
+							name="j_security_check">
+						<table id="loginTable" border="0" cellpadding='0' cellspacing='0'
+							style="width: 748px;">
+							<tbody>
+								<tr>
+				                    <td align="center"
+										style="width: 40%; vertical-align: middle; text-align: center;">
+									<img src="#{saeProperties['ui.images.login.img.url']}"
+										alt="#{saeLabels['ui.images.login.img.alt']}" /></td> 
+									<td
+										style="width: 40%; vertical-align: middle; text-align: center;">
+									<table id="idTablePwd" border="0" cellpadding='0'
+										cellspacing='0'>
+										<tr>
+											<td><rich:panel style="width: 272px;">
+												<f:facet name="header">
+													<h:outputText value="Iniciar Sesion"></h:outputText>
+												</f:facet>
+												<table border="0" cellpadding='0' cellspacing='0'>
+													<tbody>
+														<tr>
+															<td class="TxtNormal">&#160;&#160;&#160;&#160;Usuario:</td>
+															<td>&#160;</td>
+															<td align="left"><input type="text"
+																name="j_username" style="width: 167px;" /></td>
+														</tr>
+														<tr>
+															<td class="TxtNormal">&#160;&#160;&#160;&#160;Contraseña:</td>
+															<td>&#160;</td>
+															<td align="left"><!-- <h:inputSecret id="j_password" styleClass="headerText" style="width: 167px;" autocomplete="off"/> -->
+															<input type="password" name="j_password"
+																style="width: 167px;" /></td>
+														</tr>
+														<tr>
+															<td>&#160;&#160;&#160;&#160;&#160;</td>
+															<td>&#160;</td>
+															<td align="left"><input type="submit"
+																value="Ingresar" class="TxtBoton" style="width: 170px;" />
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</rich:panel></td>
+										</tr>
+										<tr>
+											<td>&#160;</td>
+										</tr>
+										<tr>
+											<td>&#160;</td>
+										</tr>
+										<tr>
+											<td>&#160;</td>
+										</tr>
+									</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						</form>
+						</div>
+						<!-- FIN CUERPO --></div>
+						</td>
+					</tr>
+					<tr>
+						<td class="CuerpoInferiorIzquierda">&#160;</td>
+						<td class="CuerpoInferiorCentral">&#160;</td>
+						<td class="CuerpoInferiorDerecha">&#160;</td>
+					</tr>
+				</table>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="text-align: center;">
+				<table class="Pie" border='0' cellspacing='0' cellpadding='0'>
+					<tr>
+						<td>
+						<div class="PieTitulo1" align="left"><h:outputText value="#{saeLabels['organizacion_nombre']}"></h:outputText></div>
+						<div class="PieTitulo2" align="left"><h:outputText value="#{saeLabels['organizacion_direccion']}"></h:outputText></div>
+						</td>
+					</tr>
+				</table>
+
+				</td>
+			</tr>
+		</table>
+		</div>
+	 </f:view>
+    </center>
+  </body>
+</html>
+	

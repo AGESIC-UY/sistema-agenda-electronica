@@ -1,0 +1,13 @@
+	<!-- 
+		Ejemplo para configurar el login-module a nivel globlal de JBoss
+		La aplicación incluye la configuración del login-module para hacer el deploy embebido. SAE-EAR/META-INF/sdsae-jboss-beans.xml		
+	 -->
+	<application-policy name="SDSAE"> 
+		<authentication>
+          <login-module code="org.jboss.security.auth.spi.UsersRolesLoginModule" flag = "required">
+           	 <module-option name="usersProperties">props/sae-users.properties</module-option>
+             <module-option name="rolesProperties">props/sae-roles.properties</module-option>
+			 <module-option name="password-stacking">useFirstPass</module-option> 
+          </login-module>
+		</authentication> 
+	</application-policy> 

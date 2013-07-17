@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project>
+
+	<taskdef resource="org/tigris/subversion/svnant/svnantlib.xml">
+	    <classpath>
+	      <fileset dir="../../lib-utils/svnant" includes="**/*.jar" />
+	    </classpath>
+	</taskdef>
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+	  <classpath>
+	    <pathelement location="../../lib-utils/ant-contrib-1.0b3.jar"/>
+	  </classpath>
+	</taskdef>
+	
+	<tstamp>
+		<format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+	</tstamp>
+
+
+	<macrodef name="get-revision">
+	   <attribute name="basedir"/>
+	   <attribute name="property"/>
+	   <sequential>
+			<svn>
+			    <status path="@{basedir}" revisionProperty="@{property}" />
+				<wcversion path="@{basedir}" prefix="@{property}." processunversioned="false"/>
+			</svn>
+		</sequential>
+	</macrodef>
+
+	
+	
+	<macrodef name="set-version">
+<!--   <attribute name="user"/>
+	   <attribute name="password"/> -->
+	   <attribute name="basedir"/>
+	   <attribute name="property"/>
+	   <attribute name="manifest"/>
+		
+	   <sequential>
+	   	
+			<!--
+			<svn username="@{user}" password="@{password}">
+			    <status path="@{basedir}" revisionProperty="svn.revision" urlproperty="svn.url"/>
+			</svn>
+			-->
+	   	
+			<svn>
+			    <status path="@{basedir}" revisionProperty="svn.revision" urlproperty="svn.url"/>
+			</svn>
+			
+	   		<var name="version.app" unset="true"/>
+			<propertyregex property="version.app"
+				              input="${svn.url}"
+				              regexp="/([^/]*)$"
+				              select="\1"
+				              casesensitive="false" />
+   			<echo message="${version.app}"></echo>
+			
+	   		<var name="version.type" unset="true"/>
+			<propertyregex property="version.type"
+				              input="${svn.url}"
+				              regexp="/trunk/"
+				              select=".trunk"
+				              casesensitive="false" />
+			<propertyregex property="version.type"
+				              input="${svn.url}"
+				              regexp="/tags/"
+				              select=""
+				              casesensitive="false" />
+			<propertyregex property="version.type"
+				              input="${svn.url}"
+				              regexp="/branches/"
+				              select=".branch"
+				              casesensitive="false" />
+			
+	   		<var name="version.major" value="0"/>
+			<propertyregex property="version.major" override="true"
+				              input="${svn.url}"
+				              regexp="/(branches|tags)/r0*([123456789]\d*)[^/]*/[^/]*$"
+				              select="\2"
+				              casesensitive="false" />
+	   	
+	   		<var name="version.minor" value="0"/>
+			<propertyregex property="version.minor" override="true"
+				              input="${svn.url}"
+				              regexp="/tags/r0*[123456789]\d*\.0*([123456789]\d*)/[^/]*$"
+				              select="\1"
+				              casesensitive="false" />
+			
+	   		<var name="version.micro" value="0"/>
+			
+			<var name="version.string" value="${version.app}/${version.major}.${version.minor}.${version.micro}${version.type} r${svn.revision}"/>
+			
+			<var name="@{property}" value="${version.app}-${version.major}.${version.minor}.${version.micro}${version.type}-r${svn.revision}"/>	
+			
+			<manifest file="@{manifest}" mode="update">
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Built-Date" value="${TODAY}" />
+				<attribute name="version-string" value="${version.string}" />
+				<attribute name="version-major" value="${version.major}" />
+				<attribute name="version-minor" value="${version.minor}" />
+				<attribute name="version-micro" value="${version.micro}" />
+				<attribute name="version-revision" value="${svn.revision}" />			
+				<attribute name="repository-location" value="${svn.url}" />			
+			</manifest>
+			
+	   </sequential>
+	</macrodef>
+	
+</project>

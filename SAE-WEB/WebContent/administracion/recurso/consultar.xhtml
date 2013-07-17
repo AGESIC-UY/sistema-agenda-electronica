@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      beforePhase="#{recursoMBean.beforePhaseConsultar}"
+      beforePhaseListener="#{recursoMBean.beforePhaseConsultar}"
+      >
+
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+
+
+<h:form>
+	<table style="border: none;" cellpadding="0" cellspacing="0" align="center">
+	<tr><td nowrap="nowrap">
+	<rich:dataTable value="#{sessionMBean.recursos}" var="row" columns="7" binding="#{recursoMBean.recursosDataTableConsultar}"
+	id="tablaRecursos" rows="6">
+		<f:facet name="header">
+			<h:outputText value="Consultar Recursos"></h:outputText>
+		</f:facet>
+		<rich:column>
+			<f:facet name="header">
+				<h:outputText value="Nombre"></h:outputText>
+			</f:facet>
+			<h:outputText value="#{row.data.nombre}"></h:outputText>
+		</rich:column>
+		<rich:column>
+			<f:facet name="header">
+				<h:outputText value="Descripción"></h:outputText>
+			</f:facet>
+			<h:outputText value="#{row.data.descripcion}"></h:outputText>
+		</rich:column>
+		<rich:column>
+			<f:facet name="header">
+				<h:outputText value="Inicio"></h:outputText>
+			</f:facet>
+			<h:outputText value="#{row.data.fechaInicio}"><f:convertDateTime type="both" pattern="dd/MM/yyyy" timeZone="America/Montevideo"/></h:outputText>
+		</rich:column>
+		<rich:column>
+			<f:facet name="header">
+				<h:outputText value="Fin"></h:outputText>
+			</f:facet>
+			<h:outputText value="#{row.data.fechaFin}"><f:convertDateTime type="both" pattern="dd/MM/yyyy" timeZone="America/Montevideo"/></h:outputText>
+		</rich:column>
+		<rich:column>
+			<f:facet name="header">
+				<h:outputText value="Inicio Disponibilidad"></h:outputText>
+			</f:facet>
+			<h:outputText value="#{row.data.fechaInicioDisp}"><f:convertDateTime type="both" pattern="dd/MM/yyyy" timeZone="America/Montevideo"/>
+			</h:outputText>
+		</rich:column>
+		<rich:column>
+			<f:facet name="header">
+				<h:outputText value="Fin Disponibilidad"></h:outputText>
+			</f:facet>
+			<h:outputText value="#{row.data.fechaFinDisp}"><f:convertDateTime type="both" pattern="dd/MM/yyyy" timeZone="America/Montevideo"/>
+			</h:outputText>
+		</rich:column>
+
+		<rich:column>
+			<f:facet name="header">
+				<h:outputText value="Accion"></h:outputText>
+			</f:facet>
+			<a4j:commandLink id="consultarLink" reRender="mostrarAgendaRecurso, pantalla" action="#{recursoMBean.consultarDatos}">
+                  <h:graphicImage value="#{saeProperties['ui.resource.base.url']}/recursos/images/find.gif" style="border:0" height="16" width="16"/>
+            </a4j:commandLink>
+            <rich:toolTip for="consultarLink" value="Consultar Recurso"/>
+		</rich:column>
+		<f:facet name="footer">
+			<rich:datascroller align="left" maxPages="5" 
+			id="scTablaConsRec" for="tablaRecursos" 
+			page="#{recursoSessionMBean.pagRecursoCons}"/>
+		</f:facet>
+	</rich:dataTable>
+	
+	</td></tr>
+	</table>
+
+	<a4j:commandLink 
+		value="Volver" 
+		action="volver" 
+		reRender="pantalla"
+		ajaxSingle="true" 
+	></a4j:commandLink>
+	
+	</h:form>
+</f:view>

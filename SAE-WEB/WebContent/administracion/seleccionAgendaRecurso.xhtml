@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      beforePhase="#{sessionMBean.beforePhaseSeleccionAgendaRecurso}"
+      beforePhaseListener="#{sessionMBean.beforePhaseSeleccionAgendaRecurso}"
+      >
+
+	<h:form style="margin: 0px;" id="formSeleccionAgendaRecruso" >	
+		<h:panelGrid columns="3" id="mpTablas" columnClasses="arriba">
+				
+		<rich:dataTable value="#{sessionMBean.agendas}" var="row" columns="3" width="290px"
+			id="tablaAgendas">
+			
+			<f:facet name="header">
+				<h:outputText value="Agendas"></h:outputText>
+			</f:facet>
+			
+			<rich:column>
+				<h:selectBooleanCheckbox value="#{row.selected}" title="check-agenda-#{row.data.nombre}">
+					<a4j:support 
+						event="onclick" 
+						ajaxSingle="true"
+						reRender="tablaAgendas, tablaRecursos, mostrarAgendaRecurso, linkAgendarReserva"
+						actionListener="#{sessionMBean.seleccionarAgenda}"
+					>
+					</a4j:support>
+				</h:selectBooleanCheckbox>
+			</rich:column>
+			
+			<rich:column  style="text-align:left;" width="150">
+				<f:facet name="header">
+					<h:panelGroup>
+					<table align="left"><tr><td>
+						<h:outputText value="Nombre"></h:outputText>
+					</td></tr></table>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText value="#{row.data.nombre}"></h:outputText>
+			</rich:column>
+			
+			<rich:column  style="text-align:left;" width="200">
+				<f:facet name="header">
+					<h:panelGroup>
+					<table align="left"><tr><td>
+						<h:outputText value="Descripción"></h:outputText>
+					</td></tr></table>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText value="#{row.data.descripcion}"></h:outputText>
+			</rich:column>
+		</rich:dataTable>
+
+		<rich:spacer width="20px"></rich:spacer>
+
+		<rich:dataTable value="#{sessionMBean.recursos}" var="row" columns="3" width="290px"
+			id="tablaRecursos">
+			<f:facet name="header">
+				<h:outputText value="Recursos"></h:outputText>
+			</f:facet>
+			
+			<rich:column>
+				<h:selectBooleanCheckbox value="#{row.selected}" title="check-recurso-#{row.data.nombre}">
+					<a4j:support actionListener="#{sessionMBean.desseleccionarRecurso}"
+						event="onclick" 
+						ajaxSingle="true"
+						reRender="tablaRecursos, mostrarAgendaRecurso, formMenu"
+					>
+					</a4j:support>
+				</h:selectBooleanCheckbox>
+			</rich:column>
+			
+			<rich:column style="text-align:left;" width="150">
+				<f:facet name="header">
+					<h:panelGroup>
+					<table align="left"><tr><td>
+						<h:outputText value="Nombre"></h:outputText>
+					</td></tr></table>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText value="#{row.data.nombre}"></h:outputText>
+			</rich:column>
+			
+			<rich:column style="text-align:left;" width="200">
+				<f:facet name="header">
+					<h:panelGroup>
+					<table align="left"><tr><td>
+						<h:outputText value="Descripción"></h:outputText>
+					</td></tr></table>
+					</h:panelGroup>
+				</f:facet>
+				<h:outputText value="#{row.data.descripcion}"></h:outputText>
+			</rich:column>
+			
+		</rich:dataTable>
+
+		</h:panelGrid>
+
+</h:form>
+</f:view>
+</html>

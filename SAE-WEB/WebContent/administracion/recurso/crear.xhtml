@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      beforePhase="#{drecursoMBean.beforePhaseCrear}"
+      beforePhaseListener="#{recursoMBean.beforePhaseCrear}"
+      >
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	
+<h:form style="margin: 0px;">
+
+	<table style="border: none;" cellpadding="0" cellspacing="0" align="center">
+	<tr><td nowrap="nowrap">
+	<rich:panel header="Alta de recurso:" bodyClass="formulario" headerClass="formularioCabezal">
+		<table style="border: none;" cellpadding="0" cellspacing="0" align="center">
+		<tr><td nowrap="nowrap">
+			<h:panelGrid columns="2" style="padding-top: 0px;" styleClass="Texto" columnClasses="formularioEtiqueta, formularioCampo">
+				<h:outputText value="Agenda:"></h:outputText>
+				<h:inputText value="#{sessionMBean.agendaMarcada.descripcion}" readonly="true">
+				</h:inputText>
+				<h:outputText value="Nombre:"></h:outputText>
+				<h:inputText value="#{recursoMBean.recursoNuevo.nombre}" maxlength="50" ></h:inputText>
+				<h:outputText value="Descripción:"></h:outputText>
+				<h:inputText value="#{recursoMBean.recursoNuevo.descripcion}" maxlength="50" ></h:inputText>
+				<h:outputText value="Fecha de inicio:"></h:outputText>
+				<rich:calendar value="#{recursoMBean.recursoNuevo.fechaInicio}" datePattern="dd/MM/yyyy" showWeeksBar="false" locale="es" todayControlMode="hidden"></rich:calendar>
+				<h:outputText value="Fecha de fin:"></h:outputText>
+				<rich:calendar value="#{recursoMBean.recursoNuevo.fechaFin}" datePattern="dd/MM/yyyy" showWeeksBar="false" locale="es" todayControlMode="hidden"></rich:calendar>
+				<h:outputText value="Fecha de inicio disponibilidad:"></h:outputText>
+				<rich:calendar value="#{recursoMBean.recursoNuevo.fechaInicioDisp}" datePattern="dd/MM/yyyy" showWeeksBar="false" locale="es" todayControlMode="hidden"></rich:calendar>
+				<h:outputText value="Fecha de fin disponibilidad:"></h:outputText>
+				<rich:calendar value="#{recursoMBean.recursoNuevo.fechaFinDisp}" datePattern="dd/MM/yyyy" showWeeksBar="false" locale="es"></rich:calendar>
+				
+				<h:outputText value="Días Inicio Ventana Intranet:"></h:outputText>
+				<h:inputText id="DiasInicioVIntranet" value="#{recursoMBean.recursoNuevo.diasInicioVentanaIntranet}" maxlength="5" immediate="true"></h:inputText>
+				<h:outputText value=" "></h:outputText>
+				<rich:message for="DiasInicioVIntranet" ajaxRendered="true" errorClass="mensajeError" infoClass="mensajeInfo"></rich:message>
+				
+				<h:outputText value="Días Ventana Intranet:"></h:outputText>
+				<h:inputText id="DiasVIntranet" value="#{recursoMBean.recursoNuevo.diasVentanaIntranet}" maxlength="5" immediate="true"></h:inputText>
+				<h:outputText value=" "></h:outputText>
+				<rich:message for="DiasVIntranet" ajaxRendered="true" errorClass="mensajeError" infoClass="mensajeInfo"></rich:message>
+				
+				<h:outputText value="Días Inicio Ventana Internet:"></h:outputText>
+				<h:inputText id="DiasInicioVInternet" value="#{recursoMBean.recursoNuevo.diasInicioVentanaInternet}" maxlength="5" immediate="true"></h:inputText>
+				<h:outputText value=" "></h:outputText>
+				<rich:message for="DiasInicioVInternet" ajaxRendered="true" errorClass="mensajeError" infoClass="mensajeInfo"></rich:message>
+				
+				<h:outputText value="Días Ventana Internet:"></h:outputText>
+				<h:inputText id="DiasVInternet" value="#{recursoMBean.recursoNuevo.diasVentanaInternet}" maxlength="5" immediate="true"></h:inputText>
+				<h:outputText value=" "></h:outputText>
+				<rich:message for="DiasVInternet" ajaxRendered="true" errorClass="mensajeError" infoClass="mensajeInfo"></rich:message>
+				
+				<h:outputText value="Ventana Cupos Minimos:"></h:outputText>
+				<h:inputText id="VCuposM" value="#{recursoMBean.recursoNuevo.ventanaCuposMinimos}" maxlength="5"></h:inputText>
+				<h:outputText value=" "></h:outputText>
+				<rich:message for="VCuposM" ajaxRendered="true" errorClass="mensajeError" infoClass="mensajeInfo"></rich:message>
+
+				<h:outputText value="Cantidad Dias a Generar:"></h:outputText>
+				<h:inputText id="CantDias" value="#{recursoMBean.recursoNuevo.cantDiasAGenerar}" maxlength="5"></h:inputText>
+				<h:outputText value=" "></h:outputText>
+				<rich:message for="CantDias" ajaxRendered="true" errorClass="mensajeError" infoClass="mensajeInfo"></rich:message>
+
+				<h:outputText value="Largo Lista de Espera:"></h:outputText>
+				<h:inputText id="largoLista" value="#{recursoMBean.recursoNuevo.largoListaEspera}" maxlength="5"></h:inputText>
+				<h:outputText value=" "></h:outputText>
+				<rich:message for="largoLista" ajaxRendered="true" errorClass="mensajeError" infoClass="mensajeInfo"></rich:message>
+				
+				<h:outputText value="Serie:"></h:outputText>
+				<h:inputText id="idSerie" value="#{recursoMBean.recursoNuevo.serie}" maxlength="3"></h:inputText>
+				<h:outputText value=" "></h:outputText>
+				<rich:message for="idSerie" ajaxRendered="true" errorClass="mensajeError" infoClass="mensajeInfo"></rich:message>
+				
+				
+				<h:outputText value="Visible en Internet:"></h:outputText>
+				<h:selectBooleanCheckbox value="#{recursoMBean.recursoNuevo.visibleInternet}" />
+				
+				<h:outputText value="Reserva Multiple:"></h:outputText>
+				<h:selectBooleanCheckbox value="#{recursoMBean.recursoNuevo.reservaMultiple}"></h:selectBooleanCheckbox>
+				
+				<h:outputText value="Mostrar número de reserva en llamador:"></h:outputText>
+				<h:selectBooleanCheckbox value="#{recursoMBean.recursoNuevo.mostrarNumeroEnLlamador}">
+				<rich:toolTip>
+					<h:panelGrid columns="1">
+					<h:outputText value="Indica si se debe mostrar o no" />
+					<h:outputText value="el número de la reserva en la pantalla del llamador" />
+					</h:panelGrid>
+				</rich:toolTip>
+				</h:selectBooleanCheckbox>
+				
+				<h:outputText value="Mostrar número de reserva en ticket:"></h:outputText>
+				<h:selectBooleanCheckbox value="#{recursoMBean.recursoNuevo.mostrarNumeroEnTicket}">
+				<rich:toolTip>
+					<h:panelGrid columns="1">
+					<h:outputText value="Indica si se debe mostrar o no" />
+					<h:outputText value="el número de la reserva en el ticket de confirmación" />
+					</h:panelGrid>
+				</rich:toolTip>
+				</h:selectBooleanCheckbox>
+
+
+				<h:outputText value="Considerar el sábado como día habil:"></h:outputText>
+				<h:selectBooleanCheckbox value="#{recursoMBean.recursoNuevo.sabadoEsHabil}">
+				<rich:toolTip>
+					<h:panelGrid columns="1">
+					<h:outputText value="Si esta marcado, el sábado es considerado día habil, salvo que sea feriado." />
+					<h:outputText value="Por lo tanto se podrá asignar disponibilidades para esos días." />
+					</h:panelGrid>
+				</rich:toolTip>
+				</h:selectBooleanCheckbox>
+								
+			</h:panelGrid>
+		</td></tr>
+		<tr><td align="center">
+			<a4j:commandButton 
+				value="Guardar" 
+				actionListener="#{recursoMBean.crear}"
+				reRender="mostrarAgendaRecurso,pantalla, mostrarAgendaRecurso"
+			></a4j:commandButton>
+			<a4j:commandButton 
+				value="Cancelar"
+				action="cancelar"
+				reRender="pantalla"
+			></a4j:commandButton>
+		</td></tr>
+		</table>
+	</rich:panel>
+	</td></tr>
+	</table>
+
+	<a4j:commandLink 
+		value="Volver" 
+		action="volver" 
+		reRender="pantalla"
+		ajaxSingle="true" 
+	></a4j:commandLink>
+
+</h:form>
+
+</f:view>

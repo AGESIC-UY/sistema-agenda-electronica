@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+    beforePhase="#{recursoMBean.beforePhaseModificarConsultar}"
+    beforePhaseListener="#{recursoMBean.beforePhaseModificarConsultar}"
+    >
+
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+
+
+<style>
+.col {
+	width: 50px;
+}
+</style>
+
+	<h:form style="margin: 0px;">
+
+		<rich:dataTable value="#{sessionMBean.recursos}" var="row" columns="7" id="tablaModificarRecursos"  rows="6" 
+		binding="#{recursoMBean.recursosDataTableModificar}">
+			<f:facet name="header">
+				<h:outputText value="Modificar Recursos"></h:outputText>
+			</f:facet>
+
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="Nombre"></h:outputText>
+				</f:facet>
+				<h:outputText value="#{row.data.nombre}"></h:outputText>
+			</rich:column>
+			
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="Descripción"></h:outputText>
+				</f:facet>
+				<h:outputText value="#{row.data.descripcion}"></h:outputText>
+			</rich:column>
+			
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="Inicio"></h:outputText>
+				</f:facet>
+				<h:outputText value="#{row.data.fechaInicio}">
+					<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+						timeZone="America/Montevideo" />
+				</h:outputText>
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="Fin"></h:outputText>
+				</f:facet>
+				<h:outputText value="#{row.data.fechaFin}">
+					<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+						timeZone="America/Montevideo" />
+				</h:outputText>
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="Inicio Disponibilidad"></h:outputText>
+				</f:facet>
+				<h:outputText value="#{row.data.fechaInicioDisp}">
+					<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+						timeZone="America/Montevideo" />
+				</h:outputText>
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="Fin Disponibilidad"></h:outputText>
+				</f:facet>
+				<h:outputText value="#{row.data.fechaFinDisp}">
+					<f:convertDateTime type="both" pattern="dd/MM/yyyy"
+						timeZone="America/Montevideo" />
+				</h:outputText>
+			</rich:column>
+			
+ 			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="Acciones"></h:outputText>
+				</f:facet>
+                <a4j:commandLink id="modificarRecLink" reRender="mostrarAgendaRecurso, pantalla" action="#{recursoMBean.modificar}">
+                    <h:graphicImage value="#{saeProperties['ui.resource.base.url']}/recursos/images/edit.gif" style="border:0"/>
+	                <rich:toolTip value="Modificar Recurso"/>
+                </a4j:commandLink>
+			
+				<rich:spacer width="4px"/>
+				                
+                <a4j:commandLink reRender="pantalla" actionListener="#{recursoMBean.copiar}">
+                    <h:graphicImage value="#{saeProperties['ui.resource.base.url']}/recursos/images/create_doc.gif" style="border:0"/>
+ 	            	<rich:toolTip value="Crea una copia de este recurso"/>
+                </a4j:commandLink>
+
+            </rich:column>
+		<f:facet name="footer">
+			<rich:datascroller align="left" maxPages="5" 
+			id="sc1" for="tablaModificarRecursos" 
+			page="#{recursoSessionMBean.pagRecursoUpd}"/>
+		</f:facet>
+		</rich:dataTable>
+			
+		<a4j:commandLink 
+			value="Volver" 
+			action="volver" 
+			reRender="pantalla"
+			ajaxSingle="true" 
+		></a4j:commandLink>
+		
+	</h:form>
+</f:view>

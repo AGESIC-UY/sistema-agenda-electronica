@@ -1,0 +1,49 @@
+
+######################################################################################
+LINEA DE COMANDOS:
+
+CONFIGURACION:
+1-En linux, si nunca se hizo un ssh al servidor de depoy, hacer un ssh para cargar la server_key en la store del ssh.
+  En windows, Copiar el known_hosts de linux en el HOME_DEL_USUARIO/.ssh (tambien hay que crear esta carpeta desde linea de comando para windows)
+
+2-Tener en el workspace el proyecto lib-utils  
+
+3-Tener instalado ant 1.7.1 
+
+4-Pasar la propiedad jboss.home=/ruta_al_home_de_instalacion_del_jboss_5.1 
+
+5-Pasar el parámetro -lib ../../lib-utils/jsch-0.1.44.jar
+
+
+
+EJECUCION:  
+Desde linea de comandos parado en SAE-Config/ant ejecutar: 
+
+    ant -Djboss.home=../../../desa5 -lib ../../lib-utils
+
+
+
+######################################################################################
+ECLIPSE:
+
+CONFIGURACION:
+1-En linux, si nunca se hizo un ssh al servidor de deploy, hacer un ssh para cargar la server_key en la store del ssh.
+  En windows, Copiar el known_hosts de linux en el HOME_DEL_USUARIO/.ssh (tambien hay que crear esta carpeta desde linea de comando para windows)
+
+2-Tener en el workspace el proyecto lib-utils
+3-Definir en Window->Preferences->Ant->Runtime->Properties
+  una propiedad global con los siguientes valores
+     name = jboss.home
+     value = ${jboss_config_dir:JBoss 5.1 Runtime Server}/../..
+
+4-Definir en Window->Preferences->Ant->Runtime->Classpath->Global Entries
+  una entrada global haciendo click en el boton "Add Jars..."
+  y eligiendo lib-utils/jsch-0.1.44.jar
+  
+
+EJECUCION:  
+Ejecutar la tarea ant por defecto de SAE-Config/ant/build.xml
+
+
+
+######################################################################################

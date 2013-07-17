@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+<ui:composition template="#{(soloCuerpo ? '/templates/baseSinCabezalPie.xhtml' : '/templates/base.xhtml')}">
+	
+	
+
+	
+	<ui:param name="onload" value="" />
+	
+	<ui:define name="css">	
+	</ui:define>
+
+	<ui:define name="script">
+	</ui:define>	
+	
+	<ui:define name="titulo">
+		<h:outputText value="#{agenda_nombre}"></h:outputText>
+	</ui:define>
+
+	<ui:define name="menu">
+		<h:form id="formMenu" style="margin: 0px;">
+			<h:panelGroup>
+				<h:outputLink value="#{sesionMBean.paginaDeRetorno}">&#187; Volver a la página principal</h:outputLink>
+				<rich:spacer width="5px" height="1px"/>
+				<h:commandLink value="&#187; Nueva reserva" action="inicio" />
+			</h:panelGroup>
+		</h:form>
+	</ui:define>
+	 
+	<ui:define name="cuerpo">
+	
+	<style lang="text/css">
+		.procesando {
+			text-align: center; 
+			vertical-align: middle; 
+			padding: 0;
+		}
+		.procesando .rich-mpnl-mask-div {
+			filter:alpha(opacity=20);
+			opacity:0.2;	
+		}
+	</style>
+
+	<rich:modalPanel 
+		id="procesando" 
+		styleClass="procesando"
+		width="300" 
+		height="110" 
+		shadowOpacity="0.5" moveable="false" autosized="false"
+		zindex="2000">
+
+		<table width="280" style="" cellpadding="10px">
+			<tr>
+				<td width="50%" height="90" style="vertical-align: middle; text-align: right;">
+					<h:graphicImage value="#{saeProperties['ui.resource.base.url']}/recursos/images/loading.gif" alt="Procesando..." />
+				</td>
+				<td width="50%" height="90" valign="middle" style="vertical-align: middle; text-align: left;">
+					<h:outputFormat value="Procesando..." />
+				</td>
+			</tr>
+		</table>
+	</rich:modalPanel>
+	
+	<a4j:status onstart="Richfaces.showModalPanel('procesando');" 
+	   			onstop= "Richfaces.hideModalPanel('procesando');" >
+	</a4j:status>
+	
+	<h:form id="form" style="margin: 0px;" prependId="false">
+	<div style="text-align: center">
+
+	<h:outputText value="#{mensaje_error}" rendered="#{mensaje_error != null}" styleClass="mensajeError" />
+	
+	<h:panelGrid
+	    rendered="#{mensaje_error == null}" 
+		cellpadding="0" cellspacing="0" 
+		columns="1"		
+		id="contenedorPaso"
+		columnClasses="izquierda">
+		
+			<h:panelGrid 
+				cellpadding="0" cellspacing="0" 
+				columns="1" 
+				styleClass="pasoCabezal" rowClasses="pasoTitulo1 pasoCabezal1, pasoTitulo2 pasoCabezal2">
+				
+				<h:panelGroup>
+					<rich:spacer height="2px"></rich:spacer>
+					<h:outputText value="PASO #{paso_numero} / 3" rendered="#{paso_numero != null}"/>
+				</h:panelGroup>
+				<h:outputText value="#{paso_texto}" />
+			</h:panelGrid>
+			
+			<h:panelGroup>
+				<rich:spacer height="10px" />
+				<rich:message 
+						ajaxRendered="true" 
+						for="form"  
+						errorClass="mensajeError"
+						infoClass="mensajeInfo"
+						warnClass="mensajeWarn"/>
+				
+			</h:panelGroup>
+					
+			<h:panelGrid 
+				cellpadding="0" cellspacing="0"
+				columns="2" 
+				columnClasses="columnaIzquierda, columnaDerecha">
+				
+				<h:panelGroup>
+					<ui:insert name="contenido">CONTENIDO DEL PASO</ui:insert>
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<ui:insert name="descripcion"> DESCRIPCION DEL PASO </ui:insert>
+				</h:panelGroup>
+			</h:panelGrid>
+	</h:panelGrid>
+	</div>
+	</h:form>
+	</ui:define>
+</ui:composition>
+
+</body>
+</html>      

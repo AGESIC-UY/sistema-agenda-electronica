@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:jsp="http://java.sun.com/JSP/Page">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+<ui:composition template="/templates/base.xhtml">
+	<ui:param name="parametroBean" value="#{dummyMBean}" />
+	<ui:define name="titulo"><h:outputText value="#{saeLabels['aplicacion_nombre']}"></h:outputText></ui:define>
+	<ui:define name="menu"/>
+	<ui:define name="css"/>
+	<ui:define name="js"/>
+	<ui:define name="cuerpo">
+		<div style="text-align: center; vertical-align: middle">
+		    <form method="post" action="j_security_check"
+			 	  name="j_security_check">		
+			  <table id="loginTable" border="0"
+					 cellpadding='0' cellspacing='0' style="width: 748px;">
+			    <tbody>
+				  <tr>
+				    <td align="center" style="width: 40%; vertical-align: middle; text-align: center;">
+						<img src="#{saeProperties['ui.images.login.img.url']}" alt="#{saeLabels['ui.images.login.img.alt']}"/>				    
+				    </td>
+					<td style="width: 40%; vertical-align: middle; text-align: center;">
+	                     <table border="0" cellpadding='0' cellspacing='0'>					
+	                       <tr>
+	                         <td>
+						        <rich:panel style="width: 272px;">
+									<f:facet name="header">
+									  <h:outputText value="Iniciar Sesion"></h:outputText>
+									</f:facet>
+								        <table border="0" cellpadding='0' cellspacing='0'>
+								          <tbody>
+								            <tr>
+									          <td class="TxtNormal">&#160;&#160;&#160;&#160;Acceso habilitado en forma provisoria.						           
+									          </td>
+									        </tr>
+									        <tr>
+									          <td>&#160;</td>
+									        </tr>
+				  					        <tr>
+									          <td>
+									            <h:outputLink value="#{loginMBean.urlRedirectLogin}">Aceptar</h:outputLink>
+								              </td>
+									        </tr>
+								          </tbody>
+								        </table>
+						        </rich:panel>
+	                         </td>
+	                       </tr>
+	                       <tr><td>&#160;</td></tr>
+	                       <tr><td>&#160;</td></tr>
+	                       <tr><td>&#160;</td></tr>
+	                     </table>
+					</td>
+				  </tr>
+				</tbody>
+			  </table>
+			</form>
+		</div>
+	</ui:define>
+</ui:composition>
+</body>
+
+</html>

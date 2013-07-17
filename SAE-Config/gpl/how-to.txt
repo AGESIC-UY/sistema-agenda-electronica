@@ -1,0 +1,249 @@
+
+------------------------------------------------------------------------
+ SAE - Sistema de Agenda Electronica
+ Copyright (C) 2009  IMM - Intendencia Municipal de Montevideo
+ 
+ This file is part of SAE.
+
+ SAE is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+------------------------------------------------------------------------
+
+----------------------------
+1) Configuración de Ambiente
+----------------------------
+
+Para la instalación y ejecución de la aplicación se requieren los siguientes componentes:
+
+	- Oracle/Sun JDK 1.6 o posterior (http://java.sun.com/javase/downloads/index.jsp)
+	- Apache ANT (http://ant.apache.org/)
+	- JBoss AS versión 5.1.0.GA (http://jboss.org/jbossas/)
+	- Base de Datos: Oracle 11g o PostgreSQL 8.4 o superior (http://www.postgresql.org/)
+	- Drivers JDBC para la base de datos: (http://jdbc.postgresql.org/download.html)
+	  En el caso de PostgresSQL se tiene el JDBC3 para la JDK 1.5 y el JDBC4 para la JDK 1.6
+	  
+La IDE de desarrollo utilizada es Eclipse Juno + plugins de svn y plugins de Jbosstools
+ 
+NOTA: La expresión <JBOSS_HOME> refiere al directorio donde se encuentra el servidor de aplicaciones.
+
+----------------------------
+2) Instalación de la aplicación
+----------------------------
+
+2.1) Configuración del Servidor 
+-------------------------------
+
+2.1.1 Driver JDBC
+--------------------
+Dependiendo de si se utiliza PostgreSQL u Oracle se debe tener el driver jdbc instalado en el servidor.
+Para lo cual debe copiar al <JBOSS_HOME>/server/default/lib los siguietnes jars: 
+
+Oracle:       ojdbc6.jar   
+Postgresql:   postgresql-9.2-1002.jdbc4.jar
+
+Cada uno de estos jars se pueden descargar de internet. Por simplicidad, se incluyen los mismos en el directorio SAE-Config/gpl/libs.
+
+
+2.1.2 Jasper Reports
+--------------------
+La aplicación utiliza Jasper Reports para el despliegue de reportes. Por este motivo, se deben incluir los diferentes jars que 
+componen esta librería dentro del directorio lib de la distribución usada de JBoss:
+
+- commons-beanutils-1.7.0.jar 
+- commons-digester-1.8.jar 
+- itext-1.3.1.jar 
+- jasperreports-3.0.0.jar 
+
+Cada uno de estos jars se pueden descargar de internet. Por simplicidad, se incluyen los mismos en el directorio SAE-Config/gpl/libs.    
+
+
+2.1.4) SSL
+----------
+El login de la aplicación utiliza https para el envío de las credenciales del usuario. Para su correcto funcionamiento, se debe configurar 
+el servidor, habilitando el uso de SSL (ver documentación de JBoss AS).
+Para esto hay que descomentar el conector de https en el archivo <JBOSS_HOME>/server/default/deploy/jbossweb.sar/server.xml
+y agregarle un atributo que indica de donde obtener el almacen de claves o keystore:
+
+    <Connector port="8443" protocol="HTTP/1.1" SSLEnabled="true"
+               maxThreads="150" scheme="https" secure="true"
+               keystoreFile="${jboss.server.home.dir}/conf/.keystore" keystorePass="changeit"                
+               clientAuth="false" sslProtocol="TLS" />
+
+El ejemplo anterior hace referencia a un archivo .keystore que debe ser generado. A continuación 
+se muestran los comandos básicos para generar un almacen de claves que contenga un certificado autofirmado.
+NOTA: El certificado autofirmado es a los solos efectos de poder probar la aplicación, no debe ser utilizado
+en un ambiente de producción.
+
+	cd <JBOSS_HOME>;
+	mkdir certs;
+	cd certs;
+
+	#ejemplo de pass phrase: changeit
+	openssl genrsa -des3 -out jboss.key;
+
+	#pass phrase: changeit
+	#El resto de los datos llenarlos según lo que corresponda   
+	openssl req -new -x509 -key jboss.key -out jboss.crt
+
+	#pass phrase: changeit
+	#export password: changeit
+	openssl pkcs12 -inkey jboss.key -in jboss.crt -export -out jboss.pkcs12
+
+	#contraseña almacen de claves destino: changeit
+	#contraseña almacen de claves origen: changeit
+	keytool -importkeystore -srckeystore jboss.pkcs12 -srcstoretype PKCS12 -destkeystore .keystore
+
+	mv .keysotre <JBOSS_HOME>/server/default/conf/
+
+
+
+2.1.5) Configuración de la seguridad
+------------------------------------
+La aplicación utiliza el soporte de JAAS de JBoss AS para la autenticación y autorización de usuarios.
+Para esto, la aplicación utiliza el siguiente dominio de seguridad SDSAE que debe ser definido en el servidor de aplicaciones.
+En SAE-Config/gpl/config-files/conf/login-config-ejemplo.xml se encuentra un ejemplo de configuración del dominio de seguridad usado por 
+la aplicación. El mismo utiliza el modulo de login basado en archivos .properties provisto por JBoss. 
+Además en el directorio SAE-Config/gpl/config-files/conf/props/ se encuentran un par de archivos sae-roles.properties y sae-users.properties 
+con un ejemplo de definición de usuarios y roles a usar por la aplicación. 
+
+Para su correcto funcionamiento, se debe agregar el contenido del archivo login-config-ejemplo.xml en el archivo login-config.xml 
+que se encuentra dentro del directorio conf de la distribución usada de JBoss.
+Además se deben copiar los archivos SAE-Config/gpl/config-files/conf/props/sae-users.properties y SAE-Config/gpl/config-files/conf/props/sae-roles.properties
+al directorio <JBOSS_HOME>/server/default/conf/props.
+
+Tambien copiar el archivo usuario-anonimo.properties el cual indica el usuario por defecto que se utiliza tanto en el caso del acceso por internet como en el caso del timer
+que depura reservas pendientes.
+
+
+
+2.2) Base de Datos
+------------------
+La configuración por defecto de este release, así como los datos de ejemplo incluidos en el mismo utilizan PostgreSQL como base de datos. 
+La configuración de la conexión a la base de datos se realiza mediante el uso de un datasource de nombre postgres-sae-ds. 
+Un ejemplo de definición de este datasource se incluye en SAE-Config/gpl/config-files/deploy/postgres-sae-ds.xml.
+En el mismo se supone creada una base de datos de nombre sae, a la que se conecta con el usuario postgres. Este usuario debe tener permisos
+para crear tablas en la base ya que el esquema de la aplicación se genera al hacer el deploy de la misma.
+
+La aplicación utiliza JPA (e Hibernate como implementacón) para el acceso y persistencia sobre la base de datos.
+La configuración de JPA de la aplicación se encuentra en el archivo persistence.xml del proyecto SAE-EJB. 
+La misma referencia el datasource mencionado anteriormente y contiene configuraciones particulares de Hibernate para el trabajo con 
+una base PostgreSQL, así como para la creación del esquema de la aplicación.
+
+Este u otro datasource debe ser copiado a <JBOSS_HOME>/server/default/deploy/ y el nombre jndi que se indica en el persistence.xml debe coincidir con el dado al datasource.
+Por defecto el persitence.xml indica java:/postgres-sae-ds y el postgres-sae-ds.xml indica postgres-sae-ds.
+
+
+2.3) Generación de Binario de la Aplicación
+-------------------------------------------
+
+cd SAE-Config/
+ant -Djboss.home=<JBOSS_HOME>
+
+Los archivos necesarios para despliegue se habrán generado en SAE-EAR/build/jar
+
+
+!!!! DE AQUI EN ADELANTE FALTA ACTUALIZAR !!!!
+
+La aplicación fue desarrollada usando Eclipse IDE, por lo que importando los proyectos que componen la misma en este entorno se puede
+generar fácilmente los binarios para su despliegue. De forma alternativa, cada modulo contiene un archivo build de Ant que permite la 
+compilación y generación de binarios de cada uno de forma independiente del IDE de desarrollo. 
+Los scripts de generación contemplan la necesidad de disponer de versiones diferenciadas para ambientes Internet/Intranet. En particular, la idea es que para el ambiente Intranet
+se desea disponer de todas las funcionalidades del sistema (administración + reserva de horas), mientras que para el ambiente Internet se desea disponer solo de la reserva de horas.
+Además, se contemplan dos variantes de esta configuración:
+	- Ambientes de Intranet e Internet independientes (las versiones de la aplicación en intranet e internet son independientes, y por lo tanto autocontenidas con todo lo necesario para su funcionamiento). 
+	- Ambientes de Intranet e Internet interconectados (la versión de Internet se integra a la versión de Intranet, consumiendo servicios expuestos por esta ultima).
+Para la generación de todos los binarios de la aplicación, se cuenta con un build.xml general bajo: SAE-Config/build.xml.
+Este script realiza la invocación a los scripts de cada uno de los componentes de la aplicación y permite la generación de 2 versiones de la aplicación (cada una con sus binarios para Internet e Intranet):
+	- Versión para Ambientes de Intranet e Internet independientes:
+		- Intranet: contiene todas las funcionalidades del sistema (todo negocio y presentación), incluyendo la reserva de horas, administración de parámetros del sistema (agendas, recursos, disponibilidades, etc.).
+		- Internet: contiene la funcionalidad de reserva de horas con acceso no autenticado (todo negocio y la parte de presentación correspondiente a la reserva), de forma de lograr acceso publico a través de internet.
+	- Versión para Ambientes de Intranet e Internet interconectados
+		- Intranet-WS: contiene las mismas funcionalidades que la versión Intranet, pero además expone servicios web para poder invocar la reserva de horas de forma remota.
+		- Internet-WS: contiene la funcionalidad de reserva de horas (solo presentación) que accede de forma remota a servicios web expuestos por la versión Intranet-WS.     
+De esta forma, al ejecutar el script antes mencionado, se generan binarios de la aplicación bajo el directorio SAE-Config/ants/build(Internet/Intranet/Internet-WS/Intranet-WS):
+	- IMM-Recursos-WEB (imágenes, estilos y otros recursos estáticos usados por la aplicación)
+	- SAE-EAR (binario de la aplicación, incluyendo las aplicaciones WEB, módulos EJB, etc.).
+	- SAE-EJBClient-CallCenter.jar y SAE-EJBClient-Exceptions.jar (jars que contienen interfaces para la reserva de horas a través de un callcenter).
+	- SAE-Validaciones-EAR y SAE-Validaciones-EJBClient.jar (binarios del modulo que implementa algunas validaciones que se pueden utilizar en la reserva de horas de las agendas). 
+Para la generación de los binarios de la aplicación se debe ejecutar el comando ant estando en el directorio donde se encuentra el archivo build.xml antes mencionado.
+Si se lo invoca sin especificar un target, generara la versión para el ambiente Intranet e Internet independientes. En caso de querer generar la versión para el ambiente Intranet e Internet interconectados
+se debe especificar el target clean-build-ws.  
+
+2.4) Despliegue de la Aplicación
+--------------------------------
+Para el despliegue de la aplicación, se deben copiar los binarios generados en el punto 2.3 al directorio deploy de la distribución usada de JBoss.
+Luego se inicia el servidor de aplicaciones, el que instala los distintos módulos que conforman la aplicación. 
+En la instalación de los mismos se genera el esquema de base de datos usado por la aplicación.
+
+cp SAE-EAR/build/jar/* <JBOSS_HOME>/server/default/deploy
+
+Esto deberá copiar 4 archivos: sae-backoffice.ear  SAE-EAR.ear  sae-frontend.ear  sae-recursos.ear
+Con esto debería quedar pronto para ejecutar las dos versiones del sistema, tanto el backend como el frontend preparado exclusivo para su uso desde Internet.
+
+
+2.5) !!!! FALTA ACTUALIZAR !!!! Carga de Datos de Ejemplo de la Aplicación 
+-----------------------------------------------
+Se incluye en este release un conjunto de datos de prueba que pueden ser cargados en la base utilizada por la aplicación para realizar pruebas y ver el funcionamiento de la misma.
+Para la carga de los mismos se dispone de un script con los DDL de carga de datos en SAE-Config/datos/ejemplo.sql. 
+
+----------------------------
+3) Ejecución Aplicación
+----------------------------
+
+3.0) Iniciar el jboss
+	
+	cd <JBOSS_HOME>/bin
+	./run.sh
+
+
+3.1) Versión interna o BACKOFFICE
+---------------------
+Para la ejecución de la aplicación en su versión de backoffice, ingresar mediante un navegador web a la siguiente URL:
+	http://<servidor>:<puerto>/sae-admin/
+
+donde: 
+	<servidor> es el nombre o IP del servidor donde se instalo la aplicación (por ejemplo localhost en caso de ser un servidor local)
+	<puerto> es el puerto donde responde pedidos HTTP dicho servidor (por defecto en JBoss 8080).
+
+Para ingresar a la aplicación se dispone de los siguientes usuarios (definidos en el archivo SAE-Config/config-files/conf/props/sae-users.properties:
+	Usuario			|	Password
+	---------------------------------
+	admin			|	admin
+	planificador	|	planificador
+	atencion		|	atencion
+	anonimo			|	anonimo
+
+Dependiendo de los roles del usuario con el que se ingrese, se dispone de funcionalidades para la administración de agendas, recursos, disponibilidades, validaciones y reserva de horas.
+
+3.2) Versión de Internet o FRONTEND
+---------------------
+En caso de querer probar la versión de intranet, se publican los binarios de la misma, y se ingresa mediante un navegador web a la siguiente URL:
+	http://<servidor>:<puerto>/sae/agendarReserva/Paso1.xhtml?agenda=<nombre_agenda>&recurso=<nombre_recurso>
+donde:
+	<servidor> es el nombre o IP del servidor donde se instalo la aplicación (por ejemplo localhost en caso de ser un servidor local)
+	<puerto> es el puerto donde responde pedidos HTTP dicho servidor (por defecto en JBoss 8080).
+	<nombre_agenda> es el nombre de la agenda para la que se quiere realizar la reserva, en los datos de prueba disponibles seria ATPUB
+	<nombre_recurso> es el nombre del recurso para el que se quiere realizar la reserva, en los datos de prueba disponibles seria TramiteA
+
+El acceso en este caso es sin credenciales, así que se ingresa directamente al primer paso de la reserva de horas. 
+
+
+----------------------------
+4) ACCIONES
+----------------------------
+
+Por defecto viene con la implementación de una validación y una acción. La validación tiene el algoritmo de validación de la cédula de identidad
+y la acción es del tipo notificación por e-mail de la confirmación o cancelación de una reserva. Para que la acción de notificación funcione debe estar
+correctamente configurado el servicio de mail del Jboss y publicado en el jndi "java:/sae/mail" un archivo de configuracion de ejemplo se encuentra en
+SAE-Config/gpl/deploy/sae-mail-service.xml donde hay que cambiar los valores dummy de usuario, password, e-mail, nombre de los hosts de pop3 y smtp y el puerto del smtp.
+

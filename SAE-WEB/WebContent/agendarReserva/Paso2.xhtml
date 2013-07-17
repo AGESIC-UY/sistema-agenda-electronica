@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+
+<ui:composition template="/agendarReserva/Paso.template.xhtml">
+
+<ui:param name="soloCuerpo" value="#{sesionMBean.soloCuerpo}" />
+<ui:param name="parametroBean" value="#{paso2MBean}" />
+<ui:param name="agenda_nombre" value="#{paso2MBean.agendaNombre}" />
+<ui:param name="bodyId" value="paso2" />
+
+<ui:param name="paso_numero" value="2" />
+<ui:param name="paso_texto" value="Seleccione un horario" />
+
+<ui:define name="descripcion">
+
+	<ul class="tips pasoTexto">
+		<li>
+			<h:outputText value="A su izquierda se muestran los horarios disponibles para el día  " />
+			<h:outputText value="#{paso2MBean.diaSeleccionado}" style="negrita">
+				<f:convertDateTime type="date" pattern="EEEEE dd 'de' MMMMM 'de' yyyy" timeZone="#{coreBean.timeZone}" locale="es"/>
+			</h:outputText>
+		</li>
+		<li>
+			<h:outputText value="Elija el horario haciendo click en el enlace " />
+			<h:outputText value=" Reservar " styleClass="verde negrita" />
+			<h:outputText value=". Esto lo llevará al PASO 3, donde deberá completar los datos del trámite" />
+		</li>
+		
+		<h:outputFormat escape="false" value="#{paso2MBean.descripcion}" />	
+	
+		<h:outputFormat escape="false" value="#{paso2MBean.descripcionRecurso}" />
+	</ul>
+</ui:define>
+
+<ui:define name="contenido">
+
+	<h:panelGrid columns="1">
+		<h:panelGrid id="recurso" columns="1" columnClasses="izquierda" cellpadding="0" cellspacing="0">
+			<h:outputFormat escape="false" value="#{paso2MBean.etiquetaDelRecurso}:" styleClass="pasoEtiqueta1"/>
+			<h:panelGroup styleClass="pasoTitulo2" style="font-size: 14px;">
+				<h:outputText value="#{paso2MBean.recursoDescripcion} - "/>
+				<h:outputText value="#{paso2MBean.diaSeleccionado}" >
+					<f:convertDateTime type="date" pattern="dd '/' MM '/' yyyy" timeZone="#{coreBean.timeZone}"/>
+				</h:outputText>
+			</h:panelGroup>
+		</h:panelGrid>
+		
+		<rich:spacer height="10px"></rich:spacer>
+
+		<h:panelGrid columns="3" columnClasses="arriba">
+		
+			<rich:dataTable
+				id="tablaMatutina"  
+				binding="#{paso2MBean.tablaDispMatutina}"
+				value="#{paso2MBean.disponibilidadesMatutina}"
+				var="row" 
+				columnClasses="colDispHora, colDispEstado"
+				rowClasses="rowDisp"
+				columns="2"
+				rendered="#{paso2MBean.hayDisponibilidadesMatutina}"
+				>
+		
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText 	value="Matutino" styleClass="pasoTitulo3" />
+					</h:panelGroup>
+				</f:facet>
+		
+				<rich:column width="50px">
+					<h:outputText value="#{row.data.horaInicio}" styleClass="pasoTexto">
+						<f:convertDateTime type="time" pattern="HH:mm" timeZone="#{coreBean.timeZone}"/>
+					</h:outputText>
+				</rich:column>
+	
+				<rich:column width="75px">
+					<h:outputText value="Reservado"  rendered="#{(row.data.cupo > 0 ? false : true)}"  styleClass="textoDeshabilitado" />
+					<h:commandLink 	action="#{paso2MBean.reservarMatutina}"
+									id="linkReservarMatutina" 
+									value="Reservar" 
+									styleClass="verde"
+					 			   	rendered="#{(row.data.cupo > 0 ? true : false)}" >
+					</h:commandLink>
+					<rich:toolTip for="linkReservarMatutina" value="Queda#{(row.data.cupo == 1 ? '' : 'n')} #{row.data.cupo} lugar#{(row.data.cupo == 1 ? '' : 'es')}"></rich:toolTip>
+				</rich:column>
+				
+			</rich:dataTable>
+		
+			<rich:spacer width="10px" />
+			<rich:dataTable  
+				id="tablaVespertina"  
+				binding="#{paso2MBean.tablaDispVespertina}"
+				value="#{paso2MBean.disponibilidadesVespertina}"
+				var="row" 
+				styleClass="tablaBorde"
+				columnClasses="colDispHora, colDispEstado"
+				rowClasses="rowDisp"
+				columns="2"
+				rendered="#{paso2MBean.hayDisponibilidadesVespertina}"
+				>
+		
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText 	value="Vespertino" styleClass="pasoTitulo3" />
+					</h:panelGroup>
+				</f:facet>
+		
+				<rich:column width="50px">
+					<h:outputText value="#{row.data.horaInicio}" styleClass="pasoTexto">
+						<f:convertDateTime type="time" pattern="HH:mm" timeZone="#{coreBean.timeZone}"/>
+					</h:outputText>
+				</rich:column>
+	
+				<rich:column width="75px">
+					<h:outputText value="Reservado"  rendered="#{(row.data.cupo > 0 ? false : true)}"  styleClass="textoDeshabilitado" />
+					<h:commandLink	action="#{paso2MBean.reservarVespertina}" 
+									id="linkReservarVespertina" 
+									value="Reservar" 
+									styleClass="verde"
+					 			   	rendered="#{(row.data.cupo > 0 ? true : false)}" >
+					</h:commandLink>
+					<rich:toolTip for="linkReservarVespertina" value="Queda#{(row.data.cupo == 1 ? '' : 'n')} #{row.data.cupo} lugar#{(row.data.cupo == 1 ? '' : 'es')}"></rich:toolTip>
+				</rich:column>
+
+			</rich:dataTable>
+		</h:panelGrid>
+
+	</h:panelGrid>
+
+</ui:define>
+
+</ui:composition>
+
+</body>
+</html>      

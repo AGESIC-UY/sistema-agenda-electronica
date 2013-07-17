@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE jboss PUBLIC
+  "-//JBoss//DTD JBOSS 5.0//EN"
+  "http://www.jboss.org/j2ee/dtd/jboss_5_0.dtd">
+
+<jboss>
+	<security-domain>java:/jaas/SDSAEDEMO</security-domain> 
+	<webservices>		
+		<context-root>SAE-WS</context-root>
+	</webservices>
+</jboss>

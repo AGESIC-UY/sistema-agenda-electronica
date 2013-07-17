@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+
+<ui:composition template="/agendarReserva/Paso.template.xhtml">
+
+<ui:param name="soloCuerpo" value="#{paso1MBean.soloCuerpo}" />
+<ui:param name="parametroBean" value="#{paso1MBean}" />
+<ui:param name="agenda_nombre" value="#{paso1MBean.agendaNombre}" />
+<ui:param name="bodyId" value="paso1" />
+
+<ui:param name="paso_numero" value="1" />
+<ui:param name="paso_texto" value="Seleccione el día para realizar el trámite" />
+<ui:param name="mensaje_error" value="#{paso1MBean.mensajeError}" />
+
+<ui:define name="descripcion">
+	
+	<ul class="tips pasoTexto">
+		<li>
+			<h:outputText value="Los días marcados en color " />
+			<h:outputText value=" verde " styleClass="verde negrita" />
+			<h:outputText value=" tienen horarios disponibles. Seleccione el día de su preferencia haciendo click con el mouse y pasará al PASO 2, donde podrá reservar un horario." /> 
+		</li>
+	
+		<h:outputFormat escape="false" value="#{paso1MBean.descripcion}"/>
+	</ul>
+	
+	<h:panelGroup id="infoRecurso">
+
+		<rich:spacer width="10px" rendered="#{paso1MBean.infoRecurso == null}"></rich:spacer>
+
+		<h:panelGroup rendered="#{paso1MBean.infoRecurso != null}">
+			<h:panelGrid columns="1" cellpadding="0" cellspacing="0">
+
+				<h:outputText value="Información adicional: " styleClass="pasoTitulo3"/>
+
+				<rich:dataList value="#{paso1MBean.infoRecurso}" var="row" >
+					<h:outputText value="#{row.etiqueta}: "  styleClass="pasoEtiqueta1"/>
+					<h:outputText value="#{row.valor}" styleClass="pasoTexto" />
+				</rich:dataList>
+			</h:panelGrid>
+		</h:panelGroup>
+
+	</h:panelGroup>
+		
+</ui:define>
+
+<ui:define name="contenido">
+
+	<script language="javascript" type="text/javascript">
+	
+		A4J.AJAX.onExpired = function(loc,expiredMsg){
+			alert('SESSION EXPIRED');
+		};
+		
+	</script>
+
+	<h:panelGrid columns="1">
+		<h:panelGrid id="recurso" columns="1" columnClasses="izquierda" cellpadding="0" cellspacing="0">
+			<h:outputFormat escape="false" value="#{paso1MBean.etiquetaSeleccionDelRecurso}:" styleClass="pasoEtiqueta1"/>
+			<h:selectOneMenu value="#{paso1MBean.recursoNombre}" styleClass="pasoTexto" style="width:300px;">
+				<a4j:support event="onchange" ajaxSingle="true" reRender="calendario,infoRecurso" />
+				<f:selectItems value="#{paso1MBean.recursosItems}"/>
+			</h:selectOneMenu>
+		</h:panelGrid>
+		
+		<rich:spacer height="10px"></rich:spacer>
+
+		<rich:calendar 
+			id="calendario"
+			styleClass="saeCalendar" 
+			enableManualInput="false" showInput="false" popup="false"
+			mode="ajax" 
+			cellWidth="25px"
+			cellHeight="25px"
+			dataModel="#{paso1MBean.calendario}"
+			currentDate="#{paso1MBean.currentDate}"
+			value="#{paso1MBean.diaSeleccionado}"
+			showWeeksBar="false"
+			showApplyButton="false"
+			todayControlMode="hidden"
+  		 	locale="es"
+		>
+			<f:facet name="footer">
+				<rich:spacer height="10px"></rich:spacer>
+			</f:facet>
+			
+			<a4j:support 
+				event="onchanged"
+				action="siguientePaso"
+			/>
+		</rich:calendar>
+	</h:panelGrid>
+</ui:define>
+
+</ui:composition>
+
+</body>
+</html>      

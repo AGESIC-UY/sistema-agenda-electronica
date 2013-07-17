@@ -1,0 +1,84 @@
+Instalacion de Ant
+------------------
+
+1) Extraer los archivos de apache-ant-1.7.0.zip en el c de la maquina. El .zip se encuentra en 
+   F:\desarr\SGC\AgendaWeb
+2) Agregar la variable de ambiente ANT_PATH con el siguiente valor: C:\apache-ant-1.7.0\
+3) En la variabel path, agregar el siguiente camino al principio: C:\apache-ant-1.7.0\bin;
+4) Asegurarse de tener la variable JBOSS_HOME con el siguiente valor: C:\jboss-4.2.2.GA\
+
+Pasos para generar una nueva version
+------------------------------------
+
+1) Asegurarse de tener la ultima version que se encuentra en el branch. Tomar nota del numero de version 
+   para realizar un respaldo. 
+2) En la linea de comando posicionarse en el workspace de la agenda/SAE-Config/ants. Tener en cuenta
+   que si se esta generando una version para produccion debe ser en el branch.
+3) Ejecutar el siguiente comando: ant
+4) Se generan los directorios build/internet y build/intranet con los .ear y .war de cada aplicacion. Si ya 
+   existian se borra el contenido y se genera nuevamente. 
+
+Pasos para probar la version generada
+-------------------------------------
+
+1) Borrar los .ear y .war que se encuentran en C:\jboss-4.2.2.GA\server\default\deploy
+2) Copiar los .ear y .war generados en el paso anterior de build/intranet.
+3) Levantar el servidor. Una forma de levantarlo es ejecutar C:\jboss-4.2.2.GA\bin\run.bat. 
+   Se debe asegurar que se encuentra bajo en el eclipse.
+4) Probar la aplicacion de intranet local.
+5) Una vez finalizada la prueba, salir de la aplicacion y bajar el servidor (CTRL+C).
+6) Repetir todos los pasos, para probar la aplicacion de internet (en el paso 2 tomar los archivos de 
+   build/internet).
+
+
+Servidores:
+-----------
+Agenda          - Desarrollo:	http://desa.imm.gub.uy:8080 
+
+/* Quedo obsoleto
+Agenda Internet - Desarrollo:	http://rin01b.imm.gub.uy:8280 
+Agenda          - Formacion:    http://rin01c.imm.gub.uy:8280 
+Agenda Internet - Formacion:    http://rin01d.imm.gub.uy:8280 
+*/
+
+
+PASAJE A SERVIDORES DE APLICACIONES
+-----------------------------------
+
+1- Tener instalado el putty: Es tener en el PATH los ejecutables pscp y putty.
+
+ I) DESARROLLO - instancia desa
+ 
+2- Tener claro el numero de revision para el cual se va a hacer el deploy
+3- En la linea de comandos, posicionado en SAE-Config/ants ejecutar deploy-rin01.bat <numero_de_revision> <password para el rin01>
+4- Caso 1 - Intranet: Pedir a sistemas que copie deploy/intranet/* a jboss/desa/server/default/deploy/apps/sae/
+   y que reinicie la instancia del jboss.
+   Caso 2 - Internet: Pedir a sistemas que copie deploy/internet/* a jboss/desa-internet/server/default/deploy/apps/sae/
+   y que reinicie la instancia del jboss.
+   
+ II) PRODUCCION - instancia prod-tmp
+ 
+2- Tener claro el numero de revision para el cual se va a hacer el deploy. Recordar que debe coincidir
+   con el numero de revision del tag
+3- En la linea de comandos, posicionado en SAE-Config/ants ejecutar 
+   deploy-prod-ras01.bat <numero_de_revision> <password para el ras01>
+   IMPORTANTE: Tener en cuenta que para el pasaje a produccion, se debe estar posicionado 
+   en el branch. 
+4- Pedir a sistemas que copie deploy/intranet/* a jboss/desa/server/default/deploy/apps/sae/
+   y que reinicie la instancia del jboss.
+ 
+ III) PRODUCCION - instancia en intest (internet)
+ 
+2- Tener claro el numero de revision para el cual se va a hacer el deploy. Recordar que debe coincidir
+   con el numero de revision del tag
+3- En la linea de comandos, posicionado en SAE-Config/ants ejecutar 
+   deploy-prod-intest.bat <numero_de_revision> <password para el intest>
+   IMPORTANTE: Tener en cuenta que para el pasaje a produccion, se debe estar posicionado 
+   en el branch. 
+4- Pedir a sistemas que copie deploy/internet/* a jboss/XXX/server/default/deploy/apps/sae/
+   y que reinicie la instancia del jboss. xxx = al nombre de la instancia en el intest
+ 
+ 
+ 
+ 
+ 

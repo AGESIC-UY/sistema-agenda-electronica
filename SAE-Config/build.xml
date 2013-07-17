@@ -1,0 +1,37 @@
+<project name="SAE-Config" default="build" basedir=".">
+
+	<!-- PROPERTIES -->
+	<property file="build.properties" />
+	<property environment="env" />
+
+
+
+	<target name="build">
+
+		<path id="buildlist">
+			<pathelement location="../SAE-EJBClient/build.xml"/>
+			<pathelement location="../SAE-EJB/build.xml"/>
+			<pathelement location="../SAE-Profile-${build.profile}-EJBClient/build.xml"/>
+			<pathelement location="../SAE-Profile-${build.profile}-EJB/build.xml"/>
+			<pathelement location="../SAE-Profile-${build.profile}-WEB/build.xml"/>
+			<pathelement location="../SAE-Componentes/build.xml"/>
+		 	<pathelement location="../SAE-WEB/build.xml"/>
+			<pathelement location="../SAE-EAR/build.xml"/>
+		</path>
+	
+		<subant target="build" buildpathref="buildlist" failonerror="true" />
+
+	</target>
+	
+	<target name="deployLocal" depends="build">
+		<delete>
+			<fileset dir="${jboss.home}/server/default/deploy/apps">
+    			<include name="sae*.*"/>
+    			<include name="SAE*.*"/>
+			</fileset>
+		</delete>
+		<copy todir="${jboss.home}/server/default/deploy/apps">
+			<fileset dir="../SAE-EAR/build/jar"/>
+		</copy>
+	</target>
+</project>

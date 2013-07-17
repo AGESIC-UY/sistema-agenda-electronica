@@ -1,0 +1,322 @@
+<project name="SAE-Config" default="clean-build" basedir=".">
+
+	<!-- PROPERTIES -->
+	<property environment="env" />
+	<property name="basedir.SAE-Config" value="${basedir}" />
+	<property name="jboss.lib" value="${jboss.home}/common/lib" />
+	<property name="jboss.client" value="${jboss.home}/client" />
+	<property name="jboss.local.lib" value="${jboss.home}/server/default/lib" />	
+	<property name="intranet-dir" value="${basedir.SAE-Config}/build/Intranet" />
+	<property name="intranet-ws-dir" value="${basedir.SAE-Config}/build/Intranet-WS" />
+	<property name="internet-dir" value="${basedir.SAE-Config}/build/Internet" />
+	<property name="internet-ws-dir" value="${basedir.SAE-Config}/build/Internet-WS" />
+
+	<!-- dependencias para IMM-Recursos-WEB -->
+	<property name="basedir.IMM-Recursos-WEB" value="${basedir.SAE-Config}/../../IMM-Recursos-WEB" />
+	
+	<!-- dependencias para SAE-Validaciones-EAR -->
+	<property name="basedir.SAE-EJBClient" value="${basedir.SAE-Config}/../../SAE-EJBClient" />
+	<property name="basedir.SAE-Validaciones-EAR" value="${basedir.SAE-Config}/../../SAE-Validaciones-EAR" />
+	<property name="basedir.SAE-Validaciones-EJBClient" value="${basedir.SAE-Config}/../../SAE-Validaciones-EJBClient" />
+	<property name="basedir.SAE-Validaciones-EJB" value="${basedir.SAE-Config}/../../SAE-Validaciones-EJB" />
+
+	<!-- dependencias para SAE-Autocompletados-EAR -->
+	<property name="basedir.SAE-Autocompletados-EAR" value="${basedir.SAE-Config}/../../SAE-Autocompletados-EAR" />
+	<property name="basedir.SAE-Autocompletados-EJBClient" value="${basedir.SAE-Config}/../../SAE-Autocompletados-EJBClient" />
+	<property name="basedir.SAE-Autocompletados-EJB" value="${basedir.SAE-Config}/../../SAE-Autocompletados-EJB" />
+	
+	<!-- dependencias para SAE-Acciones-EAR -->
+	<property name="basedir.SAE-Acciones-EAR" value="${basedir.SAE-Config}/../../SAE-Acciones-EAR" />
+	<property name="basedir.SAE-Acciones-EJBClient" value="${basedir.SAE-Config}/../../SAE-Acciones-EJBClient" />
+	<property name="basedir.SAE-Acciones-EJB" value="${basedir.SAE-Config}/../../SAE-Acciones-EJB" />
+	
+	<!-- dependencias para SAE-EAR -->
+	<property name="basedir.SAE-EAR" value="${basedir.SAE-Config}/../../SAE-EAR" />
+	<property name="basedir.SAE-EJBClient" value="${basedir.SAE-Config}/../../SAE-EJBClient" />
+	<property name="basedir.SAE-EJB" value="${basedir.SAE-Config}/../../SAE-EJB" />
+	<property name="basedir.SAE-WS" value="${basedir.SAE-Config}/../../SAE-WS" />
+	<property name="basedir.SAE-WEB" value="${basedir.SAE-Config}/../../SAE-WEB" />
+	
+	<!-- imports de cada uno de los ant -->
+	<import file="${basedir.IMM-Recursos-WEB}/build.xml" />
+	<import file="${basedir.SAE-Validaciones-EAR}/build.xml" />
+	<import file="${basedir.SAE-Validaciones-EJBClient}/build.xml" />
+	<import file="${basedir.SAE-Validaciones-EJB}/build.xml" />
+	<import file="${basedir.SAE-Autocompletados-EAR}/build.xml" />
+	<import file="${basedir.SAE-Autocompletados-EJBClient}/build.xml" />
+	<import file="${basedir.SAE-Autocompletados-EJB}/build.xml" />
+	<import file="${basedir.SAE-Acciones-EAR}/build.xml" />
+	<import file="${basedir.SAE-Acciones-EJBClient}/build.xml" />
+	<import file="${basedir.SAE-Acciones-EJB}/build.xml" />
+	<import file="${basedir.SAE-EAR}/build.xml" />
+	<import file="${basedir.SAE-EJBClient}/build.xml" />
+	<import file="${basedir.SAE-EJB}/build.xml" />
+	<import file="${basedir.SAE-WS}/build.xml" />
+	<import file="${basedir.SAE-WEB}/build.xml" />
+
+	<target name="clean-dependencies">
+		<sequential>
+			<antcall target="clean.IMM-Recursos-WEB" inheritall="false" inheritrefs="false">
+				<param name="basedir.IMM-Recursos-WEB" value="${basedir.IMM-Recursos-WEB}" />
+			</antcall>
+			<antcall target="clean.SAE-Validaciones-EJBClient" inheritall="false" inheritrefs="false"/>
+			<antcall target="clean.SAE-Validaciones-EAR" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-Validaciones-EAR" value="${basedir.SAE-Validaciones-EAR}" />
+				<param name="basedir.SAE-Validaciones-EJBClient" value="${basedir.SAE-Validaciones-EJBClient}" />
+				<param name="basedir.SAE-Validaciones-EJB" value="${basedir.SAE-Validaciones-EJB}" />
+			</antcall>
+			<antcall target="clean.SAE-Autocompletados-EJBClient" inheritall="false" inheritrefs="false"/>
+			<antcall target="clean.SAE-Autocompletados-EAR" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-Autocompletados-EAR" value="${basedir.SAE-Autocompletados-EAR}" />
+				<param name="basedir.SAE-Autocompletados-EJBClient" value="${basedir.SAE-Autocompletados-EJBClient}" />
+				<param name="basedir.SAE-Autocompletados-EJB" value="${basedir.SAE-Autocompletados-EJB}" />
+			</antcall>
+			<antcall target="clean.SAE-Acciones-EJBClient" inheritall="false" inheritrefs="false"/>
+			<antcall target="clean.SAE-Acciones-EAR" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-Acciones-EAR" value="${basedir.SAE-Acciones-EAR}" />
+				<param name="basedir.SAE-Acciones-EJBClient" value="${basedir.SAE-Acciones-EJBClient}" />
+				<param name="basedir.SAE-Acciones-EJB" value="${basedir.SAE-Acciones-EJB}" />
+			</antcall>
+			<antcall target="clean.SAE-EAR" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-EAR" value="${basedir.SAE-EAR}" />
+				<param name="basedir.SAE-Validaciones-EJBClient" value="${basedir.SAE-Validaciones-EJBClient}" />
+				<param name="basedir.SAE-Autocompletados-EJBClient" value="${basedir.SAE-Autocompletados-EJBClient}" />
+				<param name="basedir.SAE-Acciones-EJBClient" value="${basedir.SAE-Acciones-EJBClient}" />
+				<param name="basedir.SAE-EJBClient" value="${basedir.SAE-EJBClient}" />
+				<param name="basedir.SAE-EJB" value="${basedir.SAE-EJB}" />
+				<param name="basedir.SAE-WS" value="${basedir.SAE-WS}" />
+				<param name="basedir.SAE-WEB" value="${basedir.SAE-WEB}" />
+			</antcall>
+		</sequential>
+	</target>
+	
+	
+	<target name="clean" depends="clean-dependencies">
+		<sequential>
+			<delete dir="${intranet-dir}" />
+			<delete dir="${internet-dir}" />
+		</sequential>
+	</target>
+	
+	<target name="clean-ws" depends="clean-dependencies">
+		<sequential>
+			<delete dir="${intranet-ws-dir}" />
+			<delete dir="${internet-ws-dir}" />
+		</sequential>
+	</target>
+	
+	<target name="init">
+		<mkdir dir="${basedir.SAE-Config}/build" />
+		<mkdir dir="${internet-dir}" />
+		<mkdir dir="${intranet-dir}" />
+	</target>
+
+	<target name="init-ws">
+		<mkdir dir="${basedir.SAE-Config}/build" />
+		<mkdir dir="${internet-ws-dir}" />
+		<mkdir dir="${intranet-ws-dir}" />
+	</target>
+	
+	<target name="build-ws" depends="init-ws">
+		<sequential>
+			<antcall target="maybe.build.IMM-Recursos-WEB" inheritall="false" inheritrefs="false">
+				<param name="basedir.IMM-Recursos-WEB" value="${basedir.IMM-Recursos-WEB}" />
+			</antcall>
+			<!-- 
+	        <copy todir="${intranet-ws-dir}">
+	            <fileset dir="${basedir.IMM-Recursos-WEB}/build/war" includes="**/*.war" />
+	        </copy>
+	        <copy todir="${internet-ws-dir}">
+	            <fileset dir="${basedir.IMM-Recursos-WEB}/build/war" includes="**/*.war" />
+	        </copy>
+	         -->
+			<antcall target="maybe.build.SAE-EJBClient-WS" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-EJBClient" value="${basedir.SAE-EJBClient}" />
+			</antcall>
+			<!-- 
+			<copy todir="${intranet-ws-dir}">
+				<fileset dir="${basedir.SAE-EJBClient}/build/jar" includes="**/*.jar" excludes="SAE-EJBClient.jar" />
+	        </copy>
+			<copy todir="${internet-ws-dir}">
+				<fileset dir="${basedir.SAE-EJBClient}/build/jar" includes="**/*.jar" excludes="SAE-EJBClient.jar" />
+	        </copy>
+	         -->
+			<antcall target="build.SAE-Validaciones-EJBClient" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-Validaciones-EJBClient" value="${basedir.SAE-Validaciones-EJBClient}" />
+			</antcall>
+			<antcall target="build.SAE-Autocompletados-EJBClient" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-Autocompletados-EJBClient" value="${basedir.SAE-Autocompletados-EJBClient}" />
+			</antcall>
+			<antcall target="build.SAE-Acciones-EJBClient" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-Acciones-EJBClient" value="${basedir.SAE-Acciones-EJBClient}" />
+			</antcall>
+			<!-- 
+	        <copy todir="${intranet-ws-dir}">
+	            <fileset dir="${basedir.SAE-Validaciones-EJBClient}/build/jar" includes="**/*.jar" />
+	        </copy>
+	         -->
+			<antcall target="build.SAE-Validaciones-EAR" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-Validaciones-EAR" value="${basedir.SAE-Validaciones-EAR}" />
+				<param name="basedir.SAE-Validaciones-EJBClient" value="${basedir.SAE-Validaciones-EJBClient}" />
+				<param name="basedir.SAE-Validaciones-EJB" value="${basedir.SAE-Validaciones-EJB}" />
+			</antcall>
+			<copy todir="${intranet-ws-dir}">
+	            <fileset dir="${basedir.SAE-Validaciones-EAR}/build/ear" includes="**/*.ear" />
+	        </copy>
+			<antcall target="build.SAE-Autocompletados-EAR" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-Autocompletados-EAR" value="${basedir.SAE-Autocompletados-EAR}" />
+				<param name="basedir.SAE-Autocompletados-EJBClient" value="${basedir.SAE-Autocompletados-EJBClient}" />
+				<param name="basedir.SAE-Autocompletados-EJB" value="${basedir.SAE-Autocompletados-EJB}" />
+			</antcall>
+			<copy todir="${intranet-ws-dir}">
+	            <fileset dir="${basedir.SAE-Autocompletados-EAR}/build/ear" includes="**/*.ear" />
+	        </copy>
+			<antcall target="build.SAE-Acciones-EAR" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-Acciones-EAR" value="${basedir.SAE-Acciones-EAR}" />
+				<param name="basedir.SAE-Acciones-EJBClient" value="${basedir.SAE-Acciones-EJBClient}" />
+				<param name="basedir.SAE-Acciones-EJB" value="${basedir.SAE-Acciones-EJB}" />
+			</antcall>
+			<copy todir="${intranet-ws-dir}">
+	            <fileset dir="${basedir.SAE-Acciones-EAR}/build/ear" includes="**/*.ear" />
+	        </copy>
+			<antcall target="build.SAE-EAR-WS" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-EAR" value="${basedir.SAE-EAR}" />
+				<param name="basedir.SAE-Validaciones-EJBClient" value="${basedir.SAE-Validaciones-EJBClient}" />
+				<param name="basedir.SAE-Autocompletados-EJBClient" value="${basedir.SAE-Autocompletados-EJBClient}" />
+				<param name="basedir.SAE-Acciones-EJBClient" value="${basedir.SAE-Acciones-EJBClient}" />
+				<param name="basedir.SAE-EJBClient" value="${basedir.SAE-EJBClient}" />
+				<param name="basedir.SAE-EJB" value="${basedir.SAE-EJB}" />
+				<param name="basedir.SAE-WS" value="${basedir.SAE-WS}" />
+				<param name="basedir.SAE-WEB" value="${basedir.SAE-WEB}" />
+			</antcall>
+			<copy todir="${intranet-ws-dir}">
+	            <fileset dir="${basedir.SAE-EAR}/build/ear/Intranet-WS" includes="**/*.ear" />
+	        </copy>
+			<copy todir="${internet-ws-dir}">
+	            <fileset dir="${basedir.SAE-EAR}/build/ear/Internet-WS" includes="**/*.ear" />
+	        </copy>
+		</sequential>
+	</target>
+	
+	<target name="build" depends="init">
+		<sequential>
+			<antcall target="maybe.build.IMM-Recursos-WEB" inheritall="false" inheritrefs="false">
+				<param name="basedir.IMM-Recursos-WEB" value="${basedir.IMM-Recursos-WEB}" />
+			</antcall>
+	        <copy todir="${intranet-dir}">
+	            <fileset dir="${basedir.IMM-Recursos-WEB}/build/war" includes="**/*.war" />
+	        </copy>
+	        <copy todir="${internet-dir}">
+	            <fileset dir="${basedir.IMM-Recursos-WEB}/build/war" includes="**/*.war" />
+	        </copy>
+			<antcall target="build.SAE-Validaciones-EJBClient" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-Validaciones-EJBClient" value="${basedir.SAE-Validaciones-EJBClient}" />
+			</antcall>
+	        <copy todir="${intranet-dir}">
+	            <fileset dir="${basedir.SAE-Validaciones-EJBClient}/build/jar" includes="**/*.jar" />
+	        </copy>
+	        <copy todir="${internet-dir}">
+	            <fileset dir="${basedir.SAE-Validaciones-EJBClient}/build/jar" includes="**/*.jar" />
+	        </copy>
+			<antcall target="build.SAE-Validaciones-EAR" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-Validaciones-EAR" value="${basedir.SAE-Validaciones-EAR}" />
+				<param name="basedir.SAE-Validaciones-EJBClient" value="${basedir.SAE-Validaciones-EJBClient}" />
+				<param name="basedir.SAE-Validaciones-EJB" value="${basedir.SAE-Validaciones-EJB}" />
+			</antcall>
+			<copy todir="${intranet-dir}">
+	            <fileset dir="${basedir.SAE-Validaciones-EAR}/build/ear" includes="**/*.ear" />
+	        </copy>
+			<copy todir="${internet-dir}">
+	            <fileset dir="${basedir.SAE-Validaciones-EAR}/build/ear" includes="**/*.ear" />
+	        </copy>
+			<antcall target="build.SAE-Autocompletados-EJBClient" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-Autocompletados-EJBClient" value="${basedir.SAE-Autocompletados-EJBClient}" />
+			</antcall>
+	        <copy todir="${intranet-dir}">
+	            <fileset dir="${basedir.SAE-Autocompletados-EJBClient}/build/jar" includes="**/*.jar" />
+	        </copy>
+	        <copy todir="${internet-dir}">
+	            <fileset dir="${basedir.SAE-Autocompletados-EJBClient}/build/jar" includes="**/*.jar" />
+	        </copy>
+			<antcall target="build.SAE-Autocompletados-EAR" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-Autocompletados-EAR" value="${basedir.SAE-Autocompletados-EAR}" />
+				<param name="basedir.SAE-Autocompletados-EJBClient" value="${basedir.SAE-Autocompletados-EJBClient}" />
+				<param name="basedir.SAE-Autocompletados-EJB" value="${basedir.SAE-Autocompletados-EJB}" />
+			</antcall>
+			<copy todir="${intranet-dir}">
+	            <fileset dir="${basedir.SAE-Autocompletados-EAR}/build/ear" includes="**/*.ear" />
+	        </copy>
+			<copy todir="${internet-dir}">
+	            <fileset dir="${basedir.SAE-Autocompletados-EAR}/build/ear" includes="**/*.ear" />
+	        </copy>
+			<antcall target="build.SAE-Acciones-EJBClient" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-Acciones-EJBClient" value="${basedir.SAE-Acciones-EJBClient}" />
+			</antcall>
+	        <copy todir="${intranet-dir}">
+	            <fileset dir="${basedir.SAE-Acciones-EJBClient}/build/jar" includes="**/*.jar" />
+	        </copy>
+	        <copy todir="${internet-dir}">
+	            <fileset dir="${basedir.SAE-Acciones-EJBClient}/build/jar" includes="**/*.jar" />
+	        </copy>
+			<antcall target="build.SAE-Acciones-EAR" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-Acciones-EAR" value="${basedir.SAE-Acciones-EAR}" />
+				<param name="basedir.SAE-Acciones-EJBClient" value="${basedir.SAE-Acciones-EJBClient}" />
+				<param name="basedir.SAE-Acciones-EJB" value="${basedir.SAE-Acciones-EJB}" />
+			</antcall>
+			<copy todir="${intranet-dir}">
+	            <fileset dir="${basedir.SAE-Acciones-EAR}/build/ear" includes="**/*.ear" />
+	        </copy>
+			<copy todir="${internet-dir}">
+	            <fileset dir="${basedir.SAE-Acciones-EAR}/build/ear" includes="**/*.ear" />
+	        </copy>
+			<antcall target="maybe.build.SAE-EJBClient" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-EJBClient" value="${basedir.SAE-EJBClient}" />
+			</antcall>
+			<copy todir="${intranet-dir}">
+				<fileset dir="${basedir.SAE-EJBClient}/build/jar" includes="**/*.jar" excludes="SAE-EJBClient.jar" />
+	        </copy>
+			<copy todir="${internet-dir}">
+	            <fileset dir="${basedir.SAE-EJBClient}/build/jar" includes="**/*.jar" excludes="SAE-EJBClient.jar" />
+	        </copy>	
+	        <!--
+			<antcall target="maybe.build.SAE-WS" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-WS" value="${basedir.SAE-WS}" />
+			</antcall>
+			<copy todir="${intranet-dir}">
+				<fileset dir="${basedir.SAE-WS}/build/jar" includes="**/*.jar"/>
+	        </copy>
+	        -->
+			<antcall target="build.SAE-EAR" inheritall="false" inheritrefs="false">
+				<param name="basedir.SAE-EAR" value="${basedir.SAE-EAR}" />
+				<param name="basedir.SAE-Validaciones-EJBClient" value="${basedir.SAE-Validaciones-EJBClient}" />
+				<param name="basedir.SAE-Autocompletados-EJBClient" value="${basedir.SAE-Autocompletados-EJBClient}" />
+				<param name="basedir.SAE-Acciones-EJBClient" value="${basedir.SAE-Acciones-EJBClient}" />
+				<param name="basedir.SAE-EJBClient" value="${basedir.SAE-EJBClient}" />
+				<param name="basedir.SAE-EJB" value="${basedir.SAE-EJB}" />
+				<param name="basedir.SAE-WS" value="${basedir.SAE-WS}" />
+				<param name="basedir.SAE-WEB" value="${basedir.SAE-WEB}" />
+			</antcall>
+			<copy todir="${intranet-dir}">
+	            <fileset dir="${basedir.SAE-EAR}/build/ear/Intranet" includes="**/*.ear" />
+	        </copy>
+			<copy todir="${internet-dir}">
+	            <fileset dir="${basedir.SAE-EAR}/build/ear/Internet" includes="**/*.ear" />
+	        </copy>			
+		</sequential>
+	</target>
+	
+	<target name="clean-build">
+		<sequential>
+			<antcall target="clean"/>
+			<antcall target="build"/>			
+		</sequential>
+	</target>
+
+	<target name="clean-build-ws">
+		<sequential>
+			<antcall target="clean-ws"/>
+			<antcall target="build-ws"/>			
+		</sequential>
+	</target>
+	
+</project>

@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      beforePhase="#{agendaMBean.beforePhaseModificarConsultar}"
+      beforePhaseListener="#{agendaMBean.beforePhaseModificarConsultar}"
+     >
+			
+	<h:form style="margin: 0px;">
+
+	<rich:dataTable value="#{agendaMBean.agendasSeleccion}" var="row" columns="3"
+		id="tablaModificarAgendas" rows="6">
+		<f:facet name="header">
+			<h:outputText value="Modificar Agendas"></h:outputText>
+		</f:facet>
+		
+		<rich:column>
+			<h:selectBooleanCheckbox value="#{row.selected}">
+				<a4j:support 
+					event="onclick" 
+					ajaxSingle="true"
+					reRender="tablaModificarAgendas"
+				>
+				</a4j:support>
+			</h:selectBooleanCheckbox>
+		</rich:column>
+		
+		<rich:column>
+			<f:facet name="header">
+				<h:outputText value="Nombre"></h:outputText>
+			</f:facet>
+			<h:outputText value="#{row.data.nombre}"></h:outputText>
+		</rich:column>
+		<rich:column>
+			<f:facet name="header">
+				<h:outputText value="Descripcion"></h:outputText>
+			</f:facet>
+			<h:outputText value="#{row.data.descripcion}"></h:outputText>
+		</rich:column>
+		
+		<f:facet name="footer">
+			<h:panelGrid columns="2">
+				<h:panelGroup>
+				<rich:datascroller align="left" maxPages="5" id="scTablaUpd" 
+					page="#{agendaSessionMBean.pagAgenCons}"
+			 		for="tablaModificarAgendas" />
+			 	</h:panelGroup>
+			 	<h:panelGroup>
+					<a4j:commandButton 
+						action="#{agendaMBean.modificar}"
+						value="Modificar"
+						reRender="pantalla"
+					></a4j:commandButton>
+			 	</h:panelGroup>
+			</h:panelGrid>
+		</f:facet>
+	</rich:dataTable>
+
+
+	<a4j:commandLink 
+		value="Volver" 
+		action="volver" 
+		reRender="pantalla"
+		ajaxSingle="true" 
+	></a4j:commandLink>
+
+	</h:form>
+</f:view>

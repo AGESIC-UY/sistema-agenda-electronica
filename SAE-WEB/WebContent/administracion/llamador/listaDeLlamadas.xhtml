@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:sae="http://montevideo.gub.uy/sae">
+      
+<f:view
+	beforePhase="#{llamadorMBean.beforePhaseListaDeLlamadas}"
+	beforePhaseListener="#{llamadorMBean.beforePhaseListaDeLlamadas}">
+	
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<a4j:loadStyle src="#{saeProperties['ui.style.organizacion.url']}"/>
+		<a4j:loadStyle src="#{saeProperties['ui.style.organizacion.faces.url']}"/>
+		<a4j:loadStyle src="#{sae:formatProperty('ui.style.sae.llamador.url', llamadorMBean.pulgadasMonitor)}" />
+	</head>
+	
+	<body class="miBody">
+
+		<script type="text/javascript">
+
+		function getParams() {
+			var params = {	duration:3,
+							pulses:2,
+							from:0.3, 
+			                beforeStart: function(efecto){
+								jQuery(".aplicarEfecto").addClass("efectoVisual");
+			                },
+			                afterFinish: function(efecto){
+								jQuery(".aplicarEfecto").removeClass("efectoVisual");
+			                }
+			         	 };
+			return params;
+		}
+
+		
+
+		function llamar() {
+
+			//Reproduce el sonido ding_dong
+			sonar();
+			
+			//Reproduce el efecto visual de cambio de color sobre los elementos marcados 
+			jQuery(".aplicarEfecto").each(
+				function() {
+					params = getParams();
+					params.targetId = this.id;
+					efectoVisual(params);
+				})
+		}
+
+		</script>
+		
+	   <a4j:region>
+	        <h:form>
+	            <a4j:poll id="poll" interval="2000" enabled="true"
+	            	actionListener="#{llamadorMBean.refrescarLlamadas}"
+		            reRender="poll,llamador" 
+		            data="#{llamadorMBean.hayNuevaLlamada}"
+		            oncomplete='if (data) llamar()'
+		            eventsQueue="pollQueue"
+				/>
+	        </h:form>
+	    </a4j:region>
+
+		<h:form style="margin: 0px;">
+			
+			<!-- EFECTO VISUAL -->
+	        <rich:effect  	name="efectoVisual" type="Pulsate" for="llamador" />
+
+			<!-- CODIGO PARA CONFIGURAR UN PLAYER DE MP3 PARA HACER SONAR EL DING DONG -->
+			<a4j:loadScript src="/recursos/js/jQuery.jPlayer.0.2.5/jquery.jplayer.js" type="text/javascript" />
+			<div id="sonido"></div>
+			<rich:jQuery selector="#sonido" timing="immediate" 
+						 query='jPlayer({swfPath: "../../recursos/js/jQuery.jPlayer.0.2.5"})'></rich:jQuery>
+			<rich:jQuery name="sonar" timing="onJScall" selector="#sonido" query='setFile("../../recursos/media/ding_dong.mp3").play()'></rich:jQuery>
+			<!-- FIN DEL CODIGO DE CONFIGURACION DEL PLAYER -->
+			
+			<div class="contenedor-marco">
+				<table class="marco" align="center" cellpadding="0" cellspacing="0" >
+					<tr>
+						<td nowrap="nowrap" class="tituloCaja">
+							<h:inputText value="#{llamadorMBean.nombreAgenda}" styleClass="tituloTexto" readonly="true"/>
+							<ui:fragment rendered="#{llamadorMBean.mostrarDescripcionRecurso}">
+								<rich:spacer width="10px"/>							
+								<h:outputText value="-" styleClass="tituloTexto" />
+								<rich:spacer width="10px"/>
+								<h:inputText value="#{llamadorMBean.descripcionRecurso}" styleClass="tituloTexto tituloTextoRecurso" readonly="true"/>							 
+							</ui:fragment>
+						</td>
+						<td class="marco-logo">						
+							<img src="#{saeProperties['ui.images.organizacion.logo.llamador.url']}"/>
+						</td>
+					</tr>
+					
+					<tr>
+						<td colspan="2">
+							<rich:spacer styleClass="marco-spacer" />
+						</td>
+					</tr>
+					
+					<tr>
+						<td colspan="2"> 
+							<h:panelGroup  id="llamador">
+							
+								<rich:dataTable 
+									value="#{llamadorMBean.llamadas}" var="llamada" 
+									rowKeyVar="indice"
+									rows="#{llamadorMBean.cantLlamadas}"
+									border="0" width="100%" align="center" styleClass="llamadas" cellpadding="0" cellspacing="0">
+	
+									
+									<rich:column styleClass="hora" headerClass="hora" > 
+										<f:facet name="header"><h:outputText value="Hora" /></f:facet>
+											
+										<h:outputText value="#{llamada.hora}" id="hora" styleClass="#{(llamadorMBean.mapNuevasLlamadas[indice] ? 'aplicarEfecto' : '')}">
+											<f:convertDateTime type="time" pattern="HH:mm" timeZone="#{coreMBean.timeZone}"/>
+										</h:outputText>
+									</rich:column>
+
+									<rich:column styleClass="#{(llamadorMBean.mostrarNumero ? 'numero' : '')}" headerClass="#{(llamadorMBean.mostrarNumero ? 'numero' : '')}">
+										<f:facet name="header" ><h:outputText value="Nº" rendered="#{llamadorMBean.mostrarNumero}"/></f:facet>
+	
+										<h:outputText value="#{llamada.recurso.serie}#{llamada.numero}" id="numero" rendered="#{llamadorMBean.mostrarNumero}"  styleClass="#{(llamadorMBean.mapNuevasLlamadas[indice] ? 'aplicarEfecto' : '')}"/>
+									</rich:column>
+									 
+									<rich:column styleClass="datos #{(llamadorMBean.mostrarNumero ? '' : 'datosLargo')}" headerClass="datos #{(llamadorMBean.mostrarNumero ? '' : 'datosLargo')}">
+										<f:facet name="header" ><h:outputText value="#{llamadorMBean.nombreColumnaDatos}" rendered="#{llamadorMBean.mostrarDatos}"/></f:facet>
+	
+										<h:inputText value="#{llamada.etiqueta}" id="datos" styleClass="#{(llamadorMBean.mostrarNumero ? 'etiquetaCorta' : 'etiquetaLarga')} #{(llamadorMBean.mapNuevasLlamadas[indice] ? 'aplicarEfecto' : '')}" readonly="true" rendered="#{llamadorMBean.mostrarDatos}"/>
+									</rich:column>
+							
+									<rich:column styleClass="puesto" headerClass="puesto" width="250px">
+										<f:facet name="header" ><h:outputText value="#{llamadorMBean.nombreColumnaPuesto}" /></f:facet>
+											
+										<h:outputText value="#{(llamada.puesto != null ? llamada.puesto : '-' )}" id="puesto" styleClass="#{(llamadorMBean.mapNuevasLlamadas[indice] ? 'aplicarEfecto' : '')}"/>
+									</rich:column>
+								</rich:dataTable>
+	
+							</h:panelGroup>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+		</h:form>
+	</body>
+</f:view>
+</html>

@@ -1,0 +1,107 @@
+<project name="SAE-Profile-Default-EJB" default="build" basedir=".">
+
+	<!-- PROPERTIES -->
+	<property file="../SAE-Config/build.properties" />
+	<property environment="env" />
+	<property name="manifest.file" value="build/MANIFEST.MF" />
+	<!-- dependencias de compilacion -->
+	<property name="jboss.lib" value="${jboss.home}/common/lib" />
+	<property name="jboss.local.lib" value="${jboss.home}/server/default/lib" />
+	<property name="java.src" value="ejbModule" />
+	<property name="SAE-EAR.lib" value="../SAE-EAR/EarContent/lib" />
+	<!-- dependencias de compilacion con los proyectos client -->
+	<property name="SAE-EJBClient.lib" value="../SAE-EJBClient/build/jar" />
+
+
+	
+	
+	<tstamp>
+		<format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+	</tstamp>
+
+
+	<!-- PATH -->
+	<path id="base.path">
+		<fileset dir="${jboss.lib}">
+			<include name="**/*.jar" />
+		</fileset>
+	    <fileset dir="${SAE-EAR.lib}">
+	            <include name="**/*.jar" />
+        </fileset>		
+		<fileset dir="${SAE-EJBClient.lib}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	
+	<target name="clean">
+
+		<sequential>
+			<mkdir dir="build" />
+			<delete quiet="true">
+				<fileset dir="build">
+					<include name="**/*" />
+				</fileset>
+			</delete>
+
+			<mkdir dir="build/classes" />
+			<mkdir dir="build/jar" />
+
+		</sequential>
+	</target>
+	
+
+	<target name="compile" depends="clean">
+
+		<manifest file="build/MANIFEST.MF">
+			<attribute name="Built-By" value="${user.name}" />
+			<attribute name="Built-Date" value="${TODAY}" />
+		</manifest>
+
+		<javac srcdir="${java.src}" destdir="build/classes" target="1.6" encoding="UTF-8" includeantruntime="false" debug="true">
+			<classpath>
+				<path refid="base.path" />
+			</classpath>
+		</javac>
+        <copy todir="build/classes">
+            <fileset dir="${java.src}" excludes="**/*.java" />
+        </copy>
+		
+		
+		
+		<copy todir="build/META-INF" overwrite="true">
+				<fileset dir="${java.src}/META-INF">
+					<exclude name="jboss-template.xml" />
+				</fileset>
+		</copy>		
+		<copy todir="build/META-INF" overwrite="true">
+				<fileset dir="${java.src}/META-INF">
+					<include name="jboss-template.xml" />
+				</fileset>
+
+				<mapper type="regexp" from="(.*)-template.*" to="\1.xml" />
+
+				<filterset>
+					<filter token="SAE_SECURITY_DOMAIN" value="${build.security.domain}" />
+					<filter token="SAE_WS_CONTEXT_ROOT" value="${build.sae.service.ws.contextroot}" />
+				</filterset>
+		</copy>		
+		
+	</target>	
+	
+	
+	
+	<target name="build" depends="compile,clean">
+		
+		<jar destfile="build/jar/${build.sae.service.profile.ejb}.jar" 
+			 filesetmanifest="merge" manifest="${manifest.file}"
+			 duplicate="fail">
+			
+			<metainf dir="build/META-INF" />
+			<fileset dir="build/classes">
+				<exclude name="META-INF/**"/>
+			</fileset>
+		</jar>
+	</target>
+
+</project>

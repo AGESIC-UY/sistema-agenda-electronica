@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project>
+
+	<property name="arroba" value="@" />
+
+	<macrodef name="ask-password">
+		<attribute name="user" />
+		<attribute name="property" />
+		<sequential>
+			<input message="Ingrese la contraseña del servidor de deploy para el user @{user}:" addproperty="@{property}" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="deploy-clean">
+		<attribute name="user" />
+		<attribute name="password" />
+		<attribute name="host" />
+		<attribute name="dir" />
+		<sequential>
+			<sshexec host="@{host}" username="@{user}" password="@{password}" command="touch ~/@{dir}/dummy.txt; 
+						 rm ~/@{dir}/*.*; 
+						 touch ~/@{dir}/conf/dummy.txt;
+						 rm ~/@{dir}/conf/*.*" />
+		</sequential>
+	</macrodef>
+
+
+	<macrodef name="deploy-bin">
+		<attribute name="user" />
+		<attribute name="password" />
+		<attribute name="host" />
+		<attribute name="dir" />
+		<attribute name="projectDir" />
+
+		<sequential>
+			<scp todir="@{user}:@{password}${arroba}@{host}:~/@{dir}">
+				<fileset dir="../../@{projectDir}" />
+			</scp>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="deploy-conf">
+		<attribute name="user" />
+		<attribute name="password" />
+		<attribute name="host" />
+		<attribute name="environment" />
+		<!-- desarrollo, formacion, produccion -->
+		<attribute name="net" />
+		<!-- intranet internet -->
+
+		<sequential>
+
+			<scp todir="@{user}:@{password}${arroba}@{host}:~/@{environment}/@{net}/conf/">
+				<fileset dir="../conf/">
+					<include name="*"/>
+				</fileset>
+			</scp>
+
+			<if>
+				<available  file="../conf/@{environment}/" type="dir" />
+				<then>
+					<scp todir="@{user}:@{password}${arroba}@{host}:~/@{environment}/@{net}/conf/">
+						<fileset dir="../conf/@{environment}/">
+							<include name="*"/>
+						</fileset>
+					</scp>
+				</then>
+			</if>
+
+
+			<if>
+				<available file="../conf/@{environment}/@{net}" type="dir" />
+				<then>
+					<scp todir="@{user}:@{password}${arroba}@{host}:~/@{environment}/@{net}/conf/">
+						<fileset dir="../conf/@{environment}/@{net}">
+							<include name="*"/>
+						</fileset>
+					</scp>
+				</then>
+			</if>
+			
+		</sequential>
+	</macrodef>
+	
+	
+	<macrodef name="deploy-conf-localhost">
+		<attribute name="environment" />
+		<!-- desarrollo, formacion, produccion, localhost -->
+		<attribute name="net"/>
+		<!--Opcional: intranet internet -->
+
+		<sequential>
+			<copy overwrite="true" todir="${jboss.home}/server/default/conf/apps/${project}">
+				<fileset dir="../conf/" >
+					<include name="*"/>
+				</fileset>
+			</copy>
+
+			<if>
+				<available file="../conf/@{environment}/" type="dir" />
+				<then>
+					<copy overwrite="true" todir="${jboss.home}/server/default/conf/apps/${project}">
+						<fileset dir="../conf/@{environment}/">
+							<include name="*"/>
+						</fileset>
+					</copy>
+				</then>
+			</if>
+
+
+			<if>
+				<available file="../conf/@{environment}/@{net}" type="dir" />
+				<then>
+					<copy overwrite="true" todir="${jboss.home}/server/default/conf/apps/${project}">
+						<fileset dir="../conf/@{environment}/@{net}">
+							<include name="*"/>
+						</fileset>
+					</copy>
+				</then>
+			</if>
+			
+		</sequential>
+	</macrodef>
+
+
+</project>
