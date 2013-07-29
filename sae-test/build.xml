@@ -1,7 +1,32 @@
 <project name="sae-test" default="test" basedir=".">
 
 
-	<target name="test">
+	<target name="compileTest" description="compile jUnit">
+	    <javac srcdir="src" destdir="bin" includeantruntime="true" />
+	</target>
+	
+	<target name="test" depends="compileTest">
+		
+		<junit printsummary="on"
+		       fork="off"
+		       dir="build"
+		       haltonfailure="false"
+		       failureproperty="tests.failed"
+		       showoutput="true">
+		  
+			<classpath location="bin"/>
+
+			<batchtest todir="report">
+		    <fileset dir="bin">
+		      <include name="**/EJBTest.class"/>
+		    </fileset>
+		    <fileset dir="${test.src}">
+		      <include name="**/EJBTest.java"/>
+		    </fileset>
+		  </batchtest>
+		</junit>
+		
+		
 	</target>
 	
 </project>
