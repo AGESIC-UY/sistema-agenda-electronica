@@ -1,0 +1,7 @@
+<project name="sae-test" default="test" basedir=".">
+
+
+	<target name="test">
+	</target>
+	
+</project>
