@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE jboss PUBLIC
+  "-//JBoss//DTD JBOSS 5.0//EN"
+  "http://www.jboss.org/j2ee/dtd/jboss_5_0.dtd">
+
+<jboss>
+	<!-- <loader-repository>jsfejb3-2:archive=jsfejb3-2.ear</loader-repository> --> 	
+	<security-domain>java:/jaas/SDSAEDEMO</security-domain> 
+</jboss>

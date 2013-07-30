@@ -1,32 +1,89 @@
 <project name="sae-test" default="test" basedir=".">
 
+	<!--
+	<taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask">
+		<classpath>
+			<pathelement location="./lib-junit/junit.jar" />
+			<pathelement location="./lib-junit/ant-junit.jar" />
+		</classpath>
+	</taskdef>
+	-->
 
+	<path id="compile.path">
+		<dirset dir="../SAE-Acciones-EJBClient/build/classes"/>		
+		<dirset dir="../SAE-Autocompletados-EJBClient/build/classes"/>			
+		<dirset dir="../SAE-EJBClient/build/classes"/>
+		<dirset dir="../SAE-Validaciones-EJBClient/build/classes"/>
+		<fileset dir="./lib-arquillian">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	
+	<path id="test.path">
+		<path refid="compile.path"/>
+		<fileset dir="./lib-junit">
+			<include name="**/*.jar" />
+		</fileset>
+		<dirset dir="./build/classes"/>
+		<dirset dir="./src"/>
+			
+		<dirset dir="../SAE-Acciones-EJBClient/build/classes"/>		
+		<dirset dir="../SAE-Autocompletados-EJBClient/build/classes"/>			
+		<dirset dir="../SAE-EJBClient/build/classes"/>
+		<dirset dir="../SAE-Validaciones-EJBClient/build/classes"/>
+		<!--<dirset dir="../SAE-EJB/build/classes"/>-->
+		
+	</path>
+
+	
 	<target name="compileTest" description="compile jUnit">
-	    <javac srcdir="src" destdir="bin" includeantruntime="true" />
-	</target>
-	
-	<target name="test" depends="compileTest">
-		
-		<junit printsummary="on"
-		       fork="off"
-		       dir="build"
-		       haltonfailure="false"
-		       failureproperty="tests.failed"
-		       showoutput="true">
-		  
-			<classpath location="bin"/>
 
-			<batchtest todir="report">
-		    <fileset dir="bin">
-		      <include name="**/EJBTest.class"/>
-		    </fileset>
-		    <fileset dir="${test.src}">
-		      <include name="**/EJBTest.java"/>
-		    </fileset>
-		  </batchtest>
-		</junit>
-		
-		
+		<mkdir dir="build"/>
+		<delete dir="build/classes" quiet="true"/>
+		<mkdir dir="build/classes"/>
+
+		<javac srcdir="src" destdir="build/classes" includeantruntime="true" >
+			<classpath refid="compile.path"/>
+		</javac>
 	</target>
-	
+
+	<target name="test" depends="compileTest">
+
+		<junit printsummary="yes" showoutput="true" fork="off" haltonerror="false" haltonfailure="false">
+		
+			<!--<sysproperty key="ant.junit.failureCollector" value="${collector.dir}/${collector.class}" />
+			-->
+			<classpath >
+				<path refid="test.path"/>
+			</classpath>
+			
+			<formatter type="plain" usefile="false"/>
+			
+			<test name="uy.gub.imm.sae.test.EJBTest"/>
+			
+		</junit>
+
+
+	</target>
+
+	<target name="testweb">
+
+		<junit printsummary="yes" showoutput="true" fork="off" haltonerror="false" haltonfailure="false">
+		
+			<!--<sysproperty key="ant.junit.failureCollector" value="${collector.dir}/${collector.class}" />
+			-->
+			<classpath >
+				<path refid="test.path"/>
+			</classpath>
+			
+			<formatter type="plain" usefile="false"/>
+			
+			<test name="uy.gub.imm.sae.test.WEBTest"/>
+			
+		</junit>
+
+
+	</target>
+
 </project>

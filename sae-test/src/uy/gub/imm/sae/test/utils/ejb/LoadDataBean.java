@@ -30,7 +30,7 @@ import uy.gub.imm.sae.exception.UserException;
 @Stateless
 public class LoadDataBean implements LoadDataBeanRemote {
 
-	@PersistenceContext(unitName = "SAE-EJB")
+	@PersistenceContext(unitName = "SAE-EJB-TEST")
 	private EntityManager entityManager;
 
 	@Resource

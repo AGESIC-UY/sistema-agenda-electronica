@@ -4,7 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SAE-Acciones-EJBClient"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SAE-Autocompletados-EJBClient"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/SAE-EJB"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SAE-EJBClient"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SAE-Validaciones-EJBClient"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/arquillian"/>

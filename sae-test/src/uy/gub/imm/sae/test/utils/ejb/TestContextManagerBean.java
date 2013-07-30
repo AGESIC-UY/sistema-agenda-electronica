@@ -21,7 +21,7 @@ import uy.gub.imm.sae.entity.Recurso;
 @Stateless
 public class TestContextManagerBean implements TestContextManagerLocal, TestContextManagerRemote {
 
-	@PersistenceContext(unitName = "SAE-EJB")
+	@PersistenceContext(unitName = "SAE-EJB-TEST")
 	private EntityManager entityManager;
 
 	@Resource

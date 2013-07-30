@@ -10,7 +10,7 @@
 
    <container qualifier="jbossas" default="true">
       <configuration>
-         <property name="jbossHome">/home/jbarone/jboss-5.1.0.GA</property>
+         <!-- <property name="jbossHome">/home/jbarone/jboss-5.1.0.GA</property> -->
          <property name="providerUrl">jnp://localhost:1099</property>
       </configuration>
       <protocol type="Servlet 2.5">

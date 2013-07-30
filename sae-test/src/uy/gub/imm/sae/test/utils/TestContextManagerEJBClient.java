@@ -2,6 +2,7 @@ package uy.gub.imm.sae.test.utils;
 
 import static org.junit.Assert.fail;
 
+import java.io.File;
 import java.util.Properties;
 
 import javax.naming.InitialContext;
@@ -98,21 +99,20 @@ public class TestContextManagerEJBClient {
 		JavaArchive jar = ShrinkWrap
 				.create(JavaArchive.class, "test.jar")
 				.addPackages(true, "uy.gub.imm.sae.test.utils.ejb")
-				.addPackages(true, "uy.gub.imm.sae.exception")
-				.addPackages(true, "uy.gub.imm.sae.entity")
-				.addPackages(true, "uy.gub.imm.sae.common")
-				.addPackages(true, "uy.gub.imm.sae.business.ejb.facade")
-				.addPackages(true, "uy.gub.imm.sae.business.dto")				
-				.addPackages(true, "uy.gub.sae.acciones")				
-				.addPackages(true, "uy.gub.sae.autocompletados")
-				.addPackages(true, "uy.gub.imm.sae.filter")				
-				.addPackages(true, "uy.gub.imm.sae.web")
-				.addPackages(true, "uy.gub.imm.sae.validaciones")
+				//.addPackages(true, "uy.gub.imm.sae.exception")
+				//.addPackages(true, "uy.gub.imm.sae.entity")
+				//.addPackages(true, "uy.gub.imm.sae.common")
+				//.addPackages(true, "uy.gub.imm.sae.business.ejb.facade")
+				//.addPackages(true, "uy.gub.imm.sae.business.dto")				
+				//.addPackages(true, "uy.gub.sae.acciones")				
+				//.addPackages(true, "uy.gub.sae.autocompletados")
+				//.addPackages(true, "uy.gub.imm.sae.filter")				
+				//.addPackages(true, "uy.gub.imm.sae.web")
+				//.addPackages(true, "uy.gub.imm.sae.validaciones")
 				.addClass(this.getClass()) //Me agrego a mi mismo para el caso en que el client es ejecutado en el container
-				.addAsManifestResource("META-INF/persistence.xml","persistence.xml")
-				.addAsManifestResource("META-INF/jboss.xml", "jboss.xml")
-				.addAsManifestResource("META-INF/orm.xml", "orm.xml")
-				.addAsManifestResource("test-ejb-jar.xml", "ejb-jar.xml");
+				.addAsManifestResource(new File("resources/persistence.xml"),"persistence.xml")
+				.addAsManifestResource(new File("resources/jboss.xml"), "jboss.xml")
+				.addAsManifestResource(new File("resources/test-ejb-jar.xml"), "ejb-jar.xml");
 
 		System.out.println(jar.toString(true));
 
