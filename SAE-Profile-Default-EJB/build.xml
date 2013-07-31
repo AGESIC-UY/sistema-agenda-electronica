@@ -25,9 +25,11 @@
 		<fileset dir="${jboss.lib}">
 			<include name="**/*.jar" />
 		</fileset>
+		<!--
 	    <fileset dir="${SAE-EAR.lib}">
 	            <include name="**/*.jar" />
-        </fileset>		
+        </fileset>
+        -->		
 		<fileset dir="${SAE-EJBClient.lib}">
 			<include name="**/*.jar" />
 		</fileset>
