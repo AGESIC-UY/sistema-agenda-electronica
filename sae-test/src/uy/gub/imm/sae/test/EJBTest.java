@@ -44,7 +44,7 @@ public class EJBTest {
 	@Test
 	public void test() {
 		
-		/*TestContextManagerEJBClient.getInstance();
+		TestContextManagerEJBClient.getInstance();
 		
 		TestContextManagerEJBClient.getInstance().ejbLogin();
 		
@@ -56,7 +56,7 @@ public class EJBTest {
 			throw new RuntimeException(e);
 		} finally {
 			TestContextManagerEJBClient.getInstance().ejbLogout();
-		}*/
+		}
 	}
 
 	
