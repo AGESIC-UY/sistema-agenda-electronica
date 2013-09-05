@@ -14,6 +14,10 @@
 		<dirset dir="../SAE-Autocompletados-EJBClient/build/classes"/>			
 		<dirset dir="../SAE-EJBClient/build/classes"/>
 		<dirset dir="../SAE-Validaciones-EJBClient/build/classes"/>
+		<fileset dir="./lib-arquillian">
+			<include name="**/*.jar" />
+		</fileset>		
+
 	</path>
 
 	
@@ -30,9 +34,6 @@
 		<dirset dir="../SAE-EJBClient/build/classes"/>
 		<dirset dir="../SAE-Validaciones-EJBClient/build/classes"/>
 		<!--<dirset dir="../SAE-EJB/build/classes"/>-->
-		<fileset dir="./lib-arquillian">
-			<include name="**/*.jar" />
-		</fileset>		
 		
 	</path>
 
