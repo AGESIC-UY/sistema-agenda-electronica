@@ -6,5 +6,4 @@
 
 <jboss>
 	<!-- <loader-repository>jsfejb3-2:archive=jsfejb3-2.ear</loader-repository> --> 	
-	<security-domain>java:/jaas/SDSAEDEMO</security-domain> 
 </jboss>

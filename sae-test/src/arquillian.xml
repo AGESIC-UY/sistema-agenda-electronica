@@ -22,10 +22,12 @@
    <extension qualifier="ajocado">
 
 
-       <property name="browser">*googlechrome /usr/bin/chromium-browser</property>
+		<property name="browser">*googlechrome /usr/lib/chromium-browser/chromium-browser</property>
+
   
  <!--    
- 		<property name="browser">*firefox</property>
+        <property name="browser">*firefox /usr/lib/firefox/firefox</property>
+        <property name="browser">*firefox</property>
         <property name="browser">*chrome</property>
         <property name="browser">*chrome /home/alvaro/imm/arquitectos/firefox/firefox-3.6.27/firefox</property> 
         <property name="browser">*googlechrome /usr/bin/chromium-browser</property>
@@ -35,13 +37,16 @@
         <!-- property name="browser">*pifirefox</property -->
         <property name="contextPath">test</property>
         <property name="seleniumHost">localhost</property>
-        <property name="seleniumPort">14444</property>
+        <property name="seleniumPort">8882</property>
         <property name="seleniumTimeoutAjax">5000</property>
     </extension>
 
    <extension qualifier="selenium-server">
+        <property name="host">localhost</property>
+        <property name="port">8882</property>
+   
         <property name="avoidProxy">true</property>
-        <property name="debug">true</property>
+        <property name="debug">false</property>
         <property name="ensureCleanSession">true</property>
         <property name="trustAllSSLCertificates">true</property>
     </extension>
