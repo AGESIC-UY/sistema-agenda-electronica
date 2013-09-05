@@ -28,26 +28,11 @@
 		</fileset>
 		<dirset dir="./build/classes"/>
 		<dirset dir="./src"/>
-			
-		<dirset dir="../SAE-Acciones-EJBClient/build/classes"/>		
-		<dirset dir="../SAE-Autocompletados-EJBClient/build/classes"/>			
-		<dirset dir="../SAE-EJBClient/build/classes"/>
-		<dirset dir="../SAE-Validaciones-EJBClient/build/classes"/>
-		<!--<dirset dir="../SAE-EJB/build/classes"/>-->
 		
 	</path>
 
 
-	<path id="test.web.path">
-		<dirset dir="./build/classes"/>
-		<dirset dir="./src"/>
-		<fileset dir="/home/alvaro/.ant/lib">
-			<include name="**/*.jar" />
-		</fileset>
-	</path>
 
-	
-			
 
 	
 	<target name="compileTest" description="compile jUnit">
@@ -87,7 +72,7 @@
 			<!--<sysproperty key="ant.junit.failureCollector" value="${collector.dir}/${collector.class}" />
 			-->
 			<classpath >
-				<path refid="test.web.path"/>
+				<path refid="test.path"/>
 			</classpath>
 			
 			<formatter type="plain" usefile="false"/>
