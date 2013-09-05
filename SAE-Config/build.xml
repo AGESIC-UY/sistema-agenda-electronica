@@ -30,8 +30,10 @@
     			<include name="SAE*.*"/>
 			</fileset>
 		</delete>
+		<sleep seconds="5"/>
 		<copy todir="${jboss.home}/server/default/deploy/apps">
 			<fileset dir="../SAE-EAR/build/jar"/>
 		</copy>
+		<sleep seconds="5"/>		
 	</target>
 </project>
