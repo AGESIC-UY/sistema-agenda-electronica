@@ -74,15 +74,15 @@ public class AgendarReservasTest {
 	private static Date pasadoManiana;
 
 	
-	@EJB(mappedName = "test/TestContextManagerBean/remote")
+	@EJB(mappedName = "test/TestContextManagerBean/local")
 	private TestContextManagerService testManager;
 
 	
-	@EJB(mappedName = "SAE-EAR/AgendaGeneralBean/local")
+	@EJB(mappedName = "SAE-EAR/AgendaGeneralBean/remote")
 	private AgendaGeneral ejbAgendaGeneral;
-	@EJB(mappedName = "SAE-EAR/AgendarReservasBean/local")
+	@EJB(mappedName = "SAE-EAR/AgendarReservasBean/remote")
 	private AgendarReservas ejbAgendasReservas;
-	@EJB(mappedName = "SAE-EAR/RecursosBean/local")
+	@EJB(mappedName = "SAE-EAR/RecursosBean/remote")
 	private Recursos ejbRecursos;
 
 	@Deployment
