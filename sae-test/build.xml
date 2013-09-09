@@ -52,9 +52,7 @@
 			   	showoutput="true" 
 				fork="off" 
 				haltonerror="true" 
-				haltonfailure="true" 
-				errorproperty="test.error" 
-				failureproperty="test.fail">
+				haltonfailure="true">
 		
 			<!--<sysproperty key="ant.junit.failureCollector" value="${collector.dir}/${collector.class}" />
 			-->
