@@ -47,8 +47,17 @@ public class TestContextManagerBean implements TestContextManagerLocal, TestCont
 			a.setDescripcion("Desc " + agendaNombre);
 			a = agendasEJB.crearAgenda(a);
 
+			Calendar cal = Calendar.getInstance();
 			Date hoy = new Date();
-			
+			cal.setTime(hoy);
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+			Date manana = cal.getTime();
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+			Date pasadoManana = cal.getTime();
+
+			Date horaDesde;
+			Date horaHasta;
+
 			for (int i = 1; i <= cantRecursos; i++) {
 				Recurso r = new Recurso();
 				r.setNombre(prefijoRecursoNombre + i);
@@ -73,21 +82,42 @@ public class TestContextManagerBean implements TestContextManagerLocal, TestCont
 
 			int cupo = 10;
 			int frecuencia = 30;
-			Calendar cal = Calendar.getInstance();
-			cal.set(Calendar.MINUTE,0);
-			cal.set(Calendar.SECOND, 0);
-			cal.set(Calendar.MILLISECOND,0);
 
-			hoy = cal.getTime();
-			cal.set(Calendar.HOUR_OF_DAY, 9);
-			Date horaDesde = cal.getTime();
-			cal.set(Calendar.HOUR_OF_DAY, 15);
-			Date horaHasta = cal.getTime();
 			
 			for (Recurso recurso : agendaGeneralEJB.consultarRecursos(a)) {
-				
-				disponibilidadesEJB.generarDisponibilidadesNuevas(recurso, hoy, horaDesde, horaHasta, frecuencia, cupo);
 
+				cal.setTime(hoy);
+				cal.set(Calendar.HOUR_OF_DAY, 9);
+				cal.set(Calendar.MINUTE,0);
+				cal.set(Calendar.SECOND, 0);
+				cal.set(Calendar.MILLISECOND,0);
+				horaDesde = cal.getTime();
+				cal.set(Calendar.HOUR_OF_DAY, 15);
+				horaHasta = cal.getTime();
+
+				disponibilidadesEJB.generarDisponibilidadesNuevas(recurso, hoy, 		 horaDesde, horaHasta, frecuencia, cupo);
+				
+				cal.setTime(manana);
+				cal.set(Calendar.HOUR_OF_DAY, 9);
+				cal.set(Calendar.MINUTE,0);
+				cal.set(Calendar.SECOND, 0);
+				cal.set(Calendar.MILLISECOND,0);
+				horaDesde = cal.getTime();
+				cal.set(Calendar.HOUR_OF_DAY, 15);
+				horaHasta = cal.getTime();
+				
+				disponibilidadesEJB.generarDisponibilidadesNuevas(recurso, manana, 		 horaDesde, horaHasta, frecuencia, cupo);
+				
+				cal.setTime(pasadoManana);
+				cal.set(Calendar.HOUR_OF_DAY, 9);
+				cal.set(Calendar.MINUTE,0);
+				cal.set(Calendar.SECOND, 0);
+				cal.set(Calendar.MILLISECOND,0);
+				horaDesde = cal.getTime();
+				cal.set(Calendar.HOUR_OF_DAY, 15);
+				horaHasta = cal.getTime();
+				
+				disponibilidadesEJB.generarDisponibilidadesNuevas(recurso, pasadoManana, horaDesde, horaHasta, frecuencia, cupo);
 			}
 
 			
@@ -96,6 +126,9 @@ public class TestContextManagerBean implements TestContextManagerLocal, TestCont
 		}
 
 	}
+	
+	
+
 
 	@Override
 	public void cleanContext(String agendaNombre) {
@@ -139,6 +172,11 @@ public class TestContextManagerBean implements TestContextManagerLocal, TestCont
 		} catch (NoResultException e) {
 
 		}
+	}
+
+	@Override
+	public EntityManager getEntityManager() {
+		return entityManager;
 	}
 
 }

@@ -1,35 +1,19 @@
 package uy.gub.imm.sae.test;
 
-import static org.jboss.arquillian.ajocado.Ajocado.id;
-import static org.jboss.arquillian.ajocado.Ajocado.jq;
-import static org.jboss.arquillian.ajocado.Ajocado.waitForXhr;
-import static org.junit.Assert.fail;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Date;
-
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.locator.JQueryLocator;
-import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import uy.gub.imm.sae.test.utils.TestContextManagerEJBClient;
-import uy.gub.imm.sae.test.utils.TestContextManagerWEBClient;
-import uy.gub.imm.sae.test.utils.ejb.TestContextManagerService;
 import uy.gub.imm.sae.test.web.pageobjects.HomePage;
 import uy.gub.imm.sae.test.web.pageobjects.LoginPage;
 import uy.gub.imm.sae.test.web.pageobjects.SeleccionAgendaRecursoPage;
-import uy.gub.imm.sae.test.web.pageobjects.uc.DisponibilidadesGenerarUnDiaPage;
 
 
 @RunWith(Arquillian.class)
@@ -49,7 +33,7 @@ public class WEB2Test {
 	private HomePage homePage;
 
 	
-	//@Before
+	@Before
 	public void init() {
 		
 		if (loginPage == null || !loginPage.isLogged()) {

@@ -25,7 +25,7 @@ public class EJBTest {
 	private TestContextManagerService testManager;
 
 	
-	@EJB(mappedName = "SAE-EAR/AgendaGeneralBean/remote")
+	@EJB(mappedName = "SAE-EAR/AgendaGeneralBean/local")
 	private AgendaGeneral ejb;
 
 
