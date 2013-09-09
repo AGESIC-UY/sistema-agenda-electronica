@@ -48,7 +48,13 @@
 
 	<target name="test" depends="compileTest">
 
-		<junit printsummary="yes" showoutput="true" fork="off" haltonerror="false" haltonfailure="false" >
+		<junit 	printsummary="yes" 
+			   	showoutput="true" 
+				fork="off" 
+				haltonerror="true" 
+				haltonfailure="true" 
+				errorproperty="test.error" 
+				failureproperty="test.fail">
 		
 			<!--<sysproperty key="ant.junit.failureCollector" value="${collector.dir}/${collector.class}" />
 			-->
@@ -64,7 +70,9 @@
 			
 		</junit>
 
-
+		<fail message="ERROR: Falló el test" if="test.error"/>
+		<fail message="FAIL: Falló el test" if="test.fail"/>
+		
 	</target>
 
 	<target name="testweb" depends="compileTest">
