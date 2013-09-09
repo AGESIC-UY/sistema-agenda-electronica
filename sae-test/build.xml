@@ -69,9 +69,10 @@
 			
 			
 		</junit>
-
+<!--
 		<fail message="ERROR: Falló el test" if="test.error"/>
 		<fail message="FAIL: Falló el test" if="test.fail"/>
+		-->
 		
 	</target>
 
