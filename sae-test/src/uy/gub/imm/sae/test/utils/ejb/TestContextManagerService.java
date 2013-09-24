@@ -8,6 +8,6 @@ public interface TestContextManagerService {
 
 	public void cleanContext(String agendaNombre);
 	
-	public EntityManager getEntityManager();
+	//public EntityManager getEntityManager();
 	
 }

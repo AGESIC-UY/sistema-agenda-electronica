@@ -41,7 +41,7 @@
 		<delete dir="build/classes" quiet="true"/>
 		<mkdir dir="build/classes"/>
 
-		<javac srcdir="src" destdir="build/classes" includeantruntime="true" >
+		<javac srcdir="src" destdir="build/classes" includeantruntime="true" debug="true">
 			<classpath refid="compile.path"/>
 		</javac>
 	</target>
@@ -67,10 +67,6 @@
 			
 			
 		</junit>
-<!--
-		<fail message="ERROR: Falló el test" if="test.error"/>
-		<fail message="FAIL: Falló el test" if="test.fail"/>
-		-->
 		
 	</target>
 

@@ -11,12 +11,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import org.jboss.proxy.compiler.Runtime;
+
 import uy.gub.imm.sae.business.ejb.facade.AgendaGeneral;
 import uy.gub.imm.sae.business.ejb.facade.Agendas;
 import uy.gub.imm.sae.business.ejb.facade.Disponibilidades;
 import uy.gub.imm.sae.business.ejb.facade.Recursos;
+import uy.gub.imm.sae.common.enumerados.Tipo;
 import uy.gub.imm.sae.entity.Agenda;
+import uy.gub.imm.sae.entity.AgrupacionDato;
+import uy.gub.imm.sae.entity.DatoASolicitar;
 import uy.gub.imm.sae.entity.Recurso;
+import uy.gub.imm.sae.exception.ApplicationException;
+import uy.gub.imm.sae.exception.BusinessException;
+import uy.gub.imm.sae.exception.UserException;
 
 @Stateless
 public class TestContextManagerBean implements TestContextManagerLocal, TestContextManagerRemote {
@@ -38,93 +46,6 @@ public class TestContextManagerBean implements TestContextManagerLocal, TestCont
 	
 	@Override
 	public void setupContext(String agendaNombre, String prefijoRecursoNombre, int cantRecursos) {
-
-		
-		try {
-
-			Agenda a = new Agenda();
-			a.setNombre(agendaNombre);
-			a.setDescripcion("Desc " + agendaNombre);
-			a = agendasEJB.crearAgenda(a);
-
-			Calendar cal = Calendar.getInstance();
-			Date hoy = new Date();
-			cal.setTime(hoy);
-			cal.add(Calendar.DAY_OF_MONTH, 1);
-			Date manana = cal.getTime();
-			cal.add(Calendar.DAY_OF_MONTH, 1);
-			Date pasadoManana = cal.getTime();
-
-			Date horaDesde;
-			Date horaHasta;
-
-			for (int i = 1; i <= cantRecursos; i++) {
-				Recurso r = new Recurso();
-				r.setNombre(prefijoRecursoNombre + i);
-				r.setDescripcion("Desc " + prefijoRecursoNombre + i);
-				r.setFechaInicio(hoy);
-				r.setFechaInicioDisp(hoy);
-				r.setDiasInicioVentanaInternet(0);
-				r.setDiasVentanaInternet(20);
-				r.setDiasInicioVentanaIntranet(0);
-				r.setDiasVentanaIntranet(20);
-				r.setVentanaCuposMinimos(0);
-				r.setCantDiasAGenerar(1000);
-				r.setMostrarNumeroEnLlamador(true);
-				r.setMostrarNumeroEnTicket(true);
-				r.setReservaMultiple(false);
-				r.setSabadoEsHabil(true);
-				
-				recursosEJB.crearRecurso(a, r);
-				
-			}
-
-
-			int cupo = 10;
-			int frecuencia = 30;
-
-			
-			for (Recurso recurso : agendaGeneralEJB.consultarRecursos(a)) {
-
-				cal.setTime(hoy);
-				cal.set(Calendar.HOUR_OF_DAY, 9);
-				cal.set(Calendar.MINUTE,0);
-				cal.set(Calendar.SECOND, 0);
-				cal.set(Calendar.MILLISECOND,0);
-				horaDesde = cal.getTime();
-				cal.set(Calendar.HOUR_OF_DAY, 15);
-				horaHasta = cal.getTime();
-
-				disponibilidadesEJB.generarDisponibilidadesNuevas(recurso, hoy, 		 horaDesde, horaHasta, frecuencia, cupo);
-				
-				cal.setTime(manana);
-				cal.set(Calendar.HOUR_OF_DAY, 9);
-				cal.set(Calendar.MINUTE,0);
-				cal.set(Calendar.SECOND, 0);
-				cal.set(Calendar.MILLISECOND,0);
-				horaDesde = cal.getTime();
-				cal.set(Calendar.HOUR_OF_DAY, 15);
-				horaHasta = cal.getTime();
-				
-				disponibilidadesEJB.generarDisponibilidadesNuevas(recurso, manana, 		 horaDesde, horaHasta, frecuencia, cupo);
-				
-				cal.setTime(pasadoManana);
-				cal.set(Calendar.HOUR_OF_DAY, 9);
-				cal.set(Calendar.MINUTE,0);
-				cal.set(Calendar.SECOND, 0);
-				cal.set(Calendar.MILLISECOND,0);
-				horaDesde = cal.getTime();
-				cal.set(Calendar.HOUR_OF_DAY, 15);
-				horaHasta = cal.getTime();
-				
-				disponibilidadesEJB.generarDisponibilidadesNuevas(recurso, pasadoManana, horaDesde, horaHasta, frecuencia, cupo);
-			}
-
-			
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-
 	}
 	
 	
@@ -132,14 +53,22 @@ public class TestContextManagerBean implements TestContextManagerLocal, TestCont
 
 	@Override
 	public void cleanContext(String agendaNombre) {
-
+/*
 		try {
+	
 			Agenda a = (Agenda) entityManager
 					.createQuery("from Agenda a where a.nombre = :nombre")
 					.setParameter("nombre", agendaNombre).getSingleResult();
 
 			for (Recurso rec : a.getRecursos()) {
 
+				entityManager
+				.createNativeQuery(
+						"delete from ae_reservas_disponibilidades "
+								+ "where aedi_id in (select id from ae_disponibilidades where aere_id = :rId)")
+				.setParameter("rId", rec.getId()).executeUpdate();
+
+				
 				entityManager
 						.createNativeQuery(
 								"delete from ae_reservas_disponibilidades "
@@ -172,11 +101,14 @@ public class TestContextManagerBean implements TestContextManagerLocal, TestCont
 		} catch (NoResultException e) {
 
 		}
+		*/
 	}
 
+	/*
 	@Override
 	public EntityManager getEntityManager() {
 		return entityManager;
-	}
-
+	}*/
+	
 }
+

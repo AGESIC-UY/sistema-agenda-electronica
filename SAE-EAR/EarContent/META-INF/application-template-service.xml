@@ -4,6 +4,6 @@
     <ejb>@PROFILE_EJB@.jar</ejb>
   </module>
   <module>
-    <ejb>SAE-EJB.jar</ejb>
+    <ejb>@SAE_EJB@.jar</ejb>
   </module>
 </application>

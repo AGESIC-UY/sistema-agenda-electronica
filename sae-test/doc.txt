@@ -1,0 +1,8 @@
+
+Para correr xserver headless hay que usar xvfb, debe estar instalado en linux
+Luegoun plugin maven de selenium que interfacea con xvfb: http://mojo.codehaus.org/selenium-maven-plugin/xvfb-mojo.html
+
+Tambien se puede necesitar tener instlado xauth para el caso que ya este corriendo un xserver, es va 
+a pasar en mi pc
+
+https://community.jboss.org/thread/223078

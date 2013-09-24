@@ -782,10 +782,16 @@ public class RecursosBean implements RecursosLocal, RecursosRemote{
 	public DatoASolicitar agregarDatoASolicitar(Recurso r,AgrupacionDato a, DatoASolicitar d) 
 		throws UserException, ApplicationException, BusinessException {
 
+		
 		Recurso recursoActual = (Recurso) entityManager.find(Recurso.class, r.getId());
+		
 		if (recursoActual == null) {
 			throw new BusinessException("AEB0003", "No existe el recurso: " + r.getId());
 		}
+		
+		recursoActual.getAgrupacionDatos().size();
+		
+		
 		if (a == null){
 			throw new UserException("AE10043","No existe la agrupacion del dato");
 		}
@@ -794,9 +800,16 @@ public class RecursosBean implements RecursosLocal, RecursosRemote{
 			throw new UserException("AE10043","No existe la agrupacion del dato: " + a.getId());
 		}
 		
-		if (agrupacionActual.getRecurso() != recursoActual) {
-			throw new BusinessException("AEB0002", "El recurso de la agrupacion y el indicado como parámetro no coinciden");
-		}
+		System.out.println(recursoActual.getNombre());
+		agrupacionActual.getRecurso().setNombre("aa");
+		//entityManager.persist(agrupacionActual);
+		//entityManager.persist(agrupacionActual.getRecurso());
+		//Recurso recursoActual2 = (Recurso) entityManager.find(Recurso.class, r.getId());
+		//System.out.println(recursoActual2.getNombre());
+		
+		//if (agrupacionActual.getRecurso() != recursoActual) {
+			//throw new BusinessException("AEB0002", "El recurso de la agrupacion y el indicado como parámetro no coinciden");
+		//}
 			
 		d.setRecurso(recursoActual);
 		d.setAgrupacionDato(agrupacionActual);

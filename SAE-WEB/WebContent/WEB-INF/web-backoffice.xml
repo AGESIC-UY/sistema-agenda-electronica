@@ -41,7 +41,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>RichfacesFirefoxFilter</filter-name>
-		<!-- El pattern depende el Faces Servlet pattern definido. -->
+		<!-- El pattern depende del Faces Servlet pattern definido. -->
 		<!-- <url-pattern>/faces/a4j/*</url-pattern> -->
 		<url-pattern>/a4j/*</url-pattern>
 
@@ -67,17 +67,9 @@
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	<servlet>
-		<servlet-name>Kaptcha</servlet-name>
-		<servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
-	</servlet>
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Kaptcha</servlet-name>
-		<url-pattern>/kaptcha.jpg</url-pattern>
 	</servlet-mapping>
 	<session-config>
 		<session-timeout>30</session-timeout>

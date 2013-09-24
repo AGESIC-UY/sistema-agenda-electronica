@@ -5,5 +5,5 @@
   "http://www.jboss.org/j2ee/dtd/jboss-web_5_0.dtd">
 
 <jboss-web>	
-  <security-domain flushOnSessionInvalidation="true">java:/jaas/SDSAEDEMO</security-domain>
+  <security-domain flushOnSessionInvalidation="true">java:/jaas/xxxx</security-domain>
 </jboss-web>

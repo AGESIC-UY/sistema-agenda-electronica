@@ -1,8 +1,5 @@
 <project name="SAE-EJBClient" default="build" basedir=".">
 
-	<!-- PROPERTIES -->
-	<property environment="env" />
-	<property name="manifest.file" value="build/MANIFEST.MF" />
 	<!-- dependencias de compilacion -->
 	<property name="jboss.lib" value="${jboss.home}/common/lib" />
 	<property name="jboss.local.lib" value="${jboss.home}/server/default/lib" />
@@ -16,11 +13,6 @@
 	<property name="SAE-Autocompletados-EJBClient.classes" value="../SAE-Autocompletados-EJBClient/build/classes" />
 	<property name="SAE-Autocompletados-EJBClient.build.xml" value="../SAE-Autocompletados-EJBClient/build.xml" />
 	
-	
-	<!--
-	<property name="coreIMM.lib" value="${jboss.home}/server/default/deploy/apps/coreIMM" />
-	<property name="auditoria.lib" value="${jboss.home}/server/default/deploy/apps/auditoria" />
-	-->	
 	
 	<tstamp>
 		<format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
@@ -37,11 +29,6 @@
         <fileset dir="${jboss.home}/server/default/deploy/jbossweb.sar/jsf-libs">
             <include name="**/*.jar" />
         </fileset>
-		<!--
-        <fileset dir="${SAE-EAR.lib}">
-            <include name="**/*.jar" />
-        </fileset>
-        -->
 	</path>
 
 	<target name="clean">
@@ -81,11 +68,11 @@
 	<target name="build" depends="compile,dependency,clean">
 
 		
-		<jar destfile="build/jar/SAE-EJBClient.jar" 
-			 filesetmanifest="merge" manifest="${manifest.file}"
+		<jar destfile="build/jar/${build.sae.service.ejb.client}.jar" 
+			 filesetmanifest="merge" manifest="build/MANIFEST.MF"
 			 duplicate="fail">
 			
-			<metainf dir="${java.src}/META-INF" />
+			<metainf dir="build/classes/META-INF" />
 			<fileset dir="build/classes">
 				<exclude name="META-INF/**"/>
 			</fileset>

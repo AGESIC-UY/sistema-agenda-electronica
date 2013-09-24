@@ -31,7 +31,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>RichfacesFirefoxFilter</filter-name>
-		<!-- El pattern depende el Faces Servlet pattern definido. -->
+		<!-- El pattern depende del Faces Servlet pattern definido. -->
 		<!-- <url-pattern>/faces/a4j/*</url-pattern> -->
 		<url-pattern>/a4j/*</url-pattern>
 
@@ -83,7 +83,4 @@
 		<error-code>500</error-code>
 		<location>/error/error.xhtml</location>
 	</error-page>
-	<login-config>
-		<auth-method>BASIC</auth-method>
-	</login-config>
 </web-app>

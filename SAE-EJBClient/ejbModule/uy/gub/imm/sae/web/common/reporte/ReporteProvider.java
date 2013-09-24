@@ -25,7 +25,6 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-import javax.faces.context.FacesContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
@@ -78,14 +77,13 @@ public class ReporteProvider {
 	 * Modifica el diseño del reporte agregando las columnas indicadas en el ultimo grupo que tenga el reporte.
 	 * Asume que tiene definido almenos un grupo.
 	 */
-	@SuppressWarnings("unchecked")
 	private static void agregarColumnas(JasperDesign reportDesign, List<Columna> columnas) throws JRException {
 		
 		//Obtengo el ultimo grupo
 		int cant = reportDesign.getGroupsList().size();
 		JRDesignGroup grupo = (JRDesignGroup) reportDesign.getGroupsList().get(cant-1);
-		JRDesignBand grupoHeader = (JRDesignBand) grupo.getGroupHeader();
-		JRDesignBand detail = (JRDesignBand) reportDesign.getDetail();
+		JRDesignBand grupoHeader = (JRDesignBand) grupo.getGroupHeaderSection();
+		JRDesignBand detail = (JRDesignBand) reportDesign.getDetailSection();
 
 		int x = 70;
 		for (Columna col: columnas) {

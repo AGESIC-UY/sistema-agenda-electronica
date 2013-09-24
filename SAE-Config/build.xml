@@ -1,12 +1,38 @@
 <project name="SAE-Config" default="build" basedir=".">
 
-	<!-- PROPERTIES -->
-	<property file="build.properties" />
-	<property environment="env" />
 
+	<!-- 
+		Inicializa el proceso de build, cargando las propiedades segun el tipo de build
+	    que se desea ejecutar: por defecto el sistema cuenta con un build para test, un build para deploy local
+	    y un build por defecto que sirva de guía para un posible build de produccion.
 
+		Pero se pueden agregar builds personalizados con solo copiar el debi-default.properties a debi-xxx.properties
+		y ejecutar el ant con build.type=xxx
+	-->	     
+	<target name="init" >
+	
+		<taskdef resource="net/sf/antcontrib/antlib.xml">
+			<classpath >
+				<fileset dir="gpl/ant-libs">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</taskdef>
+		
+		<if>
+			<not><isset property="build.type" /></not>
+			<then>
+				<property name="build.type" value="default"/>
+			</then>
+		</if>
+		
+		<!-- PROPERTIES -->
+		<property file="build-${build.type}.properties" />
+		<property environment="env" />
 
-	<target name="build">
+	</target>
+
+	<target name="build" depends="init">
 
 		<path id="buildlist">
 			<pathelement location="../SAE-EJBClient/build.xml"/>
@@ -18,22 +44,46 @@
 		 	<pathelement location="../SAE-WEB/build.xml"/>
 			<pathelement location="../SAE-EAR/build.xml"/>
 		</path>
-	
-		<subant target="build" buildpathref="buildlist" failonerror="true" />
+
+		<!-- Se llama a cada tarea build con las propiedades ya seteadas para todo el proceso de build -->
+		<subant target="build" buildpathref="buildlist" failonerror="true" inheritall="true"/>
 
 	</target>
 	
-	<target name="deployLocal" depends="build">
+	<target name="deploy-local" depends="build-local">
+
+		<mkdir dir="${jboss.home}/server/default/deploy/apps"/>
+		<mkdir dir="${jboss.home}/server/default/deploy/apps/sae"/>
+		
 		<delete>
-			<fileset dir="${jboss.home}/server/default/deploy/apps">
+			<fileset dir="${jboss.home}/server/default/deploy/apps/sae">
     			<include name="sae*.*"/>
     			<include name="SAE*.*"/>
 			</fileset>
 		</delete>
+
 		<sleep seconds="5"/>
-		<copy todir="${jboss.home}/server/default/deploy/apps">
+		
+		<copy todir="${jboss.home}/server/default/deploy/apps/sae">
 			<fileset dir="../SAE-EAR/build/jar"/>
 		</copy>
+		
 		<sleep seconds="5"/>		
 	</target>
+	
+	<target name="build-test">
+		<property name="build.type" value="test"/>
+		<antcall inheritall="true" target="build"/>
+	</target>
+
+	<target name="build-default">
+		<property name="build.type" value="default"/>
+		<antcall inheritall="true" target="build"/>
+	</target>
+
+	<target name="build-local">
+		<property name="build.type" value="local"/>
+		<antcall inheritall="true" target="build"/>
+	</target>
+	
 </project>

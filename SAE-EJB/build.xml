@@ -1,8 +1,6 @@
 <project name="SAE-EJB" default="build" basedir=".">
 
-	<!-- PROPERTIES -->
-	<property environment="env" />
-	<property name="manifest.file" value="build/MANIFEST.MF" />
+	
 	<!-- dependencias de compilacion -->
 	<property name="jboss.lib" value="${jboss.home}/common/lib" />
 	<property name="jboss.local.lib" value="${jboss.home}/server/default/lib" />
@@ -11,8 +9,6 @@
 	<!-- dependencias de compilacion con los proyectos client -->
 	<property name="SAE-EJBClient.lib" value="../SAE-EJBClient/build/jar" />
 
-
-	
 	
 	<tstamp>
 		<format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
@@ -24,11 +20,6 @@
 		<fileset dir="${jboss.lib}">
 			<include name="**/*.jar" />
 		</fileset>
-		<!--
-	    <fileset dir="${SAE-EAR.lib}">
-	            <include name="**/*.jar" />
-        </fileset>
-        -->		
 		<fileset dir="${SAE-EJBClient.lib}">
 			<include name="**/*.jar" />
 		</fileset>
@@ -67,21 +58,57 @@
         <copy todir="build/classes">
             <fileset dir="${java.src}" excludes="**/*.java" />
         </copy>
+		
 	</target>	
 	
 	
 	
 	<target name="build" depends="compile,clean">
+
+		<!-- Parametrizo el jboss.xml segun el tipo de build  -->
+		<!-- ¿Que dominio de seguridad utiliza para asegurar los ejbs? -->
+		<replaceregexp 
+			file="build/classes/META-INF/jboss.xml" 
+			match="&lt;security-domain&gt;(.*)&lt;/security-domain&gt;"
+			replace="&lt;security-domain&gt;${build.security.domain.jndi}&lt;/security-domain&gt;"
+		/>
 		
-		<jar destfile="build/jar/SAE-EJB.jar" 
-			 filesetmanifest="merge" manifest="${manifest.file}"
+		<!-- Parametrizo el persistence.xml segun el tipo de build -->
+		<!-- ¿Creacion automatica del esquema? -->
+		<replaceregexp 
+			file="build/classes/META-INF/persistence.xml" 
+			match="&lt;property[^&gt;]+hibernate\.hbm2ddl\.auto[^&gt;]+/&gt;"
+			replace='&lt;property name="hibernate.hbm2ddl.auto" value="${build.persistence.hibernate.hbm2ddl.auto}" /&gt;'
+			flags="-s"
+		/>
+		<!-- ¿Que datasource uso para la persistencia? -->
+		<replaceregexp 
+			file="build/classes/META-INF/persistence.xml" 
+			match="&lt;jta-data-source *&gt;[^&gt;]*&lt;/ *jta-data-source *&gt;"
+			replace="&lt;jta-data-source&gt;java:/${build.sae.datasource}&lt;/jta-data-source&gt;"
+			flags="-s"
+		/>
+
+		<!-- ¿Nombre del ejb-client.jar? -->
+		<replaceregexp 
+			file="build/classes/META-INF/ejb-jar.xml"
+			match="&lt;ejb-client-jar *&gt;[^&gt;]*&lt;/ *ejb-client-jar *&gt;"
+			replace="&lt;ejb-client-jar&gt;${build.sae.service.ejb.client}.jar&lt;/ejb-client-jar&gt;"
+			flags="-s"
+		/>
+
+		
+		<jar destfile="build/jar/${build.sae.service.ejb}.jar" 
+			 filesetmanifest="merge" manifest="build/MANIFEST.MF"
 			 duplicate="fail">
 			
-			<metainf dir="${java.src}/META-INF" />
+			<metainf dir="build/classes/META-INF"/>
+			
 			<fileset dir="build/classes">
 				<exclude name="META-INF/**"/>
 			</fileset>
 		</jar>
+		
 	</target>
 
 </project>
