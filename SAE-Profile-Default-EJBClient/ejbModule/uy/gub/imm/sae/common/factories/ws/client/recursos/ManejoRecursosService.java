@@ -31,9 +31,18 @@ public class ManejoRecursosService
         try {
             URL baseUrl;
             baseUrl = uy.gub.imm.sae.common.factories.ws.client.recursos.ManejoRecursosService.class.getResource(".");
-            url = new URL(baseUrl, SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_HOST) +"/SAE-WS/ManejoRecursos?wsdl");
+            
+            url = new URL(
+            		baseUrl, 
+            		SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_HOST) +
+            		"/" + SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_CONTEXT_ROOT) + 
+            		"/ManejoRecursos?wsdl");
+            
         } catch (MalformedURLException e) {
-            logger.warning("Failed to create URL for the wsdl Location: '" + SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_HOST) + "/SAE-WS/ManejoRecursos?wsdl', retrying as a local file");
+            logger.warning("Failed to create URL for the wsdl Location: '" + 
+            		SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_HOST) + 
+            		"/" + SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_CONTEXT_ROOT) + 
+            		"/ManejoRecursos?wsdl', retrying as a local file");
             logger.warning(e.getMessage());
         }
         MANEJORECURSOSSERVICE_WSDL_LOCATION = url;

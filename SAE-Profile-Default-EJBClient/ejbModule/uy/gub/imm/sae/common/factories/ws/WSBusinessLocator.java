@@ -37,7 +37,10 @@ public class WSBusinessLocator extends LookupAnonimoLocalBusinessLocator {
 		final String schema = "http://montevideo.gub.uy/schema/sae/1.0/";
 		URL wsdlLocation;
 		try {
-			wsdlLocation = new URL(SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_HOST) + "/SAE-WS/" + baseName + "?wsdl");
+			wsdlLocation = new URL(
+									SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_HOST) + 
+									"/" + SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_CONTEXT_ROOT) + 
+									"/" + baseName + "?wsdl");
 			QName qname = new QName(schema, serviceName);
 			AgendarReservasService service = new AgendarReservasService(wsdlLocation, qname);
 			return  service.getAgendarReservasPort();
@@ -54,7 +57,10 @@ public class WSBusinessLocator extends LookupAnonimoLocalBusinessLocator {
 		final String schema = "http://montevideo.gub.uy/schema/sae/1.0/";
 		URL wsdlLocation;
 		try {
-			wsdlLocation = new URL(SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_HOST) + "/SAE-WS/" + baseName + "?wsdl");
+			wsdlLocation = new URL(
+					SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_HOST) + 
+					"/" + SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_CONTEXT_ROOT) + 
+					"/" + baseName + "?wsdl");
 			QName qname = new QName(schema, serviceName);
 			ManejoRecursosService service = new ManejoRecursosService(wsdlLocation, qname);
 			return service.getManejoRecursosPort();

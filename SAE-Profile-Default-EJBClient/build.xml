@@ -71,6 +71,18 @@
 	
 	<target name="build" depends="compile,clean">
 		
+		
+		<copy todir="build/classes" overwrite="true">
+				<fileset dir="${java.src}">
+					<include name="**/profile.properties" />
+				</fileset>
+
+				<filterset>
+					<filter token="SAE_WS_CONTEXT_ROOT" value="${build.sae.service.ws.contextroot}" />
+				</filterset>
+		</copy>		
+		
+		
 		<jar destfile="build/jar/${build.sae.profile.jar}.jar" 
 			 filesetmanifest="merge" manifest="build/MANIFEST.MF"
 			 duplicate="fail">

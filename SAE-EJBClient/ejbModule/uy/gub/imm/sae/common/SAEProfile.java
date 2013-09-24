@@ -31,7 +31,8 @@ public class SAEProfile {
 	public static final String DEPLOY_ENVIRONMENT = "uy.gub.imm.sae.escenario";
 
 	public static final String ENVIRONMENT_PROFILE_HOST_PORT_KEY = "uy.gub.imm.sae.env.profile.host";
-	public static final String ENVIRONMENT_PROFILE_WS_WSDL_HOST = "uy.gub.imm.sae.env.profile.ws.wsdl.host";	
+	public static final String ENVIRONMENT_PROFILE_WS_WSDL_HOST = "uy.gub.imm.sae.env.profile.ws.wsdl.host";
+	public static final String ENVIRONMENT_PROFILE_WS_WSDL_CONTEXT_ROOT = "uy.gub.imm.sae.env.profile.ws.wsdl.contextroot";	
 	
 	public static final String PROFILE_UI_TEMPLATES_HEADER_KEY = "ui.templates.header.url";
 	public static final String PROFILE_UI_TEMPLATES_HEADER_INTERNET_KEY = "ui.templates.header.internet.url";

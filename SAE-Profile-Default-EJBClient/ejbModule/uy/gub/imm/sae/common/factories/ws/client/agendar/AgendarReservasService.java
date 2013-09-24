@@ -31,9 +31,17 @@ public class AgendarReservasService
         try {
             URL baseUrl;
             baseUrl = uy.gub.imm.sae.common.factories.ws.client.agendar.AgendarReservasService.class.getResource(".");
-            url = new URL(baseUrl, SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_HOST) +"/SAE-WS/AgendarReservas?wsdl");
+            
+            url = new URL(
+            			baseUrl, 
+            			SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_HOST) + 
+            			"/" + SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_CONTEXT_ROOT) +
+            			"/AgendarReservas?wsdl");
         } catch (MalformedURLException e) {
-            logger.warning("Failed to create URL for the wsdl Location: '" + SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_HOST) + "/SAE-WS/AgendarReservas?wsdl', retrying as a local file");
+            logger.warning("Failed to create URL for the wsdl Location: '" + 
+            				SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_HOST) + 
+            				"/" + SAEProfile.getInstance().getProperties().getProperty(SAEProfile.ENVIRONMENT_PROFILE_WS_WSDL_CONTEXT_ROOT) + 
+            				"/AgendarReservas?wsdl', retrying as a local file");
             logger.warning(e.getMessage());
         }
         AGENDARRESERVASSERVICE_WSDL_LOCATION = url;
