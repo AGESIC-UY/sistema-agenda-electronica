@@ -23,7 +23,7 @@ public class AccionMantenimientoMBean extends BaseMBean {
 
 	public static final String MSG_ID = "pantalla";
 		
-	@EJB(mappedName="SAE-EAR/AccionesBean/remote")
+	@EJB(name="ejb/AccionesBean")
 	private Acciones accionEJB;
 
 	private SessionMBean sessionMBean;

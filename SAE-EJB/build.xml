@@ -56,7 +56,7 @@
 			</classpath>
 		</javac>
         <copy todir="build/classes">
-            <fileset dir="${java.src}" excludes="**/*.java" />
+            <fileset dir="${java.src}" excludes="**/*.java,META-INF/*template*" />
         </copy>
 		
 	</target>	
@@ -65,13 +65,24 @@
 	
 	<target name="build" depends="compile,clean">
 
+		
 		<!-- Parametrizo el jboss.xml segun el tipo de build  -->
-		<!-- ¿Que dominio de seguridad utiliza para asegurar los ejbs? -->
-		<replaceregexp 
-			file="build/classes/META-INF/jboss.xml" 
-			match="&lt;security-domain&gt;(.*)&lt;/security-domain&gt;"
-			replace="&lt;security-domain&gt;${build.security.domain.jndi}&lt;/security-domain&gt;"
-		/>
+		<copy todir="build/classes/META-INF" overwrite="true">
+			<fileset dir="${java.src}/META-INF">
+				<include name="jboss-template.xml" />
+			</fileset>
+
+			<mapper type="regexp" from="(.*)-template.*" to="\1.xml" />
+
+			<filterset>
+				<!-- ¿Que dominio de seguridad utiliza para asegurar los ejbs? -->
+				<filter token="SAE_SECURITY_DOMAIN" value="${build.security.domain.jndi}" />
+				<!-- ¿Cual es la ruta base de publicacion en el arbol jndi de los EJBs de SAE? -->
+				<filter token="SAE_EJB_JNDI_BASE" value="${build.sae.service.ejb.jndi_base}" />
+			</filterset>
+			
+		</copy>		
+		
 		
 		<!-- Parametrizo el persistence.xml segun el tipo de build -->
 		<!-- ¿Creacion automatica del esquema? -->

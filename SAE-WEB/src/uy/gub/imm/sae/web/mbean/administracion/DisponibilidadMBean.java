@@ -47,10 +47,10 @@ import uy.gub.imm.sae.web.common.RowList;
 public class DisponibilidadMBean extends BaseMBean {
 	public static final String MSG_ID = "pantalla";
 	
-	@EJB(mappedName="SAE-EAR/AgendarReservasBean/remote")
+	@EJB(name="ejb/AgendarReservasBean")
 	private AgendarReservas agendarReservasEJB;
 	
-	@EJB(mappedName="SAE-EAR/DisponibilidadesBean/remote")
+	@EJB(name="ejb/DisponibilidadesBean")
 	private Disponibilidades disponibilidadesEJB;
 
 	public SessionMBean sessionMBean;

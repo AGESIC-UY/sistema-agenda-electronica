@@ -46,10 +46,10 @@ public class ValidacionAsignacionMBean extends BaseMBean{
 
 	public static final String MSG_ID = "pantalla";
 	
-	@EJB(mappedName="SAE-EAR/ValidacionesBean/remote")
+	@EJB(name="ejb/ValidacionesBean")
 	private Validaciones validacionEJB;
 
-	@EJB(mappedName="SAE-EAR/RecursosBean/remote")
+	@EJB(name="ejb/RecursosBean")
 	private Recursos recursosEJB;
 	
 	private SessionMBean sessionMBean;

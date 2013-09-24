@@ -36,7 +36,7 @@ public class TextoRecursoMBean  extends BaseMBean {
 	public static final String MSG_ID = "pantalla";
 
 
-	@EJB(mappedName="SAE-EAR/RecursosBean/remote")
+	@EJB(name="ejb/RecursosBean")
 	private Recursos recursosEJB;
 	private SessionMBean sessionMBean;
 	private TextoRecurso textoRec = new TextoRecurso();

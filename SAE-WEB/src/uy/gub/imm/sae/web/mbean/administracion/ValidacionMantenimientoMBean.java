@@ -42,7 +42,7 @@ public class ValidacionMantenimientoMBean extends BaseMBean {
 
 	public static final String MSG_ID = "pantalla";
 	
-	@EJB(mappedName="SAE-EAR/ValidacionesBean/remote")
+	@EJB(name="ejb/ValidacionesBean")
 	private Validaciones validacionEJB;
 
 	private SessionMBean sessionMBean;

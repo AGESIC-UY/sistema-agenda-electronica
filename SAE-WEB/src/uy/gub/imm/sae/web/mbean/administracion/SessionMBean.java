@@ -50,9 +50,9 @@ public class SessionMBean extends SessionCleanerMBean {
 	
 	public static final String MSG_ID = "pantalla";
 		
-	@EJB(mappedName="SAE-EAR/AgendaGeneralBean/remote")
+	@EJB(name="ejb/AgendaGeneralBean")
 	private AgendaGeneral generalEJB;
-	@EJB(mappedName="SAE-EAR/RecursosBean/remote")
+	@EJB(name="ejb/RecursosBean")
 	private Recursos recursosEJB;
 
 

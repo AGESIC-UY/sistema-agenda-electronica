@@ -49,7 +49,7 @@ public class CrearDisponibilidadMBean extends BaseMBean {
 	public static final String MSG_ID = "pantalla";
 	
 	
-	@EJB(mappedName="SAE-EAR/DisponibilidadesBean/remote")
+	@EJB(name="ejb/DisponibilidadesBean")
 	private Disponibilidades disponibilidadesEJB;
 
 	private SessionMBean sessionMBean;

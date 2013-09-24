@@ -34,10 +34,10 @@ public class ListaDeEsperaMBean extends BaseMBean {
 
 	public static final String MSG_ID = "pantalla";
 	
-	@EJB(mappedName="SAE-EAR/RecursosBean/remote")
+	@EJB(name="ejb/RecursosBean")
 	private Recursos recursosEJB;
 
-	@EJB(mappedName="SAE-EAR/LlamadasBean/remote")
+	@EJB(name="ejb/LlamadasBean")
 	private Llamadas llamadasEJB;
 
 	private ListaDeEsperaSessionMBean listaDeEsperaSessionMBean;

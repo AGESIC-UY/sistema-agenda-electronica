@@ -55,16 +55,16 @@ public class LlamadorMBean extends BaseMBean {
 
 	public static final String MSG_ID = "pantalla";
 	
-	@EJB(mappedName="SAE-EAR/RecursosBean/remote")
+	@EJB(name="ejb/RecursosBean")
 	private Recursos recursosEJB;
 
-	@EJB(mappedName="SAE-EAR/LlamadasBean/remote")
+	@EJB(name="ejb/LlamadasBean")
 	private Llamadas llamadasEJB;
 	
-	@EJB(mappedName="SAE-EAR/AgendarReservasBean/remote")
+	@EJB(name="ejb/AgendarReservasBean")
 	private AgendarReservas agendarReservasEJB;
 	
-	@EJB(mappedName="SAE-EAR/AgendaGeneralBean/remote")
+	@EJB(name="ejb/AgendaGeneralBean")
 	private AgendaGeneral generalEJB;
 
 	private LlamadorSessionMBean llamadorSessionMBean;

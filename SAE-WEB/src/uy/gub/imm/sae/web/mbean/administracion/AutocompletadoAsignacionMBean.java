@@ -46,10 +46,10 @@ public class AutocompletadoAsignacionMBean extends BaseMBean{
 
 	public static final String MSG_ID = "pantalla";
 	
-	@EJB(mappedName="SAE-EAR/AutocompletadosBean/remote")
+	@EJB(name="ejb/AutocompletadosBean")
 	private Autocompletados autocompletadoEJB;
 
-	@EJB(mappedName="SAE-EAR/RecursosBean/remote")
+	@EJB(name="ejb/RecursosBean")
 	private Recursos recursosEJB;
 	
 	private SessionMBean sessionMBean;

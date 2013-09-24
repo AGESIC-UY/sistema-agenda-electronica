@@ -74,14 +74,24 @@
 	
 	<target name="build" depends="compile,clean">
 		
-		<copy file="WebContent/WEB-INF/jboss-web.xml" todir="build" overwrite="true"/>
+		
 		<!-- Parametrizo el jboss-web.xml segun el tipo de build  -->
-		<!-- ¿Que dominio de seguridad utilizo para autenticar la aplicacion web? -->
-		<replaceregexp 
-			file="build/jboss-web.xml"
-			match="&lt;security-domain[^&gt;]*&gt;[^&lt;]*&lt;/security-domain&gt;"
-			replace='&lt;security-domain flushOnSessionInvalidation="true"&gt;${build.security.domain.jndi}&lt;/security-domain&gt;'
-		/>
+		<copy todir="build" overwrite="true">
+			<fileset dir="WebContent/WEB-INF">
+				<include name="jboss-web-template.xml" />
+			</fileset>
+
+			<mapper type="regexp" from="(.*)-template.*" to="\1.xml" />
+
+			<filterset>
+				<!-- ¿Que dominio de seguridad utilizo para autenticar la aplicacion web? -->
+				<filter token="SAE_SECURITY_DOMAIN" value="${build.security.domain.jndi}" />
+				<!-- ¿Cual es la ruta base de publicacion en el arbol jndi de los EJBs de SAE? -->
+				<filter token="SAE_EJB_JNDI_BASE" value="${build.sae.service.ejb.jndi_base}" />
+			</filterset>
+			
+		</copy>		
+	
 		
         <war destfile="build/jar/sae-backoffice.war" webxml="WebContent/WEB-INF/web-backoffice.xml" 
         	filesetmanifest="merge" manifest="build/MANIFEST.MF" duplicate="fail">

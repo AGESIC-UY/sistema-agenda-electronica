@@ -43,7 +43,7 @@ public class AutocompletadoMantenimientoMBean extends BaseMBean {
 
 	public static final String MSG_ID = "pantalla";
 	
-	@EJB(mappedName="SAE-EAR/AutocompletadosBean/remote")
+	@EJB(name="ejb/AutocompletadosBean")
 	private Autocompletados autocompletadosEJB;
 
 	private SessionMBean sessionMBean;

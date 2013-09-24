@@ -38,10 +38,10 @@ public class GenDispSessionMBean extends SessionCleanerMBean implements Removabl
 	public static final String MSG_ID = "pantalla";
 		
 //	@EJB( name="ejb/AgendaGeneralBean")
-	@EJB(mappedName="SAE-EAR/AgendaGeneralBean/remote")
+	@EJB(name="ejb/AgendaGeneralBean")
 	private AgendaGeneral generalEJB;
 //	@EJB( name="ejb/RecursosBean")
-	@EJB(mappedName="SAE-EAR/RecursosBean/remote")
+	@EJB(name="ejb/RecursosBean")
 	private Recursos recursosEJB;
 
 	private CupoPorDia cupoPorDiaSeleccionado;

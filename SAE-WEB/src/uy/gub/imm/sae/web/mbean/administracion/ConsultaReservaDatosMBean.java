@@ -55,13 +55,13 @@ public class ConsultaReservaDatosMBean extends BaseMBean {
 //	public static final String FORMULARIO_ID = "datosReserva";
 //	public static final String DATOS_FILTRO_RESERVA_MBEAN = "datosFiltroReservaMBean";
 
-	@EJB(mappedName="SAE-EAR/AgendarReservasBean/remote")
+	@EJB(name="ejb/AgendarReservasBean")
 	private AgendarReservas agendarReservasEJB;
 
-	@EJB(mappedName="SAE-EAR/ConsultasBean/remote")
+	@EJB(name="ejb/ConsultasBean")
 	private Consultas consultaEJB;
 
-	@EJB(mappedName="SAE-EAR/RecursosBean/remote")
+	@EJB(name="ejb/RecursosBean")
 	private Recursos recursosEJB;
 
 	private SessionMBean sessionMBean;

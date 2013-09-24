@@ -58,10 +58,10 @@ import uy.gub.imm.sae.web.common.reporte.ReporteProvider;
 public class ReporteMBean extends BaseMBean {
 
 	
-	@EJB(mappedName="SAE-EAR/ConsultasBean/remote")
+	@EJB(name="ejb/ConsultasBean")
 	private Consultas consultaEJB;
 	
-	@EJB(mappedName="SAE-EAR/RecursosBean/remote")
+	@EJB(name="ejb/RecursosBean")
 	private Recursos recursosEJB;
 	
 	private Date fechaDesde;

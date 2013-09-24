@@ -35,7 +35,7 @@ public class TextoAgendaMBean  extends BaseMBean{
 	public static final String MSG_ID = "pantalla";
 
 	
-	@EJB(mappedName="SAE-EAR/AgendasBean/remote")
+	@EJB(name="ejb/AgendasBean")
 	private Agendas agendasEJB;
 
 	public SessionMBean sessionMBean;

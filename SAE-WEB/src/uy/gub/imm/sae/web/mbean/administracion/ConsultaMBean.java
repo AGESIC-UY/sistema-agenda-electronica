@@ -45,10 +45,10 @@ public class ConsultaMBean extends SessionCleanerMBean {
 	public static final String MSG_ID = "pantalla";
 	
 	
-	@EJB(mappedName="SAE-EAR/RecursosBean/remote")
+	@EJB(name="ejb/RecursosBean")
 	private Recursos recursosEJB;
 	
-	@EJB(mappedName="SAE-EAR/ConsultasBean/remote")
+	@EJB(name="ejb/ConsultasBean")
 	private Consultas consultaEJB;
 	
 	private UIComponent campos;

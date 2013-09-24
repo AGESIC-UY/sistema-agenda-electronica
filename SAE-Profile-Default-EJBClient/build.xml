@@ -92,6 +92,11 @@
 						<filter token="SAE_ESCENARIO" value="@{escenario}" />
 						<filter token="SAE_PROFILE" value="${build.profile}" />
 						<filter token="SAE_WS_CONTEXT_ROOT" value="${build.sae.service.ws.contextroot}" />
+						
+						<filter token="SAE_EJB_JNDI_BASE" value="${build.sae.service.ejb.jndi_base}" />
+						<filter token="SAE_EJB_JNDI_AGENDAR_RESERVAS" value="${build.sae.service.ejb.jndi_agendar_reservas_bean}" />
+						<filter token="SAE_EJB_JNDI_RECURSOS" value="${build.sae.service.ejb.jndi_recursos_bean}" />
+						<filter token="SAE_EJB_JNDI_DEPURAR_RESERVAS" value="${build.sae.service.ejb.jndi_depurar_reservas_bean}" />
 					</filterset>
 			</copy>		
 			

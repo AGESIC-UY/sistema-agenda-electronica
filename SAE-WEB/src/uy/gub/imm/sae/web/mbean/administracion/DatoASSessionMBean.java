@@ -64,7 +64,7 @@ public class DatoASSessionMBean extends SessionCleanerMBean implements Removable
 	private ValorPosible valorDelDatoSeleccionado;
 
 	
-	@EJB(mappedName="SAE-EAR/RecursosBean/remote")
+	@EJB(name="ejb/RecursosBean")
 	private Recursos recursosEJB;
 	
 	private SessionMBean sessionMBean; 

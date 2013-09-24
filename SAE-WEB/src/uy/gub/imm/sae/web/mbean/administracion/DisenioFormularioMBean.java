@@ -57,10 +57,10 @@ public class DisenioFormularioMBean extends BaseMBean {
 	public static final String FORMULARIO_ID = "datosReserva";
 	public static final String DATOS_RESERVA_MBEAN = "datosReservaMBean";
 	
-	@EJB(mappedName="SAE-EAR/AgendarReservasBean/remote")
+	@EJB(name="ejb/AgendarReservasBean")
 	private AgendarReservas agendarReservasEJB;
 
-	@EJB(mappedName="SAE-EAR/RecursosBean/remote")
+	@EJB(name="ejb/RecursosBean")
 	private Recursos recursosEJB;
 	
 	private UIComponent campos;

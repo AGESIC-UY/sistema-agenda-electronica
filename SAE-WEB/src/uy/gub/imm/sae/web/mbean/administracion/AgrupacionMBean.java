@@ -35,7 +35,7 @@ import uy.gub.imm.sae.web.common.BaseMBean;
 public class AgrupacionMBean extends BaseMBean {
 	public static final String MSG_ID = "pantalla";
 
-	@EJB(mappedName="SAE-EAR/RecursosBean/remote")
+	@EJB(name="ejb/RecursosBean")
 	private Recursos recursosEJB;
 
 	public SessionMBean sessionMBean;

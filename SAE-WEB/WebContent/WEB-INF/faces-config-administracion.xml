@@ -828,10 +828,6 @@
   <validator-class>uy.gub.imm.sae.web.validator.DatoSolitarNombreValidator</validator-class>
  </validator>
  <validator>
-  <validator-id>validacionNombreValidator</validator-id>
-  <validator-class>uy.gub.imm.sae.web.validator.ValidacionNombreValidator</validator-class>
- </validator>
- <validator>
   <validator-id>xmlValidator</validator-id>
   <validator-class>uy.gub.imm.sae.web.validator.XMLValidator</validator-class>
  </validator>
