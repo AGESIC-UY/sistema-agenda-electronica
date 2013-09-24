@@ -44,7 +44,9 @@
 
 			<mkdir dir="build/classes" />
 			<mkdir dir="build/jar" />
-
+			<mkdir dir="build/jar/${build.sae.escenario.backend}"/>
+			<mkdir dir="build/jar/${build.sae.escenario.frontend}"/>				
+								
 		</sequential>
 	</target>
 	
@@ -71,27 +73,40 @@
 	
 	<target name="build" depends="compile,clean">
 		
+		<build_profile_jar escenario="${build.sae.escenario.backend}"/>
+		<build_profile_jar escenario="${build.sae.escenario.frontend}"/>		
 		
-		<copy todir="build/classes" overwrite="true">
-				<fileset dir="${java.src}">
-					<include name="**/profile.properties" />
-				</fileset>
-
-				<filterset>
-					<filter token="SAE_WS_CONTEXT_ROOT" value="${build.sae.service.ws.contextroot}" />
-				</filterset>
-		</copy>		
-		
-		
-		<jar destfile="build/jar/${build.sae.profile.jar}.jar" 
-			 filesetmanifest="merge" manifest="build/MANIFEST.MF"
-			 duplicate="fail">
-			
-			<metainf dir="build/classes/META-INF" />
-			<fileset dir="build/classes">
-				<exclude name="META-INF/**"/>
-			</fileset>
-		</jar>
 	</target>
 
+	<macrodef name="build_profile_jar">
+		<attribute name="escenario"/>
+		
+		<sequential>
+			
+			<copy todir="build/classes" overwrite="true">
+					<fileset dir="${java.src}">
+						<include name="**/profile.properties" />
+					</fileset>
+
+					<filterset>
+						<filter token="SAE_ESCENARIO" value="@{escenario}" />
+						<filter token="SAE_PROFILE" value="${build.profile}" />
+						<filter token="SAE_WS_CONTEXT_ROOT" value="${build.sae.service.ws.contextroot}" />
+					</filterset>
+			</copy>		
+			
+			
+			<jar destfile="build/jar/@{escenario}/${build.sae.profile.jar}.jar" 
+				 filesetmanifest="merge" manifest="build/MANIFEST.MF"
+				 duplicate="fail">
+				
+				<metainf dir="build/classes/META-INF" />
+				<fileset dir="build/classes">
+					<exclude name="META-INF/**"/>
+				</fileset>
+			</jar>
+		
+		</sequential>
+	</macrodef>
+	
 </project>

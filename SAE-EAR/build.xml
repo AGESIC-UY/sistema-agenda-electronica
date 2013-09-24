@@ -116,7 +116,7 @@
 				<include name="${build.sae.service.ejb.client}.jar" />
 			</zipfileset>
 
-			<zipfileset dir="../SAE-Profile-${build.profile}-EJBClient/build/jar" prefix="lib">
+			<zipfileset dir="../SAE-Profile-${build.profile}-EJBClient/build/jar/${build.sae.escenario.backend}" prefix="lib">
 				<include name="${build.sae.profile.jar}.jar" />
 			</zipfileset>
 
@@ -134,7 +134,7 @@
 				<include name="${build.sae.service.ejb.client}.jar" />
 			</zipfileset>
 
-			<zipfileset dir="../SAE-Profile-${build.profile}-EJBClient/build/jar" prefix="lib">
+			<zipfileset dir="../SAE-Profile-${build.profile}-EJBClient/build/jar/${build.sae.escenario.backend}" prefix="lib">
 				<include name="${build.sae.profile.jar}.jar" />
 			</zipfileset>
 
@@ -151,7 +151,7 @@
 				<include name="${build.sae.service.ejb.client}.jar" />
 			</zipfileset>
 
-			<zipfileset dir="../SAE-Profile-${build.profile}-EJBClient/build/jar" prefix="lib">
+			<zipfileset dir="../SAE-Profile-${build.profile}-EJBClient/build/jar/${build.sae.escenario.frontend}" prefix="lib">
 				<include name="${build.sae.profile.jar}.jar" />
 			</zipfileset>
 
