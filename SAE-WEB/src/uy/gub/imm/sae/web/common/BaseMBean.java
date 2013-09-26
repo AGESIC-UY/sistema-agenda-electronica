@@ -29,8 +29,10 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.protocol.HttpContext;
 import org.apache.log4j.Logger;
 
 import uy.gub.imm.sae.common.SAEProfile;
@@ -41,7 +43,19 @@ import uy.gub.imm.sae.exception.UserException;
 public abstract class BaseMBean {
 
 	protected static final String FORM_ID = "form";
-	private static final String MENSAJE_MANTENIMIENTO = "Sistema en mantenimiento, por favor intente más tarde.";	
+	
+	/** 
+	 * Si el error sucede en capa de negocio y/o en la lógica del presentación 
+	 * de forma tal que permite volver a una página coherente, se utiliza este mensaje de error genérico 
+	 * que se le desplega al usuario en un componente message general.
+	 */
+	private static final String MENSAJE_MANTENIMIENTO = "Sistema en mantenimiento, por favor intente más tarde.";
+	
+	/**
+	 * Si el error que sucede no es esperado o no pude mostrarse una pagina coherente con el mensaje anterio, entonces
+	 * se realiza un redirect a esta página de error.
+	 */
+	static protected String ERROR_PAGE = "/error/error.xhtml";
 	
 	private Logger logger = Logger.getLogger(this.getClass());
 	
@@ -117,26 +131,26 @@ public abstract class BaseMBean {
 		return SAEProfile.getInstance().getEnvironment().equals(SAEProfile.Escenario.BACKEND);	
 	}
 
+	/**
+	 * Redirecciona a la pagina de nombre: viewId 
+	 * Ejemplo: /pages/pagina1.xhtml
+	 * */
 	protected void redirect(String from_outcome) {
 
 		FacesContext fc = FacesContext.getCurrentInstance();
 		if (! fc.getResponseComplete()) {
-			HttpServletResponse response = (HttpServletResponse)fc.getExternalContext().getResponse();
 			try {
-				response.sendRedirect("/error/periodoInvalido.xhtml");
+				ServletContext servletCtx = (ServletContext) fc.getExternalContext().getContext();
+				fc.getExternalContext().redirect(servletCtx.getContextPath() + from_outcome);
+				//response.sendRedirect(fc.getExternalContext().getRequestContextPath() + from_outcome);
 				fc.responseComplete();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error(e.getMessage(), e);
 			}
 /*			fc.getApplication().getNavigationHandler().handleNavigation(fc, null, from_outcome);
 			fc.responseComplete();
 			fc.renderResponse();*/
 		}
-	}
-	
-	protected void redirectEstadoInvalido() {
-		redirect("estadoInvalido");
 	}
 	
 	

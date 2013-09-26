@@ -47,11 +47,10 @@ import uy.gub.imm.sae.exception.ApplicationException;
 import uy.gub.imm.sae.exception.BaseException;
 import uy.gub.imm.sae.exception.BusinessException;
 import uy.gub.imm.sae.exception.RolException;
-import uy.gub.imm.sae.web.common.BaseMBean;
 import uy.gub.imm.sae.web.common.SAECalendarDataModel;
 import uy.gub.imm.sae.web.common.SAECalendarioDataSource;
 
-public class Paso1MBean	extends BaseMBean implements SAECalendarioDataSource {
+public class Paso1MBean	extends PasoMBean implements SAECalendarioDataSource {
 	
 	static Logger logger = Logger.getLogger(Paso1MBean.class);
 	//@EJB( name="ejb/AgendarReservasBean")
@@ -163,6 +162,7 @@ public class Paso1MBean	extends BaseMBean implements SAECalendarioDataSource {
 				configurarCalendario();
 			}
 
+			
 		} catch (RolException e1) {
 			//El usuario no tiene suficientes privilegios para acceder a la agenda
 			setMensajeError(e1.getMessage());
@@ -172,9 +172,10 @@ public class Paso1MBean	extends BaseMBean implements SAECalendarioDataSource {
 		} catch (ApplicationException e) {
 			logger.error("NO SE PUDO OBTENER EJBs");
 			logger.error(e);
-			throw new RuntimeException(e);
+			redirect(ERROR_PAGE);
 		} catch (BaseException e) {
-			throw new RuntimeException(e);
+			logger.error(e);
+			redirect(ERROR_PAGE);
 		}
 	}
 	

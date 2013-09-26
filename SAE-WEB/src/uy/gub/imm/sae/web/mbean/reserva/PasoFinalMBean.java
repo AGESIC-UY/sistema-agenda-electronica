@@ -45,7 +45,6 @@ import uy.gub.imm.sae.entity.DatoReserva;
 import uy.gub.imm.sae.entity.Recurso;
 import uy.gub.imm.sae.entity.Reserva;
 import uy.gub.imm.sae.exception.ApplicationException;
-import uy.gub.imm.sae.web.common.BaseMBean;
 import uy.gub.imm.sae.web.common.FormularioDinamicoReserva;
 
 import com.itextpdf.text.BaseColor;
@@ -61,7 +60,7 @@ import com.itextpdf.text.pdf.draw.LineSeparator;
  * @author im2716295
  *
  */
-public class PasoFinalMBean extends BaseMBean {
+public class PasoFinalMBean extends PasoMBean {
 
 	//@EJB( name="ejb/RecursosBean")
 	private Recursos recursosEJB;
@@ -90,13 +89,13 @@ public class PasoFinalMBean extends BaseMBean {
 				
 				logger.debug("RESERVA: ESTADO INVALIDO PASO FINAL" + "  Agenda: "+sesionMBean.getAgenda()+ " Recurso: "+sesionMBean.getRecurso()+ " ReservaConfirmada: "+sesionMBean.getReservaConfirmada());
 				
-				redirectEstadoInvalido();
+				redirect(ESTADO_INVALIDO_PAGE);
 				return;
 			}
 		} catch (ApplicationException e) {
 			logger.error("NO SE PUDO OBTENER EJB Recursos");
 			logger.error(e);
-			throw new RuntimeException(e);
+			redirect(ERROR_PAGE);
 		}
 	}	
 
@@ -187,8 +186,8 @@ public class PasoFinalMBean extends BaseMBean {
 				campos.getChildren().add(formulario);
 			}
 		} catch (Exception e) {
-			RuntimeException e2 = new RuntimeException(mensajeError, e);
-			throw e2;
+			logger.error(mensajeError, e);
+			redirect(ERROR_PAGE);
 			//addErrorMessage(e2);
 		}
 	}

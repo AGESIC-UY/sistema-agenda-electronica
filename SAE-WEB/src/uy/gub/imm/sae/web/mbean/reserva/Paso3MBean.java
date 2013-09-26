@@ -60,7 +60,6 @@ import uy.gub.imm.sae.exception.ValidacionPorCampoException;
 import uy.gub.imm.sae.exception.WarningAutocompletarException;
 import uy.gub.imm.sae.exception.WarningValidacionCommitException;
 import uy.gub.imm.sae.exception.WarningValidacionException;
-import uy.gub.imm.sae.web.common.BaseMBean;
 import uy.gub.imm.sae.web.common.FormularioDinamicoReserva;
 
 /**
@@ -69,7 +68,7 @@ import uy.gub.imm.sae.web.common.FormularioDinamicoReserva;
  * @author im2716295
  *
  */
-public class Paso3MBean extends BaseMBean {
+public class Paso3MBean extends PasoMBean {
 
 	static Logger logger = Logger.getLogger(Paso3MBean.class);
 	public static final String FORMULARIO_ID = "datosReserva";
@@ -118,13 +117,13 @@ public class Paso3MBean extends BaseMBean {
 			}
 			
 			if (sesionMBean.getAgenda() == null || sesionMBean.getRecurso() == null) {
-				redirectEstadoInvalido();
+				redirect(ESTADO_INVALIDO_PAGE);
 				return;
 			}
 		} catch (ApplicationException e) {
 			logger.error("NO SE PUDO OBTENER EJBs");
 			logger.error(e);
-			throw new RuntimeException(e);
+			redirect(ERROR_PAGE);
 		}
 		
 	}	

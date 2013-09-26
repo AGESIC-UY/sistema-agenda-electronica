@@ -20,8 +20,6 @@
 
 package uy.gub.imm.sae.web.mbean.reserva;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +91,7 @@ public class SesionMBean	extends BaseMBean {
 		} catch (ApplicationException e) {
 			logger.error("NO SE PUDO OBTENER EJB AgendarReservas");
 			logger.error(e);
-			throw new RuntimeException(e);
+			redirect(ERROR_PAGE);			
 		}
 	}	
 	

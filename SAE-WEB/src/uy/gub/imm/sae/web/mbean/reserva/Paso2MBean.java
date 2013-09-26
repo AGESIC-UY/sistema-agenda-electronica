@@ -42,13 +42,13 @@ import uy.gub.imm.sae.exception.ApplicationException;
 import uy.gub.imm.sae.exception.BusinessException;
 import uy.gub.imm.sae.exception.RolException;
 import uy.gub.imm.sae.exception.UserException;
-import uy.gub.imm.sae.web.common.BaseMBean;
 import uy.gub.imm.sae.web.common.Row;
 import uy.gub.imm.sae.web.common.RowList;
 
-public class Paso2MBean	extends BaseMBean{
+public class Paso2MBean	extends PasoMBean{
 	
 	static Logger logger = Logger.getLogger(Paso2MBean.class);
+		
 	//@EJB( name="ejb/AgendarReservasBean")
 	private AgendarReservas agendarReservasEJB;
 
@@ -71,7 +71,8 @@ public class Paso2MBean	extends BaseMBean{
 			}
 			
 			if (sesionMBean.getAgenda() == null || sesionMBean.getRecurso() == null) {
-				redirectEstadoInvalido();
+				
+				redirect(ESTADO_INVALIDO_PAGE);
 				return;
 			}
 			
@@ -88,7 +89,7 @@ public class Paso2MBean	extends BaseMBean{
 		} catch (ApplicationException e) {
 			logger.error("NO SE PUDO OBTENER AgendarReservas");
 			logger.error(e);
-			throw new RuntimeException(e);
+			redirect(ERROR_PAGE);
 		} catch (Exception e) {
 			addErrorMessage(e);
 		}

@@ -25,9 +25,10 @@ import uy.gub.imm.sae.exception.ApplicationException;
 
 public class BusinessLocatorFactory {
 
-	private static final String LOCATOR_CONTEXTO_AUTENTICADO_BACKEND_KEY="locator-contexto-autenticado-backend-impl";
-	private static final String LOCATOR_CONTEXTO_NO_AUTENTICADO_BACKEND_KEY="locator-contexto-no-autenticado-backend-impl";
-	private static final String LOCATOR_CONTEXTO_NO_AUTENTICADO_FRONTEND_KEY="locator-contexto-frontend-impl";
+	private static final String LOCATOR_CONTEXTO_AUTENTICADO_BACKEND_KEY="locator.contexto.autenticado.backend.impl";
+	private static final String LOCATOR_CONTEXTO_NO_AUTENTICADO_BACKEND_KEY="locator.contexto.no.autenticado.backend.impl";
+
+	private static final String LOCATOR_CONTEXTO_NO_AUTENTICADO_FRONTEND_KEY="locator.contexto.frontend.impl";
 	
 	private static BusinessLocator buildBusinessLocator(String locatorClassName) throws ApplicationException {
 		

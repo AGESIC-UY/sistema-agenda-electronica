@@ -67,7 +67,7 @@
 		<url-pattern>/kaptcha.jpg</url-pattern>
 	</servlet-mapping>
 	<session-config>
-		<session-timeout>5</session-timeout>
+		<session-timeout>1</session-timeout>
 	</session-config>
 	<error-page>
 		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
@@ -75,10 +75,12 @@
 	</error-page>
 	<!-- Si quito esto en SAE-WEB da: Estado HTTP 403 - The request body was 
 		too large to be cached during the authentication process -->
+		<!-- 
 	<error-page>
 		<error-code>403</error-code>
 		<location>/error/sesionExpirada.html</location>
 	</error-page>
+	 -->
 	<error-page>
 		<error-code>500</error-code>
 		<location>/error/error.xhtml</location>

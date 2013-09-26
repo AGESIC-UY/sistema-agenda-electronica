@@ -20,66 +20,41 @@
 
 package uy.gub.imm.sae.common.factories.ejb;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import uy.gub.imm.sae.common.SAEProfile;
 import uy.gub.imm.sae.exception.ApplicationException;
 
 public class LookupAnonimoLocalBusinessLocator extends LookupLocalBusinessLocator {
 
-	
-	private static final String NOMBRE_DIR_PROPS_CREDENCIALES_USUARIO_ANONIMO = "/conf/props/";
-	private static final String NOMBRE_ARCH_PROPS_CREDENCIALES_USUARIO_ANONIMO = "sae-users.properties";
-	private static final String NOMBRE_ARCH_PROPS_USUARIO_ANONIMO = "usuario-anonimo.properties";
-	private static final String USUARIO_ANONIMO = "usuario";
+	private static final String LOCATOR_CONTEXTO_NO_AUTENTICADO_BACKEND_USER_NAME_KEY="locator.contexto.no.autenticado.backend.user.name";
+	private static final String LOCATOR_CONTEXTO_NO_AUTENTICADO_BACKEND_USER_PASSWORD_KEY="locator.contexto.no.autenticado.backend.user.password";
 	
 	protected String getUsuarioAnonimo() throws ApplicationException{
-		try {
-			String dirConf = System.getProperty("jboss.server.home.dir");
-			String dirArchsConf = dirConf.replace('\\', '/') + NOMBRE_DIR_PROPS_CREDENCIALES_USUARIO_ANONIMO;			
-			FileInputStream file = new FileInputStream(dirArchsConf + NOMBRE_ARCH_PROPS_USUARIO_ANONIMO);
-			Properties props = new Properties();
-			props.load(file);
-			file.close();
-			
-			String result = null;
-			Object value = (String)props.get(USUARIO_ANONIMO);
-			if(value!=null){
-				result = value.toString();
-			}
-			return result;
-			
-		} catch (IOException e) {
-			throw new ApplicationException("-1", "Imposible obtener password de usuario anonimo", e);
+		
+		String user = SAEProfile.getInstance().getProperties().getProperty(LOCATOR_CONTEXTO_NO_AUTENTICADO_BACKEND_USER_NAME_KEY); 
+		if (user == null) {
+			throw new ApplicationException("-1", 
+					"El nombre del usuario anonimo no está configurado: " + 
+					LOCATOR_CONTEXTO_NO_AUTENTICADO_BACKEND_USER_NAME_KEY + " es null");
 		}
+		return user;
 	}
 	
 	protected String getPasswordUsuarioAnonimo(String usuario) throws ApplicationException{
-		// lee la password del usuario anonimo del .properties donde estan los usuarios y roles por defecto
-		
-		try {
-			String dirConf = System.getProperty("jboss.server.home.dir");
-			String dirArchsConf = dirConf.replace('\\', '/') + NOMBRE_DIR_PROPS_CREDENCIALES_USUARIO_ANONIMO;			
-			FileInputStream file = new FileInputStream(dirArchsConf + NOMBRE_ARCH_PROPS_CREDENCIALES_USUARIO_ANONIMO);
-			Properties props = new Properties();
-			props.load(file);
-			file.close();
-			
-			String result = null;
-			Object value = (String)props.get(usuario);
-			if(value!=null){
-				result = value.toString();
-			}
-			return result;
-			
-		} catch (IOException e) {
-			throw new ApplicationException("-1", "Imposible obtener password de usuario anonimo", e);
+
+		String password = SAEProfile.getInstance().getProperties().getProperty(LOCATOR_CONTEXTO_NO_AUTENTICADO_BACKEND_USER_PASSWORD_KEY); 
+		if (password == null) {
+			throw new ApplicationException("-1", 
+					"La password del usuario anonimo no está configurada: " + 
+					LOCATOR_CONTEXTO_NO_AUTENTICADO_BACKEND_USER_PASSWORD_KEY + " es null");
 		}
+		return password;
+
 	}
 	
 	@Override
