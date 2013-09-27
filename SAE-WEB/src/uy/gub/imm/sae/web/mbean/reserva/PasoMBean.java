@@ -24,8 +24,12 @@ import uy.gub.imm.sae.web.common.BaseMBean;
 
 public abstract class PasoMBean	extends BaseMBean{
 	
-	static protected String ESTADO_INVALIDO_PAGE = "/error/estadoInvalido.xhtml";
-	static protected String PERIODO_INVALIDO_PAGE = "/error/periodoInvalido.xhtml";
+	/**
+	 * Outcome que deben estar configurados 
+	 * en las reglas de navegacion del faces-config
+	 */
+	static protected String ESTADO_INVALIDO_PAGE_OUTCOME = "estado_invalido";
+	static protected String PERIODO_INVALIDO_PAGE_OUTCOME = "periodo_invalido";
 
 }
 

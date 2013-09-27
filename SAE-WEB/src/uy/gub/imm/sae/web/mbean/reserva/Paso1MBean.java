@@ -172,11 +172,12 @@ public class Paso1MBean	extends PasoMBean implements SAECalendarioDataSource {
 		} catch (ApplicationException e) {
 			logger.error("NO SE PUDO OBTENER EJBs");
 			logger.error(e);
-			redirect(ERROR_PAGE);
+			redirect(ERROR_PAGE_OUTCOME);
 		} catch (BaseException e) {
 			logger.error(e);
-			redirect(ERROR_PAGE);
+			redirect(ERROR_PAGE_OUTCOME);
 		}
+		
 	}
 	
 	

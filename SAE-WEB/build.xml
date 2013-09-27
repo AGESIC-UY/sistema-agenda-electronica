@@ -93,7 +93,39 @@
 		</copy>		
 	
 		
-        <war destfile="build/jar/sae-backoffice.war" webxml="WebContent/WEB-INF/web-backoffice.xml" 
+		<!-- Parametrizo el web.xml del BACKEND segun el tipo de build  -->
+		<copy todir="build" overwrite="true">
+			<fileset dir="WebContent/WEB-INF">
+				<include name="web-backoffice-template.xml" />
+			</fileset>
+
+			<mapper type="regexp" from="(.*)-template.*" to="\1.xml" />
+
+			<filterset begintoken="&lt;!--@" endtoken="@--&gt;" >
+				<!-- ¿Que datos particulares agrego al web.xml? -->
+				<filter token="WEB_XML_DATA" value="${build.sae.backoffice.web.xml.data}" />
+			</filterset>
+			
+		</copy>		
+
+		<!-- Parametrizo el web.xml del FRONTEND segun el tipo de build  -->
+		<copy todir="build" overwrite="true">
+			<fileset dir="WebContent/WEB-INF">
+				<include name="web-frontend-template.xml" />
+			</fileset>
+
+			<mapper type="regexp" from="(.*)-template.*" to="\1.xml" />
+
+			<filterset begintoken="&lt;!--@" endtoken="@--&gt;" >
+				<!-- ¿Que datos particulares agrego al web.xml? -->
+				<filter token="WEB_XML_DATA" value="${build.sae.frontend.web.xml.data}" />
+			</filterset>
+			
+		</copy>				
+		
+		
+		
+        <war destfile="build/jar/sae-backoffice.war" webxml="build/web-backoffice.xml" 
         	filesetmanifest="merge" manifest="build/MANIFEST.MF" duplicate="fail">
             
         	<classes dir="build/classes"/>
@@ -115,7 +147,7 @@
         </war>
 
 		
-        <war destfile="build/jar/sae-frontend.war" webxml="WebContent/WEB-INF/web-frontend.xml" 
+        <war destfile="build/jar/sae-frontend.war" webxml="build/web-frontend.xml" 
         	filesetmanifest="merge" manifest="build/MANIFEST.MF" duplicate="fail">
             
         	<classes dir="build/classes">

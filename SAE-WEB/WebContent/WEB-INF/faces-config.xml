@@ -25,4 +25,34 @@
   </resource-bundle>  
   
  </application>
+ 
+ <navigation-rule>
+ 	<from-view-id>*</from-view-id>
+ 	<navigation-case>
+ 		<from-outcome>sesion_expirada</from-outcome>
+ 		<to-view-id>/error/sesionExpirada.xhtml</to-view-id>
+ 		<redirect/>
+ 	</navigation-case>
+ 	<navigation-case>
+ 		<from-outcome>error</from-outcome>
+ 		<to-view-id>/error/error.xhtml</to-view-id>
+ 		<redirect/>
+ 	</navigation-case>
+ 	<navigation-case>
+ 		<from-outcome>agenda_invalida</from-outcome>
+ 		<to-view-id>/error/agendaInvalida.xhtml</to-view-id>
+ 		<redirect/>
+ 	</navigation-case>
+ 	<navigation-case>
+ 		<from-outcome>estado_invalido</from-outcome>
+ 		<to-view-id>/error/estadoInvalido.xhtml</to-view-id>
+ 		<redirect/>
+ 	</navigation-case>
+ 	<navigation-case>
+ 		<from-outcome>periodo_invalido</from-outcome>
+ 		<to-view-id>/error/periodoInvalido.xhtml</to-view-id>
+ 		<redirect/>
+ 	</navigation-case>
+ 	
+ </navigation-rule>
 </faces-config>

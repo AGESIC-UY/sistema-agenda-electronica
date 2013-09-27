@@ -89,13 +89,13 @@ public class PasoFinalMBean extends PasoMBean {
 				
 				logger.debug("RESERVA: ESTADO INVALIDO PASO FINAL" + "  Agenda: "+sesionMBean.getAgenda()+ " Recurso: "+sesionMBean.getRecurso()+ " ReservaConfirmada: "+sesionMBean.getReservaConfirmada());
 				
-				redirect(ESTADO_INVALIDO_PAGE);
+				redirect(ESTADO_INVALIDO_PAGE_OUTCOME);
 				return;
 			}
 		} catch (ApplicationException e) {
 			logger.error("NO SE PUDO OBTENER EJB Recursos");
 			logger.error(e);
-			redirect(ERROR_PAGE);
+			redirect(ERROR_PAGE_OUTCOME);
 		}
 	}	
 
@@ -187,8 +187,7 @@ public class PasoFinalMBean extends PasoMBean {
 			}
 		} catch (Exception e) {
 			logger.error(mensajeError, e);
-			redirect(ERROR_PAGE);
-			//addErrorMessage(e2);
+			redirect(ERROR_PAGE_OUTCOME);
 		}
 	}
 

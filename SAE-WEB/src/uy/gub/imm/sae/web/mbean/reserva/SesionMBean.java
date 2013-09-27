@@ -91,7 +91,7 @@ public class SesionMBean	extends BaseMBean {
 		} catch (ApplicationException e) {
 			logger.error("NO SE PUDO OBTENER EJB AgendarReservas");
 			logger.error(e);
-			redirect(ERROR_PAGE);			
+			redirect(ERROR_PAGE_OUTCOME);			
 		}
 	}	
 	

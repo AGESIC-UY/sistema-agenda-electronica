@@ -52,10 +52,12 @@ public abstract class BaseMBean {
 	private static final String MENSAJE_MANTENIMIENTO = "Sistema en mantenimiento, por favor intente más tarde.";
 	
 	/**
-	 * Si el error que sucede no es esperado o no pude mostrarse una pagina coherente con el mensaje anterio, entonces
-	 * se realiza un redirect a esta página de error.
+	 * Si el error que sucede no es esperado o 
+	 * no pude mostrarse una pagina coherente con el mensaje anterior, 
+	 * entonces se realiza un redirect a la pagina de error 
+	 * configurada en el faces-config para este outcome
 	 */
-	static protected String ERROR_PAGE = "/error/error.xhtml";
+	static protected String ERROR_PAGE_OUTCOME = "error";
 	
 	private Logger logger = Logger.getLogger(this.getClass());
 	
@@ -132,24 +134,17 @@ public abstract class BaseMBean {
 	}
 
 	/**
-	 * Redirecciona a la pagina de nombre: viewId 
-	 * Ejemplo: /pages/pagina1.xhtml
+	 * Redirecciona a la pagina asociada al respectivo outcome
+	 * segun lo configurado en las reglas de navegacion del faces-config
 	 * */
 	protected void redirect(String from_outcome) {
 
 		FacesContext fc = FacesContext.getCurrentInstance();
 		if (! fc.getResponseComplete()) {
-			try {
-				ServletContext servletCtx = (ServletContext) fc.getExternalContext().getContext();
-				fc.getExternalContext().redirect(servletCtx.getContextPath() + from_outcome);
-				//response.sendRedirect(fc.getExternalContext().getRequestContextPath() + from_outcome);
-				fc.responseComplete();
-			} catch (IOException e) {
-				logger.error(e.getMessage(), e);
-			}
-/*			fc.getApplication().getNavigationHandler().handleNavigation(fc, null, from_outcome);
+			//ServletContext servletCtx = (ServletContext) fc.getExternalContext().getContext();
+			//fc.getExternalContext().redirect(servletCtx.getContextPath() + from_outcome);
+			fc.getApplication().getNavigationHandler().handleNavigation(fc, null, from_outcome);
 			fc.responseComplete();
-			fc.renderResponse();*/
 		}
 	}
 	

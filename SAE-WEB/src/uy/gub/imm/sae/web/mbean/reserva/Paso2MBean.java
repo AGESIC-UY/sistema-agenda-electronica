@@ -72,7 +72,7 @@ public class Paso2MBean	extends PasoMBean{
 			
 			if (sesionMBean.getAgenda() == null || sesionMBean.getRecurso() == null) {
 				
-				redirect(ESTADO_INVALIDO_PAGE);
+				redirect(ESTADO_INVALIDO_PAGE_OUTCOME);
 				return;
 			}
 			
@@ -89,7 +89,7 @@ public class Paso2MBean	extends PasoMBean{
 		} catch (ApplicationException e) {
 			logger.error("NO SE PUDO OBTENER AgendarReservas");
 			logger.error(e);
-			redirect(ERROR_PAGE);
+			redirect(ERROR_PAGE_OUTCOME);
 		} catch (Exception e) {
 			addErrorMessage(e);
 		}

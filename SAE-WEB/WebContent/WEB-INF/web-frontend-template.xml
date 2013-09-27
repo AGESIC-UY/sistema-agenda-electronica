@@ -2,7 +2,9 @@
 <web-app id="WebApp_ID" version="2.5"
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-
+	
+	<!--@WEB_XML_DATA@-->
+	
 	<context-param>
 		<param-name>facelets.DEVELOPMENT</param-name>
 		<param-value>false</param-value>
@@ -71,7 +73,7 @@
 	</session-config>
 	<error-page>
 		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
-		<location>/error/sesionExpirada.html</location>
+		<location>/error/sesionExpiradaRedirect.xhtml</location>
 	</error-page>
 	<!-- Si quito esto en SAE-WEB da: Estado HTTP 403 - The request body was 
 		too large to be cached during the authentication process -->
@@ -83,6 +85,6 @@
 	 -->
 	<error-page>
 		<error-code>500</error-code>
-		<location>/error/error.xhtml</location>
+		<location>/error/errorRedirect.xhtml</location>
 	</error-page>
 </web-app>
