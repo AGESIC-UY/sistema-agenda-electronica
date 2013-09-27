@@ -54,27 +54,38 @@
 
 	<target name="compile" depends="clean">
 
-		<manifest file="build/MANIFEST.MF">
-			<attribute name="Built-By" value="${user.name}" />
-			<attribute name="Built-Date" value="${TODAY}" />
-			<attribute name="Class-Path" value="${build.sae.service.ejb.client}.jar"/>
-		</manifest>
-
 		<javac srcdir="${java.src}" destdir="build/classes" target="1.6" encoding="UTF-8" includeantruntime="false" debug="true">
 			<classpath>
 				<path refid="base.path" />
 			</classpath>
 		</javac>
-        <copy todir="build/classes">
+
+		<copy todir="build/classes">
             <fileset dir="${java.src}" excludes="**/*.java" />
         </copy>
+		
 	</target>	
 	
 
 	
 	<target name="build" depends="compile,clean">
 		
-		
+		<!-- Parametrizo el MANIFEST.MF del BACKEND segun el tipo de build  -->
+		<manifest file="build/MANIFEST.backend.MF">
+			<attribute name="Built-By" value="${user.name}" />
+			<attribute name="Built-Date" value="${TODAY}" />
+			<attribute name="Class-Path" value="${build.sae.service.ejb.client}.jar"/>
+			<attribute name="Dependencies" value="${build.sae.backoffice.web.metainf.dependencies}"/>
+		</manifest>
+
+		<!-- Parametrizo el MANIFEST.MF del FRONTEND segun el tipo de build  -->
+		<manifest file="build/MANIFEST.frontend.MF">
+			<attribute name="Built-By" value="${user.name}" />
+			<attribute name="Built-Date" value="${TODAY}" />
+			<attribute name="Class-Path" value="${build.sae.service.ejb.client}.jar"/>
+			<attribute name="Dependencies" value="${build.sae.frontend.web.metainf.dependencies}"/>
+		</manifest>
+
 		<!-- Parametrizo el jboss-web.xml segun el tipo de build  -->
 		<copy todir="build" overwrite="true">
 			<fileset dir="WebContent/WEB-INF">
@@ -126,7 +137,7 @@
 		
 		
         <war destfile="build/jar/sae-backoffice.war" webxml="build/web-backoffice.xml" 
-        	filesetmanifest="merge" manifest="build/MANIFEST.MF" duplicate="fail">
+        	filesetmanifest="merge" manifest="build/MANIFEST.backend.MF" duplicate="fail">
             
         	<classes dir="build/classes"/>
             <fileset dir="WebContent">
@@ -135,7 +146,7 @@
             	<exclude name="WEB-INF/jboss-web*.xml"/>
             	<exclude name="WEB-INF/.*"/>
             </fileset>
-            <metainf dir="WebContent/META-INF" />
+            <!-- metainf dir="WebContent/META-INF" /-->
         	
 			<zipfileset dir="${SAE-Componentes.lib}" prefix="WEB-INF/lib">
 				<include name="sae-componentes.jar" />
@@ -148,7 +159,7 @@
 
 		
         <war destfile="build/jar/sae-frontend.war" webxml="build/web-frontend.xml" 
-        	filesetmanifest="merge" manifest="build/MANIFEST.MF" duplicate="fail">
+        	filesetmanifest="merge" manifest="build/MANIFEST.frontend.MF" duplicate="fail">
             
         	<classes dir="build/classes">
             	<exclude name="uy/gub/imm/sae/web/mbean/administracion/**" />
@@ -165,7 +176,7 @@
             	<exclude name="login/**"/>
             	
             </fileset>
-            <metainf dir="WebContent/META-INF" /> 
+            <!--metainf dir="WebContent/META-INF" /--> 
         	
 			<zipfileset dir="${SAE-Componentes.lib}" prefix="WEB-INF/lib">
 				<include name="sae-componentes.jar" />
