@@ -29,6 +29,9 @@
         <fileset dir="${jboss.home}/server/default/deploy/jbossweb.sar/jsf-libs">
             <include name="**/*.jar" />
         </fileset>
+        <fileset dir="../SAE-Config/gpl/libs">
+            <include name="jasperreports-3.0.0.jar" />
+        </fileset>
 	</path>
 
 	<target name="clean">

@@ -152,7 +152,7 @@
 				<include name="sae-componentes.jar" />
 			</zipfileset>
 
-        	<zipfileset file="build/jboss-web.xml" prefix="WEB-INF">
+			<zipfileset file="build/jboss-web.xml" prefix="WEB-INF">
 			</zipfileset>
 
         </war>
@@ -180,6 +180,11 @@
         	
 			<zipfileset dir="${SAE-Componentes.lib}" prefix="WEB-INF/lib">
 				<include name="sae-componentes.jar" />
+			</zipfileset>
+
+			<zipfileset dir="../SAE-Config/gpl/libs" prefix="WEB-INF/lib">
+				<include name="commons-digester-1.8.jar" />
+				<include name="commons-beanutils-1.7.0.jar" />
 			</zipfileset>
 
         </war>

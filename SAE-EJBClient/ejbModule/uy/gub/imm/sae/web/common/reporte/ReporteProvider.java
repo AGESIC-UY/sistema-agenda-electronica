@@ -82,8 +82,10 @@ public class ReporteProvider {
 		//Obtengo el ultimo grupo
 		int cant = reportDesign.getGroupsList().size();
 		JRDesignGroup grupo = (JRDesignGroup) reportDesign.getGroupsList().get(cant-1);
-		JRDesignBand grupoHeader = (JRDesignBand) grupo.getGroupHeaderSection();
-		JRDesignBand detail = (JRDesignBand) reportDesign.getDetailSection();
+		//JRDesignBand grupoHeader = (JRDesignBand) grupo.getGroupHeaderSection();
+		//JRDesignBand detail = (JRDesignBand) reportDesign.getDetailSection();
+		JRDesignBand grupoHeader = (JRDesignBand) grupo.getGroupHeader();
+		JRDesignBand detail = (JRDesignBand) reportDesign.getDetail();
 
 		int x = 70;
 		for (Columna col: columnas) {

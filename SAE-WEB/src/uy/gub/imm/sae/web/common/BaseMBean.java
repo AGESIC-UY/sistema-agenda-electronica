@@ -20,7 +20,6 @@
 
 package uy.gub.imm.sae.web.common;
 
-import java.io.IOException;
 import java.util.TimeZone;
 
 import javax.faces.application.FacesMessage;
@@ -29,10 +28,8 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.protocol.HttpContext;
 import org.apache.log4j.Logger;
 
 import uy.gub.imm.sae.common.SAEProfile;
