@@ -82,6 +82,9 @@
 				<filterset>
 					<filter token="SAE_SECURITY_DOMAIN" value="${build.security.domain.jndi}" />
 					<filter token="SAE_WS_CONTEXT_ROOT" value="${build.sae.service.ws.contextroot}" />
+					<!-- ¿Cual es la ruta base de publicacion en el arbol jndi de los EJBs de SAE, 
+					      en este caso de los EJBs del profile-ejb que implementan validaciones, acciones, etc.? -->
+					<filter token="SAE_EJB_JNDI_BASE" value="${build.sae.service.ejb.jndi_base}" />					
 				</filterset>
 		</copy>		
 		

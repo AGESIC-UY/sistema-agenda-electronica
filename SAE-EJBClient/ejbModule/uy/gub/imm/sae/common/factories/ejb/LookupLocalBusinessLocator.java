@@ -27,14 +27,11 @@ import javax.naming.NamingException;
 import uy.gub.imm.sae.business.ejb.facade.AgendarReservas;
 import uy.gub.imm.sae.business.ejb.facade.DepurarReservas;
 import uy.gub.imm.sae.business.ejb.facade.Recursos;
+import uy.gub.imm.sae.common.SAEProfile;
 import uy.gub.imm.sae.common.factories.BusinessLocator;
 import uy.gub.imm.sae.exception.ApplicationException;
 
 public class LookupLocalBusinessLocator implements BusinessLocator {
-
-	protected final static String JNDI_AGENDAR_RESERVAS = "SAE-EAR/AgendarReservasBean/remote";
-	protected final static String JNDI_RECURSOS = "SAE-EAR/RecursosBean/remote";
-	protected final static String JNDI_DEPURAR_RESERVAS = "SAE-EAR/DepurarReservasBean/remote";
 
 	protected Context getContext() throws ApplicationException {
 		try {
@@ -61,15 +58,15 @@ public class LookupLocalBusinessLocator implements BusinessLocator {
 	}
 	
 	public AgendarReservas getAgendarReservas() throws ApplicationException {
-		return lookup(AgendarReservas.class, JNDI_AGENDAR_RESERVAS);
+		return lookup(AgendarReservas.class, SAEProfile.getInstance().getProperties().getProperty(SAEProfile.EJB_AGENDAR_RESERVAS_JNDI_KEY));
 	}
 
 	public DepurarReservas getDepurarReservas() throws ApplicationException {
-		return lookup(DepurarReservas.class, JNDI_DEPURAR_RESERVAS);
+		return lookup(DepurarReservas.class, SAEProfile.getInstance().getProperties().getProperty(SAEProfile.EJB_DEPURAR_RESERVAS_JNDI_KEY));
 	}
 
 	public Recursos getRecursos() throws ApplicationException {
-		return lookup(Recursos.class, JNDI_RECURSOS);
+		return lookup(Recursos.class, SAEProfile.getInstance().getProperties().getProperty(SAEProfile.EJB_RECURSOS_JNDI_KEY));
 	}
 
 }
