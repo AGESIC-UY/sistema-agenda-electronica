@@ -800,8 +800,8 @@ public class RecursosBean implements RecursosLocal, RecursosRemote{
 			throw new UserException("AE10043","No existe la agrupacion del dato: " + a.getId());
 		}
 		
-		System.out.println(recursoActual.getNombre());
-		agrupacionActual.getRecurso().setNombre("aa");
+		//System.out.println(recursoActual.getNombre());
+		//agrupacionActual.getRecurso().setNombre("aa");
 		//entityManager.persist(agrupacionActual);
 		//entityManager.persist(agrupacionActual.getRecurso());
 		//Recurso recursoActual2 = (Recurso) entityManager.find(Recurso.class, r.getId());
