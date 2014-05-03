@@ -41,8 +41,9 @@
 		function llamar() {
 
 			//Reproduce el sonido ding_dong
-			sonar();
-			
+			//sonar();
+			document.getElementById('campana').play();			
+
 			//Reproduce el efecto visual de cambio de color sobre los elementos marcados 
 			jQuery(".aplicarEfecto").each(
 				function() {
@@ -72,11 +73,19 @@
 	        <rich:effect  	name="efectoVisual" type="Pulsate" for="llamador" />
 
 			<!-- CODIGO PARA CONFIGURAR UN PLAYER DE MP3 PARA HACER SONAR EL DING DONG -->
-			<a4j:loadScript src="/recursos/js/jQuery.jPlayer.0.2.5/jquery.jplayer.js" type="text/javascript" />
+			<!--a4j:loadScript src="/recursos/js/jQuery.jPlayer.0.2.5/jquery.jplayer.js" type="text/javascript" />
 			<div id="sonido"></div>
 			<rich:jQuery selector="#sonido" timing="immediate" 
 						 query='jPlayer({swfPath: "../../recursos/js/jQuery.jPlayer.0.2.5"})'></rich:jQuery>
-			<rich:jQuery name="sonar" timing="onJScall" selector="#sonido" query='setFile("../../recursos/media/ding_dong.mp3").play()'></rich:jQuery>
+			<rich:jQuery name="sonar" timing="onJScall" selector="#sonido" query='setFile("../../recursos/media/ding_dong.mp3").play()'></rich:jQuery-->
+	
+			<audio id="campana" src="../../recursos/media/ding_dong.ogg" type="audio/ogg" defaultMuted="false" >
+				Your browser does not support the <code>video</code> element.	
+			</audio>
+			<div id="sonido"></div>	
+			<!-- tengo esta tag solo para que richfaces me carge la libreria de jquery que luego uso solo desde javascript -->
+			<rich:jQuery name="sonar" timing="onJScall" selector="#sonido" query='algo()'></rich:jQuery>
+
 			<!-- FIN DEL CODIGO DE CONFIGURACION DEL PLAYER -->
 			
 			<div class="contenedor-marco">
