@@ -55,7 +55,7 @@
 			<mapper type="regexp" from="(.*)-template.*" to="\1.xml" />
 
 			<filterset>
-				<filter token="SAE_WAR" value="${build.sae.backoffice.ear}.war" />
+				<filter token="SAE_WAR" value="sae-backoffice.war" />
 				<filter token="SAE_CONTEXT_ROOT" value="${build.sae.backoffice.contextroot}" />
 				<filter token="SAE_LOADER_REPOSITORY" value="${build.sae.backoffice.ear}.ear" />
 			</filterset>
@@ -71,7 +71,7 @@
 			<mapper type="regexp" from="(.*)-template.*" to="\1.xml" />
 
 			<filterset>
-				<filter token="SAE_WAR" value="${build.sae.frontend.ear}.war" />
+				<filter token="SAE_WAR" value="sae-frontend.war" />
 				<filter token="SAE_CONTEXT_ROOT" value="${build.sae.frontend.contextroot}" />
 				<filter token="SAE_LOADER_REPOSITORY" value="${build.sae.frontend.ear}.ear" />
 			</filterset>
@@ -87,7 +87,7 @@
 			<mapper type="regexp" from="(.*)-template.*" to="\1.xml" />
 
 			<filterset>
-				<filter token="SAE_WAR" value="${build.sae.recursos.ear}.war" />
+				<filter token="SAE_WAR" value="sae-recursos.war" />
 				<filter token="SAE_CONTEXT_ROOT" value="${build.sae.recursos.contextroot}" />
 				<filter token="SAE_LOADER_REPOSITORY" value="${build.sae.recursos.ear}.ear" />
 			</filterset>
@@ -145,7 +145,7 @@
 				<include name="itext-1.3.1.jar" />
 			</zipfileset>
 			
-			<fileset file="../SAE-WEB/build/jar/${build.sae.backoffice.ear}.war" />
+			<fileset file="../SAE-WEB/build/jar/sae-backoffice.war" />
 		</ear>
 
 		<ear destfile="build/jar/${build.sae.frontend.ear}.ear" appxml="build/META-INF/frontend/application.xml" 
@@ -162,7 +162,7 @@
 				<include name="${build.sae.profile.jar}.jar" />
 			</zipfileset>
 
-			<fileset file="../SAE-WEB/build/jar/${build.sae.frontend.ear}.war" />
+			<fileset file="../SAE-WEB/build/jar/sae-frontend.war" />
 		</ear>
 
 		<ear destfile="build/jar/${build.sae.recursos.ear}.ear" appxml="build/META-INF/recursos/application.xml" 
@@ -171,7 +171,7 @@
 
 			<metainf dir="build/META-INF/recursos" excludes="application.xml" />
 
-			<fileset file="../SAE-Profile-${build.profile}-WEB/build/jar/${build.sae.recursos.ear}.war" />
+			<fileset file="../SAE-Profile-${build.profile}-WEB/build/jar/sae-recursos.war" />
 		</ear>
 
 	</target>

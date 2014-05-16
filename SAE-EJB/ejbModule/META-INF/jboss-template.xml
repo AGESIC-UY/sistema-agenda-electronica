@@ -68,6 +68,13 @@
 			<jndi-name>@SAE_EJB_JNDI_BASE@/ValidacionesBean/remote</jndi-name>
 			<local-jndi-name>@SAE_EJB_JNDI_BASE@/ValidacionesBean/local</local-jndi-name>
 		</session>
+
+		<session>
+			<ejb-name>DepurarReservasBean</ejb-name>
+			<jndi-name>@SAE_EJB_JNDI_BASE@/DepurarReservasBean/remote</jndi-name>
+			<local-jndi-name>@SAE_EJB_JNDI_BASE@/DepurarReservasBean/local</local-jndi-name>
+		</session>
+		
 		
 		
 		<!-- session>

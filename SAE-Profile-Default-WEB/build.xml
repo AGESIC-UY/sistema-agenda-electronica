@@ -64,7 +64,7 @@
 
 	<target name="build" depends="compile,clean">
 
-		<war destfile="build/jar/${build.sae.recursos.ear}.war" 
+		<war destfile="build/jar/sae-recursos.war" 
 			 webxml="WebContent/WEB-INF/web.xml" 
 			filesetmanifest="merge" manifest="build/MANIFEST.MF" duplicate="fail">
 
