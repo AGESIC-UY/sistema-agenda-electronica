@@ -25,7 +25,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -55,6 +58,7 @@ import uy.gub.imm.sae.entity.AgrupacionDato;
 import uy.gub.imm.sae.entity.DatoASolicitar;
 import uy.gub.imm.sae.entity.ServicioPorRecurso;
 import uy.gub.imm.sae.entity.ValorPosible;
+
 
 /**
  * Clase utilitaria, tiene la logica para generar componentes jsf y richfaces en runtime
@@ -488,9 +492,33 @@ public class FormularioDinamicoReserva {
 		
 		if (soloLectura) {
 			HtmlOutputText output = (HtmlOutputText) app.createComponent(HtmlOutputText.COMPONENT_TYPE);
-			output.setValue(new Date());
-			//TODO parsear correctamente el valor ingresado por fecha.
-//			output.setValue(this.valores.get(dato.getNombre()));
+
+			//28/05/2014 - ANGARCIA
+
+		        Date dFecha;
+
+		        String sFecha="";           
+
+		        try {
+
+		            SimpleDateFormat parserFecha = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
+		            dFecha = parserFecha.parse((String)this.valores.get(dato.getNombre()));
+
+		            parserFecha = new SimpleDateFormat("dd/MM/yyyy");
+
+		            sFecha = parserFecha.format(dFecha);                
+
+		        } catch (ParseException ex) {
+
+		          sFecha = (String)this.valores.get(dato.getNombre());
+
+		        }                       
+
+		        output.setValue(sFecha);
+
+                  	//28/05/2014 - FIN ANGARCIA
+
+
 			output.setStyleClass(STYLE_CLASS_TEXTO_CAMPO);
 
 			campo = output;
@@ -503,10 +531,14 @@ public class FormularioDinamicoReserva {
 			calendario.setInputSize(dato.getLargo());
 			calendario.setInputClass(STYLE_CLASS_TEXTO_CAMPO);
 
-			//Le configuro le managed bean donde debe almacenar el valor que ingrese el usuario.
+			//Le configuro el managed bean donde debe almacenar el valor que ingrese el usuario.
 			ValueExpression ve = armarExpresion(dato.getNombre(), Date.class);
 			calendario.setValueExpression("value", ve);
 			
+	                //27/05/2014 - ANGARCIA
+        	        calendario.setDatePattern("dd/MM/yyyy");
+        	        //27/05/2014 - FIN ANGARCIA
+
 			campo = calendario;
 		}
 		
