@@ -63,7 +63,7 @@ public enum TipoMonitor {
 	public static TipoMonitor fromPulgadas(Integer pulgadas) {
 		if (pulgadas != null) {
 			for (TipoMonitor t : TipoMonitor.values()) {
-				if (pulgadas == t.pulgadas) {
+				if (pulgadas.intValue() == t.pulgadas.intValue()) {
 					return t;
 				}
 			}
