@@ -26,7 +26,7 @@
 Para la instalación y ejecución de la aplicación se requieren los siguientes componentes:
 
 	- Oracle/Sun JDK 1.6 o posterior (http://java.sun.com/javase/downloads/index.jsp)
-	- Apache ANT (http://ant.apache.org/)
+	- Apache ANT 1.9.3 o posterior (http://ant.apache.org/)
 	- JBoss AS versión 5.1.0.GA (http://jboss.org/jbossas/)
 	- Base de Datos: Oracle 11g o PostgreSQL 8.4 o superior (http://www.postgresql.org/)
 	- Drivers JDBC para la base de datos: (http://jdbc.postgresql.org/download.html)
