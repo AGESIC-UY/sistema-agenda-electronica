@@ -129,14 +129,14 @@ public class SAEProfile {
 
 		@Override
 		public String getProperty(String key, String defaultValue) {
-			String value = super.getProperty(key);
-			return (value != null ? value : System.getProperty(key, defaultValue));
+			String value = System.getProperty(key);
+			return (value != null ? value : super.getProperty(key, defaultValue));
 		}
 
 		@Override
 		public String getProperty(String key) {
-			String value = super.getProperty(key);
-			return (value != null ? value : System.getProperty(key));
+			String value = System.getProperty(key);
+			return (value != null ? value : super.getProperty(key));
 		}
 	}
 	
