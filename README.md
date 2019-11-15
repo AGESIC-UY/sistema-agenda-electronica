@@ -25,9 +25,15 @@ En el marco de Trámites 100% en línea AGESIC realizó una actualización al Si
 
 *Links de interés
 Descargar información de la Agenda Electrónica: https://www.agesic.gub.uy/innovaportal/file/2422/1/formulario-solucion-sae-spu.doc
+
 Descargar manual de usuario y descripción general de la Agenda Electrónica: https://www.agesic.gub.uy/innovaportal/file/2422/1/ag-sae-mu-01-es-manual_de_usuario-v1.10-1.pdf
+
 Descargar manual de arquitectura: https://www.agesic.gub.uy/innovaportal/file/2422/1/ag-sae-da-01-es-documento_de_arquitectura_v1.7.pdf
+
 Descargar manual de instalación: https://www.agesic.gub.uy/innovaportal/file/2422/1/ag-sae-ma-01-es-manual_de_instalacion-v1.16.pdf
+
 Descargar manual entorno de desarrollo: https://www.agesic.gub.uy/innovaportal/file/2422/1/ag-sae-ma-03-es-entorno-de-desarrollo.pdf
+
 Introducción a SAE: https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento/sites/agencia-gobierno-electronico-sociedad-informacion-conocimiento/files/documentos/publicaciones/SAE-Introduccion.pdf
+
 Descargar información de la Agenda Electrónica v2: https://www.gub.uy/agencia-gobierno-electronico-sociedad-informacion-conocimiento/sites/agencia-gobierno-electronico-sociedad-informacion-conocimiento/files/documentos/publicaciones/Informaci%C3%B3n_sistema%20agenda%20electronica%20v2.pdf
